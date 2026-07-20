@@ -40,7 +40,7 @@ $maglist_child_breaking_index = 0;
 
 			<?php echo maglist_child_category_badge( get_the_ID() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
-			<h2 class="na-breaking__title<?php echo ( 1 === $maglist_child_breaking_index ) ? ' na-breaking__title--lead' : ''; ?>">
+			<h2 class="na-breaking__title">
 				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 			</h2>
 
