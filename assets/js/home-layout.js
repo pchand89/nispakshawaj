@@ -1,7 +1,7 @@
 /**
- * Minimal homepage enhancements for the Ratopati-style layout.
+ * Minimal homepage enhancements for the modern news layout.
  * No external dependencies (jQuery not required) - only loaded on the
- * homepage / "Ratopati Home Layout" page template.
+ * homepage / "Home Layout Layout" page template.
  *
  * @package Maglist_Child
  */
@@ -19,7 +19,7 @@
 	 */
 	function initScrollFade() {
 		var cards = document.querySelectorAll(
-			'.rp-breaking__item, .rp-lead-card, .rp-thumb-card'
+			'.na-breaking__item, .na-lead-card, .na-thumb-card, .na-exclusive__card, .na-video__main, .na-video__item'
 		);
 
 		if ( ! ( 'IntersectionObserver' in window ) || ! cards.length ) {
@@ -39,7 +39,7 @@
 		);
 
 		cards.forEach( function ( card ) {
-			card.classList.add( 'ratopati-fade-init' );
+			card.classList.add( 'na-fade-init' );
 			observer.observe( card );
 		} );
 	}
@@ -48,27 +48,27 @@
 	 * Floating "ताजा / लोकप्रिय" panel: open/close + switch between its two tabs.
 	 */
 	function initFixedTab() {
-		var widget = document.querySelector( '[data-maglist-child-fixed-tab]' );
+		var widget = document.querySelector( '[data-na-fixed-tab]' );
 
 		if ( ! widget ) {
 			return;
 		}
 
-		widget.querySelectorAll( '.rp-fixed-tab__btn' ).forEach( function ( btn ) {
+		widget.querySelectorAll( '.na-fixed-tab__btn' ).forEach( function ( btn ) {
 			btn.addEventListener( 'click', function () {
 				setActiveTab( widget, btn.getAttribute( 'data-tab-target' ) );
 				widget.classList.add( 'is-open' );
 			} );
 		} );
 
-		var closeBtn = widget.querySelector( '.rp-fixed-tab__close' );
+		var closeBtn = widget.querySelector( '.na-fixed-tab__close' );
 		if ( closeBtn ) {
 			closeBtn.addEventListener( 'click', function () {
 				widget.classList.remove( 'is-open' );
 			} );
 		}
 
-		widget.querySelectorAll( '.rp-fixed-tab__tab' ).forEach( function ( tab ) {
+		widget.querySelectorAll( '.na-fixed-tab__tab' ).forEach( function ( tab ) {
 			tab.addEventListener( 'click', function () {
 				setActiveTab( widget, tab.getAttribute( 'data-tab-target' ) );
 			} );
@@ -85,7 +85,7 @@
 	 * Sync both the top pill buttons and the in-panel tab buttons/content to
 	 * the given tab key ('taja' or 'lokpriya').
 	 *
-	 * @param {Element} widget Root .rp-fixed-tab element.
+	 * @param {Element} widget Root .na-fixed-tab element.
 	 * @param {string}  key    Tab key to activate.
 	 */
 	function setActiveTab( widget, key ) {

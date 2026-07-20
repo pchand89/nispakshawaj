@@ -2,7 +2,7 @@
 /**
  * Floating "ताजा / लोकप्रिय" (Latest / Trending) tab widget.
  *
- * On ratopati.com this is a fixed button pinned near the bottom of the
+ * On the reference news layout this is a fixed button pinned near the bottom of the
  * viewport that slides open an overlay panel with two tabs: a plain list of
  * the newest posts ("ताजा") and a numbered 1-8 "most popular" ranking
  * ("लोकप्रिय"). It is NOT part of the normal content flow / grid - it's a
@@ -28,28 +28,28 @@ $maglist_child_taja_query    = new WP_Query(
 $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 ?>
 
-<div class="rp-fixed-tab" data-maglist-child-fixed-tab>
+<div class="na-fixed-tab" data-na-fixed-tab>
 
-	<div class="rp-fixed-tab__buttons">
-		<button type="button" class="rp-fixed-tab__btn is-active" data-tab-target="taja">
+	<div class="na-fixed-tab__buttons">
+		<button type="button" class="na-fixed-tab__btn is-active" data-tab-target="taja">
 			<?php esc_html_e( 'ताजा', 'maglist-child' ); ?>
 		</button>
-		<button type="button" class="rp-fixed-tab__btn" data-tab-target="lokpriya">
+		<button type="button" class="na-fixed-tab__btn" data-tab-target="lokpriya">
 			<?php esc_html_e( 'लोकप्रिय', 'maglist-child' ); ?>
 		</button>
 	</div>
 
-	<div class="rp-fixed-tab__panel">
+	<div class="na-fixed-tab__panel">
 
-		<button type="button" class="rp-fixed-tab__close" aria-label="<?php esc_attr_e( 'Close', 'maglist-child' ); ?>">&times;</button>
+		<button type="button" class="na-fixed-tab__close" aria-label="<?php esc_attr_e( 'Close', 'maglist-child' ); ?>">&times;</button>
 
-		<div class="rp-fixed-tab__tabs">
-			<button type="button" class="rp-fixed-tab__tab is-active" data-tab-target="taja"><?php esc_html_e( 'ताजा', 'maglist-child' ); ?></button>
-			<button type="button" class="rp-fixed-tab__tab" data-tab-target="lokpriya"><?php esc_html_e( 'लोकप्रिय', 'maglist-child' ); ?></button>
+		<div class="na-fixed-tab__tabs">
+			<button type="button" class="na-fixed-tab__tab is-active" data-tab-target="taja"><?php esc_html_e( 'ताजा', 'maglist-child' ); ?></button>
+			<button type="button" class="na-fixed-tab__tab" data-tab-target="lokpriya"><?php esc_html_e( 'लोकप्रिय', 'maglist-child' ); ?></button>
 		</div>
 
-		<div class="rp-fixed-tab__content is-active" data-tab-content="taja">
-			<ul class="rp-fixed-tab__list">
+		<div class="na-fixed-tab__content is-active" data-tab-content="taja">
+			<ul class="na-fixed-tab__list">
 				<?php if ( $maglist_child_taja_query->have_posts() ) : ?>
 					<?php
 					while ( $maglist_child_taja_query->have_posts() ) :
@@ -63,13 +63,13 @@ $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 					wp_reset_postdata();
 					?>
 				<?php else : ?>
-					<li class="rp-fixed-tab__empty"><?php esc_html_e( 'No recent posts yet.', 'maglist-child' ); ?></li>
+					<li class="na-fixed-tab__empty"><?php esc_html_e( 'No recent posts yet.', 'maglist-child' ); ?></li>
 				<?php endif; ?>
 			</ul>
 		</div>
 
-		<div class="rp-fixed-tab__content" data-tab-content="lokpriya">
-			<ul class="rp-fixed-tab__list rp-fixed-tab__list--numbered">
+		<div class="na-fixed-tab__content" data-tab-content="lokpriya">
+			<ul class="na-fixed-tab__list na-fixed-tab__list--numbered">
 				<?php if ( $maglist_child_lokpriya_query->have_posts() ) : ?>
 					<?php
 					$maglist_child_rank = 0;
@@ -78,7 +78,7 @@ $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 						$maglist_child_rank++;
 						?>
 						<li>
-							<span class="rp-fixed-tab__rank"><?php echo esc_html( $maglist_child_rank ); ?>.</span>
+							<span class="na-fixed-tab__rank"><?php echo esc_html( $maglist_child_rank ); ?>.</span>
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 						</li>
 						<?php
@@ -86,11 +86,11 @@ $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 					wp_reset_postdata();
 					?>
 				<?php else : ?>
-					<li class="rp-fixed-tab__empty"><?php esc_html_e( 'No posts yet.', 'maglist-child' ); ?></li>
+					<li class="na-fixed-tab__empty"><?php esc_html_e( 'No posts yet.', 'maglist-child' ); ?></li>
 				<?php endif; ?>
 			</ul>
 		</div>
 
-	</div><!-- .rp-fixed-tab__panel -->
+	</div><!-- .na-fixed-tab__panel -->
 
-</div><!-- .rp-fixed-tab -->
+</div><!-- .na-fixed-tab -->

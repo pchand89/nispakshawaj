@@ -1,13 +1,13 @@
 <?php
 /**
- * Reusable category row matching ratopati.com's real recurring section
- * pattern: a heading with a "थप समाचार" (more) link, then ONE large "lead"
- * card (thumbnail + title + excerpt side-by-side) followed by 3-4 smaller
- * thumbnail-only cards (title under image, no excerpt) - not a uniform grid
- * of identical cards.
+ * Category section dispatcher.
  *
- * Expects $args (passed via get_template_part()'s 4th parameter) shaped like:
- *   array( 'slug' => 'राजनिती', 'count' => 6, 'columns' => 3 )
+ * Expects $args:
+ *   slug     (string)  category slug (Devanagari OK)
+ *   count    (int)     posts to pull
+ *   layout   (string)  lead-grid | overlay-lists | dark-band | sports-band | default
+ *   band     (string)  optional color key for band layouts (purple|navy|green)
+ *   label    (string)  optional heading override
  *
  * @package Maglist_Child
  */
@@ -16,89 +16,88 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Note: slug is NOT passed through sanitize_title() here - that would mangle
-// raw Devanagari/Nepali slugs (e.g. "राजनिती"). maglist_child_resolve_category()
-// already tries a sanitize_title()'d variant itself as one of its fallbacks.
-$maglist_child_slug    = isset( $args['slug'] ) ? (string) $args['slug'] : '';
-$maglist_child_count   = isset( $args['count'] ) ? absint( $args['count'] ) : 6;
-$maglist_child_columns = isset( $args['columns'] ) && in_array( (int) $args['columns'], array( 2, 3, 4 ), true ) ? (int) $args['columns'] : 3;
+$maglist_child_slug   = isset( $args['slug'] ) ? (string) $args['slug'] : '';
+$maglist_child_count  = isset( $args['count'] ) ? absint( $args['count'] ) : 6;
+$maglist_child_layout = isset( $args['layout'] ) ? (string) $args['layout'] : 'default';
+$maglist_child_band   = isset( $args['band'] ) ? (string) $args['band'] : '';
 
-$maglist_child_category_query = maglist_child_get_category_query( $maglist_child_slug, $maglist_child_count );
-
-if ( ! $maglist_child_category_query->have_posts() ) {
-	return; // Nothing to show yet - skip the block instead of rendering empty markup.
+if ( $maglist_child_slug && ! maglist_child_category_exists( $maglist_child_slug ) ) {
+	return;
 }
 
-$maglist_child_category_term = $maglist_child_slug ? maglist_child_resolve_category( $maglist_child_slug ) : false;
-$maglist_child_category_link = $maglist_child_category_term ? get_category_link( $maglist_child_category_term ) : '';
+$maglist_child_query = maglist_child_get_category_query( $maglist_child_slug, $maglist_child_count );
 
-// Prefer an explicit 'label' arg; otherwise fall back to the resolved term's
-// real name so the heading is never out of sync with the actual category.
+if ( ! $maglist_child_query->have_posts() ) {
+	return;
+}
+
+$maglist_child_term = $maglist_child_slug ? maglist_child_resolve_category( $maglist_child_slug ) : false;
+$maglist_child_link = $maglist_child_term ? get_category_link( $maglist_child_term ) : '';
 $maglist_child_label = isset( $args['label'] )
 	? $args['label']
-	: ( $maglist_child_category_term ? $maglist_child_category_term->name : esc_html__( 'Latest', 'maglist-child' ) );
+	: ( $maglist_child_term ? $maglist_child_term->name : esc_html__( 'Latest', 'maglist-child' ) );
 
+$layout_args = array(
+	'posts'         => $maglist_child_query->posts,
+	'label'         => $maglist_child_label,
+	'category_link' => $maglist_child_link,
+	'band'          => $maglist_child_band,
+);
+
+$layout_map = array(
+	'lead-grid'     => 'layouts/lead-grid',
+	'overlay-lists' => 'layouts/overlay-lists',
+	'dark-band'     => 'layouts/dark-band',
+	'sports-band'   => 'layouts/sports-band',
+);
+
+if ( isset( $layout_map[ $maglist_child_layout ] ) ) {
+	get_template_part( 'template-parts/home/' . $layout_map[ $maglist_child_layout ], null, $layout_args );
+	wp_reset_postdata();
+	return;
+}
+
+// Default: lead card + thumbnail cards (kept for simpler rows).
 $maglist_child_post_index = 0;
+$maglist_child_category_link = $maglist_child_link;
 ?>
+<div class="na-section">
+	<?php require get_stylesheet_directory() . '/template-parts/home/section-header.php'; ?>
 
-<div class="rp-section">
-
-	<div class="rp-section__header">
-		<h2 class="rp-section__title">
-			<?php if ( $maglist_child_category_link ) : ?>
-				<a href="<?php echo esc_url( $maglist_child_category_link ); ?>"><?php echo esc_html( $maglist_child_label ); ?></a>
-			<?php else : ?>
-				<?php echo esc_html( $maglist_child_label ); ?>
-			<?php endif; ?>
-		</h2>
-
-		<?php if ( $maglist_child_category_link ) : ?>
-			<a class="rp-section__more" href="<?php echo esc_url( $maglist_child_category_link ); ?>">
-				<?php esc_html_e( 'थप समाचार', 'maglist-child' ); ?> &rarr;
-			</a>
-		<?php endif; ?>
-	</div><!-- .rp-section__header -->
-
-	<div class="rp-section__grid rp-section__grid--cols-<?php echo esc_attr( $maglist_child_columns ); ?>">
+	<div class="na-section__grid na-section__grid--cols-3">
 		<?php
-		while ( $maglist_child_category_query->have_posts() ) :
-			$maglist_child_category_query->the_post();
+		while ( $maglist_child_query->have_posts() ) :
+			$maglist_child_query->the_post();
 			$maglist_child_post_index++;
 
 			if ( 1 === $maglist_child_post_index ) :
-				// First post: the large "lead" card (thumbnail + title + excerpt).
 				?>
-				<article id="post-<?php the_ID(); ?>" <?php post_class( 'rp-lead-card' ); ?>>
-					<a class="rp-lead-card__thumb" href="<?php the_permalink(); ?>">
-						<?php echo maglist_child_get_thumbnail( get_the_ID(), 'maglist-child-card' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</a>
-					<div class="rp-lead-card__body">
-						<h3 class="rp-lead-card__title">
-							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-						</h3>
-						<p class="rp-lead-card__excerpt">
-							<?php echo esc_html( wp_trim_words( get_the_excerpt(), 26 ) ); ?>
-						</p>
-						<span class="rp-lead-card__time"><?php echo esc_html( maglist_child_time_ago( get_the_ID() ) ); ?></span>
+				<article <?php post_class( 'na-lead-card' . ( has_post_thumbnail() ? '' : ' na-lead-card--no-thumb' ) ); ?>>
+					<?php if ( has_post_thumbnail() ) : ?>
+						<a class="na-lead-card__thumb" href="<?php the_permalink(); ?>">
+							<?php echo maglist_child_get_thumbnail( get_the_ID(), 'maglist-child-card' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						</a>
+					<?php endif; ?>
+					<div class="na-lead-card__body">
+						<h3 class="na-lead-card__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+						<p class="na-lead-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 26 ) ); ?></p>
 					</div>
 				</article>
 				<?php
 			else :
-				// Remaining posts: compact thumbnail-only cards (title under image, no excerpt).
 				?>
-				<article id="post-<?php the_ID(); ?>" <?php post_class( 'rp-thumb-card' ); ?>>
-					<a class="rp-thumb-card__thumb" href="<?php the_permalink(); ?>">
-						<?php echo maglist_child_get_thumbnail( get_the_ID(), 'maglist-child-card' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</a>
-					<h3 class="rp-thumb-card__title">
-						<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-					</h3>
+				<article <?php post_class( 'na-thumb-card' . ( has_post_thumbnail() ? '' : ' na-thumb-card--no-thumb' ) ); ?>>
+					<?php if ( has_post_thumbnail() ) : ?>
+						<a class="na-thumb-card__thumb" href="<?php the_permalink(); ?>">
+							<?php echo maglist_child_get_thumbnail( get_the_ID(), 'maglist-child-card' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						</a>
+					<?php endif; ?>
+					<h3 class="na-thumb-card__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 				</article>
 				<?php
 			endif;
 		endwhile;
 		wp_reset_postdata();
 		?>
-	</div><!-- .rp-section__grid -->
-
-</div><!-- .rp-section -->
+	</div>
+</div>

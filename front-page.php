@@ -1,6 +1,6 @@
 <?php
 /**
- * The Ratopati-style front page.
+ * The Front page.
  *
  * WordPress always prefers front-page.php over index.php/home.php for the
  * site's front page (is_front_page()), regardless of whether Settings > Reading

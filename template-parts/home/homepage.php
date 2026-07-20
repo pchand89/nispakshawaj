@@ -1,10 +1,7 @@
 <?php
 /**
- * Shared Ratopati-style homepage body.
- *
- * Included by both front-page.php and template-home-ratopati.php so the exact
- * same markup/behaviour is used no matter which "Front page displays" setting
- * (Settings > Reading) the site owner chooses.
+ * Homepage body — section order and layouts modelled on the reference
+ * news homepage screenshots (stacked hero, then varied category bands/grids).
  *
  * @package Maglist_Child
  */
@@ -14,82 +11,105 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Category blocks shown below the hero. Edit this array (or hook the filter
- * below) to change which categories appear, how many posts each pulls, and
- * how many columns each row uses.
- *
- * 'slug' can be left as '' for a generic "Latest" block. Each block's heading
- * auto-derives from the real WordPress category name unless you add an
- * explicit 'label' key to override it (see category-block.php).
- *
- * IMPORTANT: on nispakshawaj.com, category slugs are stored as raw
- * Devanagari/Nepali text (not English transliterations) - e.g. 'राजनिती',
- * not 'politics'. maglist_child_resolve_category() (inc/homepage-helpers.php)
- * tries several encodings/fallbacks, but the slugs below must still match
- * what actually exists under Posts > Categories on this site.
+ * Homepage sections. Each item maps a WordPress category to a layout variant.
+ * Filter with `maglist_child_home_sections` to reorder/retarget without editing this file.
  */
-$maglist_child_home_categories = apply_filters(
-	'maglist_child_home_categories',
+$maglist_child_home_sections = apply_filters(
+	'maglist_child_home_sections',
 	array(
 		array(
-			'slug'    => 'राजनिती', // Politics.
-			'count'   => 6,
-			'columns' => 3,
+			'slug'   => 'समाचार',
+			'count'  => 7,
+			'layout' => 'lead-grid',
 		),
 		array(
-			'slug'    => 'समाज', // Society.
-			'count'   => 6,
-			'columns' => 3,
+			'slug'   => 'राजनिती',
+			'count'  => 5,
+			'layout' => 'lead-grid',
 		),
 		array(
-			'slug'    => 'व्यवसाय', // Business/Economy.
-			'count'   => 4,
-			'columns' => 2,
+			'slug'   => 'समाज',
+			'count'  => 11,
+			'layout' => 'overlay-lists',
 		),
 		array(
-			'slug'    => 'खेलकुद', // Sports.
-			'count'   => 4,
-			'columns' => 2,
+			'slug'   => 'मनोरञ्जन',
+			'count'  => 7,
+			'layout' => 'dark-band',
+			'band'   => 'purple',
+		),
+		array(
+			'slug'   => 'खेलकुद',
+			'count'  => 5,
+			'layout' => 'sports-band',
+			'band'   => 'navy',
+		),
+		array(
+			'slug'   => 'शिक्षा / साहित्य',
+			'count'  => 6,
+			'layout' => 'default',
+		),
+		array(
+			'slug'   => 'व्यवसाय',
+			'count'  => 5,
+			'layout' => 'lead-grid',
+		),
+		array(
+			'slug'   => 'स्थानीय तह/ विकास',
+			'count'  => 5,
+			'layout' => 'lead-grid',
 		),
 	)
 );
 ?>
 
-<section class="ratopati-home">
+<section class="na-home">
 
-	<?php maglist_child_widget_area( 'home-top-banner', 'ratopati-ad-slot ratopati-ad-top' ); ?>
+	<?php maglist_child_widget_area( 'home-top-banner', 'na-ad-slot na-ad-top', true ); ?>
 
-	<div class="ratopati-container">
-
+	<div class="na-container">
 		<?php get_template_part( 'template-parts/home/hero' ); ?>
+		<?php get_template_part( 'template-parts/home/exclusive-block' ); ?>
+		<?php maglist_child_widget_area( 'home-mid-grid-ad-1', 'na-ad-slot na-ad-mid', true ); ?>
+	</div>
 
-		<?php maglist_child_widget_area( 'home-mid-grid-ad-1', 'ratopati-ad-slot ratopati-ad-mid' ); ?>
+	<?php
+	foreach ( $maglist_child_home_sections as $maglist_child_section_i => $maglist_child_section ) :
+		$is_band = in_array( $maglist_child_section['layout'], array( 'dark-band', 'sports-band' ), true );
 
-		<?php
-		foreach ( $maglist_child_home_categories as $maglist_child_cat_index => $maglist_child_cat_args ) :
+		if ( ! $is_band ) {
+			echo '<div class="na-container">';
+		}
 
-			if ( ! maglist_child_category_exists( $maglist_child_cat_args['slug'] ) ) {
-				continue; // Category doesn't exist on this site yet - skip it silently.
-			}
+		get_template_part( 'template-parts/home/category-block', null, $maglist_child_section );
 
-			get_template_part( 'template-parts/home/category-block', null, $maglist_child_cat_args );
+		if ( ! $is_band ) {
+			echo '</div>';
+		}
 
-			// Drop the second ad slot roughly halfway through the category rows.
-			if ( 1 === $maglist_child_cat_index ) {
-				maglist_child_widget_area( 'home-mid-grid-ad-2', 'ratopati-ad-slot ratopati-ad-mid' );
-			}
-		endforeach;
-		?>
+		if ( 1 === $maglist_child_section_i ) {
+			echo '<div class="na-container">';
+			maglist_child_widget_area( 'home-mid-grid-ad-2', 'na-ad-slot na-ad-mid', true );
+			echo '</div>';
+		}
+	endforeach;
+	?>
 
-		<?php maglist_child_widget_area( 'home-sidebar-row', 'ratopati-widget-row' ); ?>
+	<div class="na-container">
+		<?php maglist_child_widget_area( 'home-sidebar-row', 'na-widget-row' ); ?>
+	</div>
 
-	</div><!-- .ratopati-container -->
-
-</section><!-- .ratopati-home -->
+</section>
 
 <?php
-/**
- * Floating "ताजा / लोकप्रिय" tab widget - rendered once, fixed-positioned via
- * CSS, so it deliberately sits outside of .ratopati-container.
- */
-get_template_part( 'template-parts/home/fixed-tab' );
+get_template_part(
+	'template-parts/home/video-block',
+	null,
+	array(
+		'slug'  => 'भिडियो',
+		'count' => 4, // 1 lead + 3 side items.
+	)
+);
+?>
+
+<?php get_template_part( 'template-parts/home/fixed-tab' ); ?>

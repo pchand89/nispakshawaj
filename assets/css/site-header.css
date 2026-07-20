@@ -1,0 +1,629 @@
+/**
+ * Sitewide site header, nav, trending-tag ticker, search overlay, and
+ * footer - sitewide (header.php/footer.php replace the parent theme's own
+ * markup on every page, not just the homepage). Colors/structure are taken
+ * directly from the reference news layout's real production CSS.
+ *
+ * TABLE OF CONTENTS
+ * 0. Above-header leaderboard ad
+ * 1. Topbar (date + search trigger)
+ * 2. Header (centered logo on red background)
+ * 3. Primary nav (white, red top border, dropdown submenus)
+ * 4. Mobile nav toggle
+ * 5. Search overlay
+ * 6. Trending tag ticker
+ * 7. Footer
+ * 8. Responsive breakpoints
+ */
+
+/* -----------------------------------------------------------------------
+   0. Above-header leaderboard (sitewide)
+----------------------------------------------------------------------- */
+.na-ad-above-header {
+	width: 100%;
+	margin: 0;
+	padding: 8px 12px;
+	text-align: center;
+	background: #f7f7f7;
+	border-bottom: 1px solid var(--na-color-border, #ececec);
+}
+
+.na-ad-above-header:empty {
+	display: none;
+	padding: 0;
+	border: 0;
+}
+
+.na-ad-above-header img,
+.na-ad-above-header iframe,
+.na-ad-above-header video {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+/* -----------------------------------------------------------------------
+   1. Topbar — brand-red strip (date, links, search)
+----------------------------------------------------------------------- */
+.na-topbar {
+	background: var(--na-color-accent-red, #bf1e2e);
+	color: #fff;
+	font-size: 13px;
+}
+
+.na-topbar__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 2px 20px;
+	min-height: 26px;
+}
+
+.na-topbar__hamburger {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	width: 22px;
+	height: 18px;
+	border: none;
+	background: none;
+	cursor: pointer;
+	padding: 0;
+	flex: 0 0 auto;
+}
+
+.na-topbar__hamburger span {
+	display: block;
+	width: 100%;
+	height: 2px;
+	background: #fff;
+}
+
+.na-topbar__date {
+	flex: 0 0 auto;
+	white-space: nowrap;
+	color: rgba(255, 255, 255, 0.95);
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.na-topbar__links {
+	flex: 1 1 auto;
+	overflow: hidden;
+	min-width: 0;
+}
+
+.na-topbar__menu {
+	display: flex;
+	gap: 18px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	justify-content: center;
+}
+
+.na-topbar__menu a {
+	color: #fff;
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.na-topbar__menu a:hover {
+	opacity: 0.85;
+}
+
+.na-topbar__search-btn {
+	border: none;
+	background: rgba(255, 255, 255, 0.18);
+	color: #fff;
+	cursor: pointer;
+	font-size: 12px;
+	flex: 0 0 auto;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+}
+
+.na-topbar__search-btn:hover {
+	background: rgba(255, 255, 255, 0.28);
+}
+
+/* -----------------------------------------------------------------------
+   2. Header — white bar, centered logo
+----------------------------------------------------------------------- */
+.na-header {
+	background: #fff;
+	padding: 14px 15px;
+	box-shadow: none;
+}
+
+.na-header__inner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.na-header__logo,
+.na-header__logo .custom-logo-link {
+	display: block;
+	line-height: 0;
+}
+
+.na-header__logo img,
+.na-header__logo .custom-logo {
+	/* Same locked size on home + category/hub pages (Customizer desktop width). */
+	width: 300px !important;
+	max-width: 100% !important;
+	height: auto !important;
+	max-height: none !important;
+	object-fit: contain !important;
+	display: block;
+}
+
+.na-header__site-name {
+	color: var(--na-color-accent-red, #bf1e2e);
+	font-size: 28px;
+	font-weight: 800;
+	font-family: var(--na-font-section-title, 'Poppins', sans-serif);
+}
+
+/* -----------------------------------------------------------------------
+   3. Primary nav — red bar, white links; sticky while scrolling
+----------------------------------------------------------------------- */
+.na-nav {
+	background: var(--na-color-accent-red, #bf1e2e);
+	border-top: none;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+}
+
+/* Keep nav below the WP admin bar when logged in */
+.admin-bar .na-nav {
+	top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+	.admin-bar .na-nav {
+		top: 46px;
+	}
+}
+
+.na-nav__menu {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+}
+
+.na-nav__menu::-webkit-scrollbar {
+	display: none;
+}
+
+.na-nav__menu > li {
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex: 0 0 auto;
+	/* Kill Maglist Additional CSS that paints .menu-item.active with a blue block */
+	background: transparent !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.na-nav__menu > li > a {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 15px 14px;
+	font-size: 17px;
+	font-weight: 600;
+	color: #ffffff !important;
+	white-space: nowrap;
+	line-height: 1.2;
+	background: transparent !important;
+}
+
+.na-nav__menu > li:hover > a,
+.na-nav__menu > li.current-menu-item > a,
+.na-nav__menu > li.active > a {
+	color: #ffffff !important;
+	background: rgba(0, 0, 0, 0.18) !important;
+}
+
+.na-nav__menu > li.menu-item-home > a {
+	font-size: 20px;
+	padding: 15px 12px;
+}
+
+/* GTranslate injects a "NE" language item into the primary menu - park it
+   at the far right so it no longer wraps under the home icon. */
+.na-nav__menu > li.menu-item-gtranslate {
+	margin-left: auto;
+}
+
+.na-nav__menu > li.menu-item-gtranslate > a {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.na-nav__menu > li.menu-item-gtranslate > a:hover {
+	color: #ffffff !important;
+	background: rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Dropdown submenus (subcategories) */
+.na-nav__menu > li > ul.sub-menu,
+.na-nav__menu > li > ul {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	margin: 0 !important;
+	padding: 10px 0 !important;
+	list-style: none;
+	min-width: 210px;
+	background: #fff;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+	border-radius: 0 0 6px 6px;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(4px);
+	transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+	z-index: 30;
+}
+
+.na-nav__menu > li:hover > ul.sub-menu,
+.na-nav__menu > li:hover > ul,
+.na-nav__menu > li:focus-within > ul {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+.na-nav__menu ul li {
+	margin: 0 !important;
+	background: transparent !important;
+	padding: 0 !important;
+	display: block;
+}
+
+.na-nav__menu ul li a {
+	display: block;
+	padding: 8px 20px !important;
+	font-size: 14.5px;
+	font-weight: 500;
+	color: rgba(0, 0, 0, 0.72) !important;
+	white-space: nowrap;
+	background: transparent !important;
+}
+
+.na-nav__menu ul li:hover > a,
+.na-nav__menu ul li.active > a {
+	color: var(--na-color-accent-red, #bf1e2e) !important;
+	background: transparent !important;
+}
+
+/* -----------------------------------------------------------------------
+   4. Mobile nav toggle
+----------------------------------------------------------------------- */
+@media (max-width: 991px) {
+	.na-topbar__hamburger {
+		display: flex;
+	}
+
+	.na-topbar__links {
+		display: none;
+	}
+
+	.na-nav {
+		display: none;
+	}
+
+	body.na-nav-open .na-nav {
+		display: block;
+	}
+
+	.na-nav__menu {
+		flex-direction: column;
+		flex-wrap: wrap;
+		overflow-x: visible;
+	}
+
+	.na-nav__menu > li.menu-item-gtranslate {
+		margin-left: 0;
+	}
+
+	.na-nav__menu > li > a {
+		padding: 12px 20px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+	}
+
+	.na-nav__menu > li > ul.sub-menu,
+	.na-nav__menu > li > ul {
+		position: static;
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		box-shadow: none;
+		display: none;
+		padding-left: 12px !important;
+	}
+
+	.na-nav__menu li.na-nav__submenu-open > ul {
+		display: block;
+	}
+}
+
+/* -----------------------------------------------------------------------
+   5. Search overlay
+----------------------------------------------------------------------- */
+.na-search-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(17, 17, 17, 0.92);
+	z-index: 1100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 0.25s ease, visibility 0.25s;
+}
+
+body.na-search-open .na-search-overlay {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.na-search-overlay .na-container {
+	position: relative;
+	max-width: 600px;
+}
+
+.na-search-overlay form {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+}
+
+.na-search-overlay form label {
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+.na-search-overlay input[type='search'],
+.na-search-overlay input[type='text'] {
+	width: 100%;
+	font-size: 22px;
+	padding: 12px 0;
+	border: none;
+	border-bottom: 2px solid #fff;
+	background: none;
+	color: #fff;
+	outline: none;
+}
+
+.na-search-overlay input[type='submit'],
+.na-search-overlay .search-submit {
+	border: none;
+	background: none;
+	color: #fff;
+	font-weight: 700;
+	cursor: pointer;
+	padding: 0 8px;
+	font-size: 22px;
+	flex: 0 0 auto;
+}
+
+.na-search-overlay__close {
+	position: absolute;
+	top: -50px;
+	right: 0;
+	border: none;
+	background: none;
+	color: #fff;
+	font-size: 32px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+/* -----------------------------------------------------------------------
+   6. Trending tag ticker
+----------------------------------------------------------------------- */
+.na-trending-tags {
+	background: rgba(241, 241, 241, 0.98);
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	padding: 10px 0;
+}
+
+.na-trending-tags ul {
+	display: flex;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.na-trending-tags ul::-webkit-scrollbar {
+	display: none;
+}
+
+.na-trending-tags li {
+	flex: 0 0 auto;
+}
+
+.na-trending-tags a {
+	display: inline-block;
+	background: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 60px;
+	padding: 4px 15px;
+	font-size: 13px;
+	font-weight: 500;
+	color: rgba(0, 0, 0, 0.6);
+	white-space: nowrap;
+}
+
+.na-trending-tags a:hover {
+	color: var(--na-color-accent-red, #bf1e2e);
+}
+
+/* -----------------------------------------------------------------------
+   7. Footer
+----------------------------------------------------------------------- */
+.na-footer {
+	margin-top: 40px;
+	font-family: var(--na-font-body, 'Mukta', sans-serif);
+}
+
+.na-footer__top {
+	background: var(--na-color-footer-dark, #303030);
+	color: #fff;
+	padding: 30px 0;
+}
+
+.na-footer__top-grid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 30px;
+}
+
+.na-footer__heading {
+	font-size: 18px;
+	font-weight: 600;
+	margin: 0 0 15px;
+	color: #fff;
+}
+
+.na-footer__about p,
+.na-footer__about-placeholder {
+	font-size: 14px;
+	line-height: 1.8;
+	color: rgba(255, 255, 255, 0.76);
+	margin: 0 0 8px;
+}
+
+.na-footer__about .widget-title {
+	color: #fff;
+	font-size: 16px;
+}
+
+.na-footer__links-menu {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.na-footer__links-menu a {
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.76);
+	line-height: 1.6;
+}
+
+.na-footer__links-menu a:hover {
+	color: #fff;
+}
+
+.na-footer__bottom {
+	background: #232323;
+	padding: 16px 0;
+}
+
+.na-footer__bottom-grid {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.na-footer__brand {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.na-footer__logo img {
+	max-height: 32px;
+	width: auto;
+	filter: brightness(0) invert(1);
+	opacity: 0.9;
+}
+
+.na-footer__copyright {
+	margin: 0;
+	font-size: 13px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.na-footer__social-menu {
+	display: flex;
+	gap: 12px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.na-footer__social-menu a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+.na-footer__social-menu a:hover {
+	background: var(--na-color-accent-red, #bf1e2e);
+}
+
+/* -----------------------------------------------------------------------
+   8. Responsive breakpoints
+----------------------------------------------------------------------- */
+@media (max-width: 767px) {
+	.na-footer__top-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.na-footer__links-menu {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.na-header__logo img,
+	.na-header__logo .custom-logo {
+		width: 200px !important;
+		max-width: 100% !important;
+		height: auto !important;
+		max-height: none !important;
+	}
+
+	.na-topbar__date {
+		font-size: 12px;
+	}
+}
