@@ -143,13 +143,34 @@ function nispaksha_child_widgets() {
  * @return WP_Query
  */
 function nispaksha_get_category_posts( $cat_slug, $count = 6, $exclude = array() ) {
-    $args = array(
-        'category_name'  => $cat_slug,
-        'posts_per_page' => $count,
-        'post_status'    => 'publish',
-        'no_found_rows'  => true,
-        'post__not_in'   => $exclude,
-    );
+    $category = get_category_by_slug( $cat_slug );
+    if ( ! $category ) {
+        $category = get_category_by_slug( urlencode( $cat_slug ) );
+    }
+    if ( ! $category ) {
+        $category = get_category_by_slug( sanitize_title( $cat_slug ) );
+    }
+    if ( ! $category ) {
+        $category = get_term_by( 'name', $cat_slug, 'category' );
+    }
+
+    if ( $category ) {
+        $args = array(
+            'cat'            => $category->term_id,
+            'posts_per_page' => $count,
+            'post_status'    => 'publish',
+            'no_found_rows'  => true,
+            'post__not_in'   => $exclude,
+        );
+    } else {
+        $args = array(
+            'category_name'  => $cat_slug,
+            'posts_per_page' => $count,
+            'post_status'    => 'publish',
+            'no_found_rows'  => true,
+            'post__not_in'   => $exclude,
+        );
+    }
     return new WP_Query( $args );
 }
 

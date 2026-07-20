@@ -30,7 +30,13 @@ if ( empty( $cat_slug ) ) {
 
 $category = get_category_by_slug( $cat_slug );
 if ( ! $category ) {
-    return;
+    $category = get_category_by_slug( urlencode( $cat_slug ) );
+}
+if ( ! $category ) {
+    $category = get_category_by_slug( sanitize_title( $cat_slug ) );
+}
+if ( ! $category ) {
+    $category = get_term_by( 'name', $cat_title ?: $cat_slug, 'category' );
 }
 
 $cat_query = nispaksha_get_category_posts( $cat_slug, $count, $exclude );
@@ -39,17 +45,25 @@ if ( ! $cat_query->have_posts() ) {
     wp_reset_postdata();
     return;
 }
+$cat_display_name = $cat_title;
+$cat_link = '#';
+if ( $category ) {
+    $cat_display_name = $cat_title ?: $category->name;
+    $cat_link = get_category_link( $category->term_id );
+}
 ?>
 
-<section class="nispaksha-category-section <?php echo esc_attr( $bg_class ); ?>" id="section-<?php echo esc_attr( $cat_slug ); ?>">
+<section class="nispaksha-category-section <?php echo esc_attr( $bg_class ); ?>" id="section-<?php echo esc_attr( sanitize_title( $cat_slug ) ); ?>">
 
     <div class="nispaksha-section-header">
         <h2 class="nispaksha-section-title">
-            <?php echo esc_html( $cat_title ?: $category->name ); ?>
+            <?php echo esc_html( $cat_display_name ); ?>
         </h2>
-        <a href="<?php echo esc_url( get_category_link( $category->term_id ) ); ?>" class="nispaksha-section-more">
-            थप हेर्नुहोस्
-        </a>
+        <?php if ( $category ) : ?>
+            <a href="<?php echo esc_url( $cat_link ); ?>" class="nispaksha-section-more">
+                थप हेर्नुहोस्
+            </a>
+        <?php endif; ?>
     </div>
 
     <?php if ( $layout === 'grid-3' ) : ?>

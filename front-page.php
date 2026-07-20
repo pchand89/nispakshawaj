@@ -38,7 +38,7 @@ wp_reset_postdata();
 
                 <?php // समाचार (News) — Grid 3 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'    => 'samachar',
+                    'slug'    => 'समाचार',
                     'title'   => 'समाचार',
                     'layout'  => 'grid-3',
                     'count'   => 6,
@@ -47,7 +47,7 @@ wp_reset_postdata();
 
                 <?php // राजनीति (Politics) — Featured + List ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'rajniti',
+                    'slug'   => 'राजनिती',
                     'title'  => 'राजनीति',
                     'layout' => 'featured-list',
                     'count'  => 5,
@@ -56,7 +56,7 @@ wp_reset_postdata();
 
                 <?php // व्यवसाय (Business) — Grid 3 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'byabasaya',
+                    'slug'   => 'व्यवसाय',
                     'title'  => 'व्यवसाय',
                     'layout' => 'grid-3',
                     'count'  => 3,
@@ -64,7 +64,7 @@ wp_reset_postdata();
 
                 <?php // कृषि (Agriculture) — Grid 2 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'krishi',
+                    'slug'   => 'कृषि',
                     'title'  => 'कृषि',
                     'layout' => 'grid-2',
                     'count'  => 4,
@@ -73,7 +73,7 @@ wp_reset_postdata();
 
                 <?php // अपराध (Crime) — Horizontal ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'aparadh',
+                    'slug'   => 'अपराध',
                     'title'  => 'अपराध',
                     'layout' => 'horizontal',
                     'count'  => 4,
@@ -81,7 +81,7 @@ wp_reset_postdata();
 
                 <?php // स्वास्थ्य (Health) — Grid 2 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'swasthya-bigyan-ra-prabidhi',
+                    'slug'   => 'स्वास्थ्य-विज्ञान-र-प्रव',
                     'title'  => 'स्वास्थ्य, विज्ञान र प्रविधि',
                     'layout' => 'grid-2',
                     'count'  => 4,
@@ -90,7 +90,7 @@ wp_reset_postdata();
 
                 <?php // शिक्षा / साहित्य (Education) — Featured List ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'shiksha-sahitya',
+                    'slug'   => 'शिक्षा-साहित्य',
                     'title'  => 'शिक्षा / साहित्य',
                     'layout' => 'featured-list',
                     'count'  => 5,
@@ -98,7 +98,7 @@ wp_reset_postdata();
 
                 <?php // खेलकुद (Sports) — Grid 3 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'khelkud',
+                    'slug'   => 'खेलकुद',
                     'title'  => 'खेलकुद',
                     'layout' => 'grid-3',
                     'count'  => 3,
@@ -107,7 +107,7 @@ wp_reset_postdata();
 
                 <?php // मनोरञ्जन (Entertainment) — Grid 2 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'manoranjan',
+                    'slug'   => 'मनोरञ्जन',
                     'title'  => 'मनोरञ्जन',
                     'layout' => 'grid-2',
                     'count'  => 4,
@@ -115,28 +115,36 @@ wp_reset_postdata();
 
                 <?php // समाज (Society) — Horizontal ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'samaj',
+                    'slug'   => 'समाज',
                     'title'  => 'समाज',
                     'layout' => 'horizontal',
                     'count'  => 4,
                     'bg'     => 'alt',
                 ) ); ?>
 
+                <?php // स्थानीय तह/ विकास — Grid 3 ?>
+                <?php get_template_part( 'template-parts/category-section', null, array(
+                    'slug'   => 'स्थानीय-तह-विकास',
+                    'title'  => 'स्थानीय तह / विकास',
+                    'layout' => 'grid-3',
+                    'count'  => 6,
+                ) ); ?>
+
                 <?php // विदेश / कूटनीति (International) — Grid 2 ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'bidesh-kutniti',
+                    'slug'   => 'विदेश-कूटनीति',
                     'title'  => 'विदेश / कूटनीति',
                     'layout' => 'grid-2',
                     'count'  => 4,
+                    'bg'     => 'alt',
                 ) ); ?>
 
                 <?php // विविध (Miscellaneous) — Horizontal ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'bibidh',
+                    'slug'   => 'विविध',
                     'title'  => 'विविध',
                     'layout' => 'horizontal',
                     'count'  => 4,
-                    'bg'     => 'alt',
                 ) ); ?>
 
             </div>
