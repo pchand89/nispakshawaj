@@ -1,0 +1,459 @@
+/**
+ * Ratopati-inspired homepage grid layout.
+ * Sitewide typography/color tokens & category-tag accents live in style.css -
+ * this file only handles structural grid/flexbox rules for the homepage.
+ *
+ * Layout patterns below are modelled directly on ratopati.com's actual
+ * rendered markup (verified against the live site), not a generic
+ * "hero + card grid" magazine template:
+ *   - The top area is a vertically stacked, centered "breaking" feed
+ *     (tag -> title -> byline -> full-width image), not a hero+sidebar split.
+ *   - Every category row is "1 large lead card + several thumbnail-only
+ *     cards", not a uniform grid of identical cards.
+ *   - "ताजा / लोकप्रिय" is a fixed floating tab/panel, not inline content.
+ *
+ * TABLE OF CONTENTS
+ * 1. Container & ad slots
+ * 2. Breaking feed (top stacked stories)
+ * 3. Category sections (lead card + thumbnail cards)
+ * 4. Home Sidebar Row (widget area)
+ * 5. Floating ताजा/लोकप्रिय tab widget
+ * 6. Scroll-in fade
+ * 7. Responsive breakpoints
+ */
+
+/* -----------------------------------------------------------------------
+   1. Container & ad slots
+----------------------------------------------------------------------- */
+.ratopati-home {
+	width: 100%;
+}
+
+.ratopati-container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.ratopati-ad-slot {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.ratopati-ad-top {
+	margin-top: 0;
+	padding: 12px 20px;
+}
+
+/* -----------------------------------------------------------------------
+   2. Breaking feed (top stacked stories)
+----------------------------------------------------------------------- */
+.rp-breaking {
+	max-width: 760px;
+	margin: 28px auto 0;
+}
+
+.rp-breaking__item {
+	text-align: center;
+	padding: 28px 0;
+	border-bottom: 1px solid var(--ratopati-color-border, #ececec);
+}
+
+.rp-breaking__item:first-child {
+	padding-top: 0;
+}
+
+.rp-breaking__item .ratopati-badge {
+	margin-bottom: 12px;
+}
+
+.rp-breaking__title {
+	font-family: var(--ratopati-font-heading, 'Mukta', sans-serif);
+	font-weight: 800;
+	line-height: 1.3;
+	margin: 0 0 12px;
+	font-size: 24px;
+}
+
+.rp-breaking__title--lead {
+	font-size: 30px;
+}
+
+.rp-breaking__title a {
+	color: var(--ratopati-color-heading, #111111);
+}
+
+.rp-breaking__title a:hover {
+	color: var(--ratopati-color-accent-red, #d0021b);
+}
+
+.rp-breaking__meta {
+	font-size: 13px;
+	color: var(--ratopati-color-muted, #6b6b6b);
+	margin-bottom: 16px;
+}
+
+.rp-breaking__dot {
+	margin: 0 6px;
+}
+
+.rp-breaking__thumb {
+	display: block;
+	overflow: hidden;
+	border-radius: var(--ratopati-radius, 4px);
+	aspect-ratio: 900 / 480;
+	background: #f2f2f2;
+}
+
+/* -----------------------------------------------------------------------
+   3. Category sections (lead card + thumbnail cards)
+----------------------------------------------------------------------- */
+.rp-section {
+	margin: 44px 0;
+}
+
+.rp-section__header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.rp-section__title {
+	font-size: 20px;
+	margin: 0;
+	line-height: 1;
+}
+
+.rp-section__more {
+	color: var(--ratopati-color-accent-blue, #1a56db);
+	font-size: 13px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.rp-section__more:hover {
+	color: var(--ratopati-color-accent-red, #d0021b);
+}
+
+.rp-section__grid {
+	display: grid;
+	gap: var(--ratopati-gap, 24px);
+	grid-template-columns: repeat(3, 1fr);
+	align-items: start;
+}
+
+.rp-section__grid--cols-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.rp-section__grid--cols-4 {
+	grid-template-columns: repeat(4, 1fr);
+}
+
+/* Lead card always spans the full row width, above the thumbnail cards. */
+.rp-lead-card {
+	grid-column: 1 / -1;
+	display: grid;
+	grid-template-columns: 1.1fr 1fr;
+	gap: var(--ratopati-gap, 24px);
+	align-items: center;
+	padding-bottom: 8px;
+	margin-bottom: 4px;
+	border-bottom: 1px solid var(--ratopati-color-border, #ececec);
+}
+
+.rp-lead-card__thumb {
+	display: block;
+	overflow: hidden;
+	border-radius: var(--ratopati-radius, 4px);
+	aspect-ratio: 420 / 260;
+	background: #f2f2f2;
+}
+
+.rp-lead-card__title {
+	font-size: 22px;
+	line-height: 1.35;
+	margin: 0 0 10px;
+}
+
+.rp-lead-card__title a {
+	color: var(--ratopati-color-heading, #111111);
+}
+
+.rp-lead-card__title a:hover {
+	color: var(--ratopati-color-accent-red, #d0021b);
+}
+
+.rp-lead-card__excerpt {
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--ratopati-color-text, #222222);
+	margin: 0 0 10px;
+}
+
+.rp-lead-card__time {
+	font-size: 12px;
+	color: var(--ratopati-color-muted, #6b6b6b);
+}
+
+/* Thumbnail-only cards - title under image, no excerpt. */
+.rp-thumb-card {
+	display: flex;
+	flex-direction: column;
+}
+
+.rp-thumb-card__thumb {
+	display: block;
+	overflow: hidden;
+	border-radius: var(--ratopati-radius, 4px);
+	aspect-ratio: 420 / 280;
+	background: #f2f2f2;
+	margin-bottom: 10px;
+}
+
+.rp-thumb-card__title {
+	font-size: 15px;
+	line-height: 1.4;
+	margin: 0;
+}
+
+.rp-thumb-card__title a {
+	color: var(--ratopati-color-heading, #111111);
+}
+
+.rp-thumb-card__title a:hover {
+	color: var(--ratopati-color-accent-red, #d0021b);
+}
+
+/* -----------------------------------------------------------------------
+   4. Home Sidebar Row (widget area)
+----------------------------------------------------------------------- */
+.ratopati-widget-row {
+	display: grid;
+	grid-template-columns: repeat(var(--ratopati-widget-row-columns, 3), 1fr);
+	gap: var(--ratopati-gap, 24px);
+	margin: 40px 0 10px;
+}
+
+/* -----------------------------------------------------------------------
+   5. Floating ताजा/लोकप्रिय tab widget
+----------------------------------------------------------------------- */
+.rp-fixed-tab {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	z-index: 999;
+	font-family: var(--ratopati-font-body, 'Mukta', sans-serif);
+}
+
+.rp-fixed-tab__buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.rp-fixed-tab__btn {
+	display: block;
+	border: none;
+	cursor: pointer;
+	background: var(--ratopati-color-accent-red, #d0021b);
+	color: #fff;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 700;
+	padding: 10px 16px;
+	border-radius: 999px;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.rp-fixed-tab__btn:nth-child(2) {
+	background: var(--ratopati-color-accent-blue, #1a56db);
+}
+
+.rp-fixed-tab__panel {
+	display: none;
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	width: 340px;
+	max-width: calc(100vw - 40px);
+	max-height: min(70vh, 520px);
+	background: var(--ratopati-color-surface, #fff);
+	border-radius: 8px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22);
+	overflow: hidden;
+	display: none;
+	flex-direction: column;
+}
+
+.rp-fixed-tab.is-open .rp-fixed-tab__panel {
+	display: flex;
+}
+
+.rp-fixed-tab.is-open .rp-fixed-tab__buttons {
+	display: none;
+}
+
+.rp-fixed-tab__close {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+	border: none;
+	background: none;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+	color: var(--ratopati-color-muted, #6b6b6b);
+	z-index: 1;
+}
+
+.rp-fixed-tab__tabs {
+	display: flex;
+	flex: 0 0 auto;
+}
+
+.rp-fixed-tab__tab {
+	flex: 1 1 50%;
+	border: none;
+	cursor: pointer;
+	background: var(--ratopati-color-border, #ececec);
+	font-family: inherit;
+	font-size: 14px;
+	font-weight: 700;
+	padding: 14px 10px;
+	color: var(--ratopati-color-muted, #6b6b6b);
+}
+
+.rp-fixed-tab__tab.is-active {
+	background: var(--ratopati-color-surface, #fff);
+	color: var(--ratopati-color-accent-red, #d0021b);
+	box-shadow: inset 0 -2px 0 var(--ratopati-color-accent-red, #d0021b);
+}
+
+.rp-fixed-tab__content {
+	display: none;
+	overflow-y: auto;
+	padding: 6px 16px 12px;
+}
+
+.rp-fixed-tab__content.is-active {
+	display: block;
+}
+
+.rp-fixed-tab__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.rp-fixed-tab__list li {
+	padding: 12px 0;
+	border-bottom: 1px solid var(--ratopati-color-border, #ececec);
+	display: flex;
+	gap: 8px;
+}
+
+.rp-fixed-tab__list li:last-child {
+	border-bottom: none;
+}
+
+.rp-fixed-tab__list a {
+	font-size: 14px;
+	line-height: 1.45;
+	color: var(--ratopati-color-heading, #111111);
+	font-weight: 600;
+}
+
+.rp-fixed-tab__list a:hover {
+	color: var(--ratopati-color-accent-red, #d0021b);
+}
+
+.rp-fixed-tab__rank {
+	font-weight: 800;
+	color: var(--ratopati-color-accent-red, #d0021b);
+	flex: 0 0 auto;
+}
+
+.rp-fixed-tab__empty {
+	color: var(--ratopati-color-muted, #6b6b6b);
+	font-size: 13px;
+}
+
+/* -----------------------------------------------------------------------
+   6. Subtle scroll-in fade (progressively enhanced via ratopati-home.js;
+      elements are fully visible by default so nothing breaks without JS)
+----------------------------------------------------------------------- */
+.ratopati-fade-init {
+	opacity: 0;
+	transform: translateY(12px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.ratopati-fade-init.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* -----------------------------------------------------------------------
+   7. Responsive breakpoints
+----------------------------------------------------------------------- */
+@media (max-width: 991px) {
+	.rp-section__grid,
+	.rp-section__grid--cols-2,
+	.rp-section__grid--cols-4 {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.rp-lead-card {
+		grid-template-columns: 1fr;
+	}
+
+	.ratopati-widget-row {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.rp-breaking__title--lead {
+		font-size: 26px;
+	}
+
+	.rp-breaking__title {
+		font-size: 21px;
+	}
+}
+
+@media (max-width: 575px) {
+	.ratopati-container {
+		padding: 0 16px;
+	}
+
+	.rp-section__grid,
+	.rp-section__grid--cols-2,
+	.rp-section__grid--cols-4 {
+		grid-template-columns: 1fr;
+	}
+
+	.ratopati-widget-row {
+		grid-template-columns: 1fr;
+	}
+
+	.rp-breaking__title--lead {
+		font-size: 22px;
+	}
+
+	.rp-breaking__title {
+		font-size: 19px;
+	}
+
+	.rp-fixed-tab {
+		right: 12px;
+		bottom: 12px;
+	}
+
+	.rp-fixed-tab__panel {
+		right: 12px;
+		bottom: 12px;
+		width: calc(100vw - 24px);
+	}
+}
