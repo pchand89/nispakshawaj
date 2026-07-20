@@ -1,0 +1,20 @@
+# Ignore the full WordPress site dump by default.
+# Only the maglist-child theme is versioned (GitHub: pchand89/nispakshawaj).
+*
+
+# Keep this file
+!.gitignore
+
+# Whitelist the child theme (un-ignore each parent directory)
+!wp-content/
+wp-content/*
+!wp-content/themes/
+wp-content/themes/*
+!wp-content/themes/maglist-child/
+!wp-content/themes/maglist-child/**
+
+# Editor/OS noise inside the theme
+wp-content/themes/maglist-child/.DS_Store
+wp-content/themes/maglist-child/**/.DS_Store
+wp-content/themes/maglist-child/.vscode/
+wp-content/themes/maglist-child/.idea/
