@@ -1,8 +1,6 @@
 <?php
 /**
- * Front Page Template — Ratopati Design
- *
- * Modeled directly after Ratopati.com homepage layout.
+ * Front Page Template — Pixel-Perfect Ratopati Design
  *
  * @package Nispaksha_Child
  */
@@ -24,17 +22,16 @@ wp_reset_postdata();
     <?php get_template_part( 'template-parts/hero-section' ); ?>
 
     <?php // 3. Main Category Content + Trending Sidebar ?>
-    <div class="ratopati-container">
-        <div class="ratopati-main-layout">
+    <div class="rp-container">
+        <div class="rp-main-layout">
 
             <?php // === MAIN CATEGORIES COLUMN === ?>
-            <div class="ratopati-content">
+            <div class="rp-content">
 
                 <?php // समाचार (News) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'    => 'समाचार',
                     'title'   => 'समाचार',
-                    'layout'  => 'grid-4',
                     'count'   => 8,
                     'exclude' => $exclude_ids,
                 ) ); ?>
@@ -43,7 +40,6 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'राजनिती',
                     'title'  => 'राजनीति',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
@@ -51,39 +47,34 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'व्यवसाय',
                     'title'  => 'बिजनेस / व्यवसाय',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
-                <?php // कृषि (Agriculture) — 3 Column Grid ?>
+                <?php // कृषि (Agriculture) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'कृषि',
                     'title'  => 'कृषि',
-                    'layout' => 'grid-3',
-                    'count'  => 3,
+                    'count'  => 4,
                 ) ); ?>
 
                 <?php // अपराध (Crime) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'अपराध',
                     'title'  => 'अपराध / सुरक्षा',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
-                <?php // स्वास्थ्य (Health) — 3 Column Grid ?>
+                <?php // स्वास्थ्य (Health) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'स्वास्थ्य-विज्ञान-र-प्रव',
                     'title'  => 'स्वास्थ्य, विज्ञान र प्रविधि',
-                    'layout' => 'grid-3',
-                    'count'  => 3,
+                    'count'  => 4,
                 ) ); ?>
 
                 <?php // शिक्षा / साहित्य (Education) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'शिक्षा-साहित्य',
                     'title'  => 'शिक्षा / साहित्य',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
@@ -91,7 +82,6 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'खेलकुद',
                     'title'  => 'खेलकुद',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
@@ -99,7 +89,6 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'मनोरञ्जन',
                     'title'  => 'मनोरञ्जन',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
@@ -107,7 +96,6 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'समाज',
                     'title'  => 'समाज',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
@@ -115,15 +103,13 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'स्थानीय-तह-विकास',
                     'title'  => 'स्थानीय तह / विकास',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
                 <?php // विदेश / कूटनीति (International) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'विदेश-कूटनीति',
+                    'slug'   => 'विदेश-ूटनीति',
                     'title'  => 'विदेश / कूटनीति',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
@@ -131,14 +117,13 @@ wp_reset_postdata();
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'विविध',
                     'title'  => 'विविध',
-                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
             </div>
 
             <?php // === SIDEBAR COLUMN === ?>
-            <aside class="ratopati-sidebar-wrap" role="complementary">
+            <aside class="rp-sidebar-wrap" role="complementary">
                 <?php get_template_part( 'template-parts/sidebar-trending' ); ?>
             </aside>
 

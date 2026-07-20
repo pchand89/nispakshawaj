@@ -1,17 +1,14 @@
 <?php
 /**
- * Custom Footer Template — Ratopati Style
- *
- * Dark footer (#0f172a) with category links, about section, and copyright.
+ * Footer Template — Pixel-Perfect Ratopati Style
  *
  * @package Nispaksha_Child
  */
 ?>
 
-    <?php // ===== RATOPATI FOOTER ===== ?>
-    <footer class="ratopati-footer" role="contentinfo">
-        <div class="ratopati-container">
-            <div class="ratopati-footer__grid">
+    <footer class="rp-footer" role="contentinfo">
+        <div class="rp-container">
+            <div class="rp-footer__grid">
 
                 <?php // Column 1: About & Logo ?>
                 <div>
@@ -25,8 +22,8 @@
 
                 <?php // Column 2: Quick Links ?>
                 <div>
-                    <h3 class="ratopati-footer__title">समाचार विभाग</h3>
-                    <ul class="ratopati-footer__links">
+                    <h3 class="rp-footer__title">समाचार विभाग</h3>
+                    <ul class="rp-footer__links">
                         <?php
                         $footer_cats = get_categories( array(
                             'orderby'    => 'count',
@@ -37,7 +34,7 @@
                         foreach ( $footer_cats as $cat ) :
                             if ( $cat->slug === 'uncategorized' ) continue;
                         ?>
-                            <li>
+                            <li style="margin-bottom: 8px;">
                                 <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
                                     <?php echo esc_html( $cat->name ); ?>
                                 </a>
@@ -48,14 +45,14 @@
 
                 <?php // Column 3: Navigation Links ?>
                 <div>
-                    <h3 class="ratopati-footer__title">मुख्य पृष्ठहरू</h3>
-                    <ul class="ratopati-footer__links">
-                        <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">गृहपृष्ठ</a></li>
+                    <h3 class="rp-footer__title">मुख्य पृष्ठहरू</h3>
+                    <ul class="rp-footer__links">
+                        <li style="margin-bottom: 8px;"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">गृहपृष्ठ</a></li>
                         <?php
                         $pages = get_pages( array( 'number' => 5, 'sort_order' => 'ASC' ) );
                         foreach ( $pages as $page ) :
                         ?>
-                            <li>
+                            <li style="margin-bottom: 8px;">
                                 <a href="<?php echo esc_url( get_permalink( $page->ID ) ); ?>">
                                     <?php echo esc_html( $page->post_title ); ?>
                                 </a>
@@ -66,22 +63,22 @@
 
                 <?php // Column 4: Contact ?>
                 <div>
-                    <h3 class="ratopati-footer__title">सम्पर्क</h3>
-                    <ul class="ratopati-footer__links">
-                        <li><i class="fas fa-envelope"></i> info@nispakshawaj.com</li>
-                        <li><i class="fas fa-globe"></i> www.nispakshawaj.com</li>
+                    <h3 class="rp-footer__title">सम्पर्क</h3>
+                    <ul class="rp-footer__links">
+                        <li style="margin-bottom: 8px;"><i class="fas fa-envelope"></i> info@nispakshawaj.com</li>
+                        <li style="margin-bottom: 8px;"><i class="fas fa-globe"></i> www.nispakshawaj.com</li>
                     </ul>
                 </div>
 
             </div>
 
-            <div class="ratopati-footer__copyright">
+            <div class="rp-footer__copyright">
                 &copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>। सर्वाधिकार सुरक्षित।
             </div>
         </div>
     </footer>
 
-    <button class="nispaksha-back-to-top" id="back-to-top" aria-label="Back to top">
+    <button class="rp-back-to-top" id="back-to-top" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </button>
 

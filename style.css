@@ -1,81 +1,56 @@
 /*
  Theme Name:   Nispaksha Awaj - Maglist Child
  Theme URI:    https://www.nispakshawaj.com
- Description:  Custom child theme for Nispaksha Awaj news portal modeled after Ratopati.com with centered header logo, red branding (#bf1e2e), lead story layouts, and category grids.
+ Description:  Pixel-perfect Ratopati.com child theme clone for Nispaksha Awaj.
  Author:       Nispaksha Awaj
  Author URI:   https://www.nispakshawaj.com
  Template:     maglist
- Version:      1.1.0
+ Version:      1.2.0
  License:      GNU General Public License v2 or later
  Text Domain:  nispaksha-child
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
+
 /* ============================================
-   CSS CUSTOM PROPERTIES — RATOPATI COLOR PALETTE
+   COLOR SYSTEM — RATOPATI BRANDING (#bf1e2e)
    ============================================ */
 :root {
-    /* Primary Accent — Ratopati Red */
-    --color-primary: #bf1e2e;
-    --color-primary-dark: #961522;
-    --color-primary-light: #fdf2f3;
-    --color-primary-rgb: 191, 30, 46;
+    --color-ratopati-red: #bf1e2e;
+    --color-ratopati-red-dark: #9e1423;
+    --color-ratopati-red-light: #fdf2f3;
 
-    /* Secondary Accent — Dark Navy / Charcoal */
-    --color-secondary: #1e293b;
-    --color-secondary-dark: #0f172a;
-    --color-secondary-light: #f1f5f9;
+    --color-text-main: #000000;
+    --color-text-body: #1a1a1a;
+    --color-text-sub: #4a5568;
+    --color-text-muted: #718096;
 
-    /* Backgrounds */
-    --color-bg: #ffffff;
+    --color-bg-page: #ffffff;
     --color-bg-alt: #f8fafc;
     --color-bg-card: #ffffff;
-
-    /* Text Colors */
-    --color-text: #0f172a;
-    --color-text-secondary: #475569;
-    --color-text-light: #94a3b8;
-
-    /* Borders & Lines */
     --color-border: #e2e8f0;
-    --color-border-light: #f1f5f9;
+    --color-border-dark: #cbd5e1;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-hover: 0 12px 24px -6px rgba(191, 30, 46, 0.15);
+    --font-nepali: 'Mukta', 'Noto Sans Devanagari', sans-serif;
+    --font-english: 'Poppins', sans-serif;
 
-    /* Typography */
-    --font-primary: 'Mukta', 'Noto Sans Devanagari', sans-serif;
-    --font-secondary: 'Poppins', 'Inter', sans-serif;
-
-    /* Layout */
-    --container-max: 1240px;
-    --container-padding: 16px;
-    --border-radius: 6px;
-    --border-radius-lg: 10px;
-
-    /* Transitions */
-    --transition-fast: 150ms ease;
-    --transition-base: 250ms ease;
+    --container-max-width: 1240px;
 }
 
-/* Dark Mode (Ratopati Dark Style) */
-body.dark-mode {
-    --color-bg: #121212;
+body.dark {
+    --color-bg-page: #121212;
     --color-bg-alt: #1e1e1e;
     --color-bg-card: #1e1e1e;
-    --color-text: #f1f5f9;
-    --color-text-secondary: #cbd5e1;
-    --color-text-light: #64748b;
+    --color-text-main: #ffffff;
+    --color-text-body: #e2e8f0;
+    --color-text-sub: #cbd5e1;
+    --color-text-muted: #a0aec0;
     --color-border: #2d3748;
-    --color-border-light: #262626;
-    --color-primary: #ef4444;
-    --color-primary-light: #2c1214;
+    --color-border-dark: #4a5568;
 }
 
 /* ============================================
-   RESET & BASE STYLES
+   GLOBAL RESET
    ============================================ */
 *, *::before, *::after {
     box-sizing: border-box;
@@ -83,24 +58,23 @@ body.dark-mode {
     padding: 0;
 }
 
-body {
-    font-family: var(--font-primary);
+html, body {
+    font-family: var(--font-nepali);
     font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-text);
-    background-color: var(--color-bg);
+    line-height: 1.5;
+    color: var(--color-text-body);
+    background-color: var(--color-bg-page);
     -webkit-font-smoothing: antialiased;
-    transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 a {
-    color: var(--color-text);
+    color: var(--color-text-body);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color 0.15s ease;
 }
 
 a:hover {
-    color: var(--color-primary);
+    color: var(--color-ratopati-red);
 }
 
 img {
@@ -109,617 +83,508 @@ img {
     display: block;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-primary);
-    font-weight: 700;
-    line-height: 1.3;
-    color: var(--color-text);
+ul, ol {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-.ratopati-container {
-    max-width: var(--container-max);
+/* Container */
+.rp-container {
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 var(--container-padding);
+    padding: 0 16px;
 }
 
 /* ============================================
-   RATOPATI TOP UTILITY BAR
+   HEADER UTILITY BAR (.header-link)
    ============================================ */
-.ratopati-top-links {
+.rp-topbar {
     background-color: #f8fafc;
     border-bottom: 1px solid var(--color-border);
     padding: 6px 0;
     font-size: 13px;
-    color: var(--color-text-secondary);
+    color: var(--color-text-sub);
 }
 
-body.dark-mode .ratopati-top-links {
+body.dark .rp-topbar {
     background-color: #1a1a1a;
 }
 
-.ratopati-top-links .ratopati-container {
+.rp-topbar .rp-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
 }
 
-.ratopati-top-links__date {
+.rp-topbar__date {
     font-weight: 500;
     display: flex;
     align-items: center;
     gap: 6px;
+    color: var(--color-text-sub);
 }
 
-.ratopati-top-links__items {
+.rp-topbar__links {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
 }
 
-.ratopati-top-links__items a {
-    color: var(--color-text-secondary);
+.rp-topbar__links a {
+    font-size: 13px;
     font-weight: 500;
+    color: var(--color-text-sub);
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 13px;
 }
 
-.ratopati-top-links__items a:hover {
-    color: var(--color-primary);
+.rp-topbar__links a:hover {
+    color: var(--color-ratopati-red);
 }
 
 /* ============================================
-   RATOPATI CENTERED HEADER
+   MAIN HEADER (.header)
    ============================================ */
-.ratopati-header {
-    background-color: var(--color-bg);
+.rp-header {
+    background: var(--color-bg-page);
     padding: 16px 0;
     border-bottom: 1px solid var(--color-border);
 }
 
-.ratopati-header .ratopati-container {
+.rp-header .rp-container {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    gap: 20px;
 }
 
-.ratopati-header__left {
+.rp-header__left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
-.ratopati-header__logo {
+.rp-hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rp-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-text-main);
+    border-radius: 1px;
+}
+
+.rp-header__logo {
     text-align: center;
 }
 
-.ratopati-header__logo img {
-    max-height: 60px;
+.rp-header__logo img {
+    max-height: 62px;
     width: auto;
     margin: 0 auto;
 }
 
-.ratopati-header__right {
+.rp-header__right {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 14px;
+    gap: 12px;
 }
 
-.ratopati-search-trigger {
+.rp-search-btn {
     background: none;
     border: 1px solid var(--color-border);
     width: 36px;
     height: 36px;
     border-radius: 50%;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-text-main);
+}
+
+.rp-search-btn:hover {
+    border-color: var(--color-ratopati-red);
+    color: var(--color-ratopati-red);
+}
+
+.rp-theme-btn {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    color: var(--color-text);
-    transition: all var(--transition-fast);
-}
-
-.ratopati-search-trigger:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-}
-
-.ratopati-theme-toggle {
+    color: var(--color-text-main);
     display: flex;
     align-items: center;
     gap: 6px;
-    cursor: pointer;
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--color-text);
 }
 
-.ratopati-theme-toggle:hover {
-    border-color: var(--color-primary);
-}
-
-/* Search Overlay Box */
-.ratopati-search-overlay {
-    display: none;
-    padding: 12px 0;
-    background: var(--color-bg-alt);
-    border-bottom: 1px solid var(--color-border);
-}
-
-.ratopati-search-overlay.is-open {
-    display: block;
-}
-
-.ratopati-search-form {
-    display: flex;
-    gap: 10px;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.ratopati-search-form input {
-    flex: 1;
-    padding: 10px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    font-family: var(--font-primary);
-    font-size: 15px;
-    background: var(--color-bg);
-    color: var(--color-text);
-}
-
-.ratopati-search-form button {
-    padding: 10px 24px;
-    background: var(--color-primary);
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
+.rp-theme-btn:hover {
+    border-color: var(--color-ratopati-red);
 }
 
 /* ============================================
-   RATOPATI NAVIGATION BAR
+   RATOPATI NAVIGATION BAR (.site__navigation)
    ============================================ */
-.ratopati-nav {
-    background-color: var(--color-bg);
-    border-bottom: 3px solid var(--color-primary);
+.rp-nav {
+    background-color: var(--color-bg-page);
+    border-bottom: 3px solid var(--color-ratopati-red);
     position: relative;
     z-index: 100;
 }
 
-.ratopati-nav.is-sticky {
+.rp-nav.is-sticky {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    box-shadow: var(--shadow-md);
-    background-color: var(--color-bg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    background-color: var(--color-bg-page);
 }
 
-.ratopati-nav .ratopati-container {
+.rp-nav .rp-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.ratopati-nav__menu {
+.rp-nav__menu {
     display: flex;
     align-items: center;
     gap: 0;
-    flex-wrap: wrap;
 }
 
-.ratopati-nav__menu > li > a {
+.rp-nav__menu > li > a {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 12px 14px;
-    color: var(--color-text);
-    font-size: 16px;
-    font-weight: 700;
-    transition: all var(--transition-fast);
+    padding: 12px 16px;
+    color: var(--color-text-main);
+    font-size: 17px;
+    font-weight: 800;
     position: relative;
+    transition: color 0.15s ease;
 }
 
-.ratopati-nav__menu > li > a:hover,
-.ratopati-nav__menu > li.current-menu-item > a {
-    color: var(--color-primary);
+.rp-nav__menu > li > a:hover,
+.rp-nav__menu > li.current-menu-item > a {
+    color: var(--color-ratopati-red);
 }
 
-.ratopati-nav__menu > li > a::after {
+.rp-nav__menu > li > a::after {
     content: '';
     position: absolute;
     bottom: -3px;
     left: 0;
     right: 0;
     height: 3px;
-    background-color: var(--color-primary);
+    background-color: var(--color-ratopati-red);
     opacity: 0;
-    transition: opacity var(--transition-fast);
+    transition: opacity 0.15s ease;
 }
 
-.ratopati-nav__menu > li > a:hover::after,
-.ratopati-nav__menu > li.current-menu-item > a::after {
+.rp-nav__menu > li > a:hover::after,
+.rp-nav__menu > li.current-menu-item > a::after {
     opacity: 1;
-}
-
-/* Submenu Dropdown */
-.ratopati-nav__menu .sub-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 200px;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-lg);
-    border-radius: 0 0 6px 6px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-    transition: all var(--transition-fast);
-}
-
-.ratopati-nav__menu > li:hover > .sub-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.ratopati-nav__menu .sub-menu li a {
-    display: block;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    border-bottom: 1px solid var(--color-border-light);
-}
-
-.ratopati-nav__menu .sub-menu li a:hover {
-    color: var(--color-primary);
-    background: var(--color-primary-light);
-}
-
-/* Mobile Hamburger button */
-.ratopati-hamburger {
-    display: none;
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-}
-
-.ratopati-hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--color-text);
-    margin: 4px 0;
-    transition: all var(--transition-base);
 }
 
 /* ============================================
-   BREAKING NEWS TICKER (RED BAR)
+   BREAKING NEWS TICKER (.ratopati-ticker)
    ============================================ */
-.ratopati-ticker {
-    background-color: var(--color-primary);
+.rp-ticker {
+    background-color: var(--color-ratopati-red);
     color: #ffffff;
-    height: 42px;
+    height: 44px;
     overflow: hidden;
     position: relative;
 }
 
-.ratopati-ticker__container {
+.rp-ticker .rp-container {
     display: flex;
     align-items: center;
     height: 100%;
+    padding: 0;
 }
 
-.ratopati-ticker__badge {
+.rp-ticker__badge {
     background: #000000;
     color: #ffffff;
-    padding: 0 16px;
+    padding: 0 20px;
     height: 100%;
     display: flex;
     align-items: center;
-    font-weight: 800;
-    font-size: 14px;
+    font-weight: 900;
+    font-size: 15px;
     letter-spacing: 0.05em;
     flex-shrink: 0;
     z-index: 2;
 }
 
-.ratopati-ticker__scroll {
+.rp-ticker__scroll {
     display: flex;
     align-items: center;
     white-space: nowrap;
-    animation: ticker-scroll 45s linear infinite;
+    animation: rp-ticker-anim 40s linear infinite;
     padding-left: 20px;
 }
 
-.ratopati-ticker__scroll:hover {
+.rp-ticker__scroll:hover {
     animation-play-state: paused;
 }
 
-.ratopati-ticker__item {
+.rp-ticker__item {
     display: inline-flex;
     align-items: center;
     padding: 0 24px;
 }
 
-.ratopati-ticker__item a {
+.rp-ticker__item a {
     color: #ffffff;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
 }
 
-.ratopati-ticker__item a:hover {
+.rp-ticker__item a:hover {
     text-decoration: underline;
 }
 
-.ratopati-ticker__item::after {
+.rp-ticker__item::after {
     content: '◆';
     margin-left: 24px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.4);
     font-size: 8px;
 }
 
-@keyframes ticker-scroll {
+@keyframes rp-ticker-anim {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
 
 /* ============================================
-   RATOPATI LEAD / HERO SECTION
+   RATOPATI LEAD / HERO BANNER (.breaking--special)
    ============================================ */
-.ratopati-hero {
-    padding: 24px 0;
+.rp-lead-section {
+    padding: 32px 0 24px;
     border-bottom: 1px solid var(--color-border);
 }
 
-/* Main Lead Story Banner */
-.ratopati-lead-main {
+.rp-lead-banner {
     text-align: center;
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--color-border);
+    max-width: 980px;
+    margin: 0 auto 32px;
 }
 
-.ratopati-lead-main__cat {
+.rp-lead-banner__context {
     display: inline-block;
-    color: var(--color-primary);
+    color: var(--color-ratopati-red);
     font-weight: 800;
-    font-size: 15px;
-    margin-bottom: 6px;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
-.ratopati-lead-main__title {
-    font-size: 38px;
+.rp-lead-banner__title {
+    font-size: 40px;
     font-weight: 900;
-    line-height: 1.25;
-    margin-bottom: 16px;
-    color: var(--color-text);
+    line-height: 1.2;
+    color: var(--color-text-main);
+    margin-bottom: 12px;
 }
 
-.ratopati-lead-main__title a {
-    color: var(--color-text);
+.rp-lead-banner__title a {
+    color: var(--color-text-main);
 }
 
-.ratopati-lead-main__title a:hover {
-    color: var(--color-primary);
+.rp-lead-banner__title a:hover {
+    color: var(--color-ratopati-red);
 }
 
-.ratopati-lead-main__img-wrap {
+.rp-lead-banner__sub {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-text-sub);
+    margin-bottom: 20px;
+}
+
+.rp-lead-banner__image {
     max-width: 900px;
     margin: 0 auto 16px;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.ratopati-lead-main__img-wrap img {
+.rp-lead-banner__image img {
     width: 100%;
     max-height: 480px;
     object-fit: cover;
-    transition: transform var(--transition-base);
 }
 
-.ratopati-lead-main__img-wrap:hover img {
-    transform: scale(1.02);
-}
-
-.ratopati-lead-main__excerpt {
-    max-width: 800px;
-    margin: 0 auto;
-    font-size: 18px;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-}
-
-/* Secondary Lead Grid (4 Columns) */
-.ratopati-lead-grid {
+/* Sub-Lead Stories 4-Column Grid */
+.rp-sublead-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
-.ratopati-lead-card {
+.rp-sublead-card {
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
-    transition: all var(--transition-base);
+    transition: all 0.2s ease;
 }
 
-.ratopati-lead-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
+.rp-sublead-card:hover {
+    border-color: var(--color-ratopati-red);
+    box-shadow: 0 6px 16px rgba(191, 30, 46, 0.12);
     transform: translateY(-2px);
 }
 
-.ratopati-lead-card__thumb {
+.rp-sublead-card__thumb {
     aspect-ratio: 16/10;
     overflow: hidden;
 }
 
-.ratopati-lead-card__thumb img {
+.rp-sublead-card__thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--transition-base);
+    transition: transform 0.3s ease;
 }
 
-.ratopati-lead-card:hover .ratopati-lead-card__thumb img {
-    transform: scale(1.05);
+.rp-sublead-card:hover .rp-sublead-card__thumb img {
+    transform: scale(1.04);
 }
 
-.ratopati-lead-card__body {
-    padding: 12px 14px;
+.rp-sublead-card__body {
+    padding: 14px;
 }
 
-.ratopati-lead-card__cat {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--color-primary);
-    margin-bottom: 4px;
-    display: inline-block;
-}
-
-.ratopati-lead-card__title {
-    font-size: 16px;
+.rp-sublead-card__title {
+    font-size: 17px;
     font-weight: 700;
     line-height: 1.4;
 }
 
-.ratopati-lead-card__title a {
-    color: var(--color-text);
+.rp-sublead-card__title a {
+    color: var(--color-text-main);
 }
 
-.ratopati-lead-card__title a:hover {
-    color: var(--color-primary);
+.rp-sublead-card__title a:hover {
+    color: var(--color-ratopati-red);
 }
 
 /* ============================================
    MAIN CONTENT & SIDEBAR LAYOUT
    ============================================ */
-.ratopati-main-layout {
+.rp-main-layout {
     display: grid;
     grid-template-columns: 1fr 340px;
-    gap: 30px;
-    padding: 24px 0 48px;
+    gap: 32px;
+    padding: 32px 0 60px;
 }
 
 /* ============================================
-   CATEGORY SECTIONS (RATOPATI STYLE)
+   RATOPATI CATEGORY SECTIONS
    ============================================ */
-.ratopati-section {
-    margin-bottom: 36px;
+.rp-section {
+    margin-bottom: 40px;
 }
 
-.ratopati-section__header {
+.rp-section__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 8px;
-    border-bottom: 2px solid var(--color-primary);
+    border-bottom: 2px solid var(--color-ratopati-red);
     margin-bottom: 20px;
 }
 
-.ratopati-section__title {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--color-primary);
+.rp-section__title {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--color-ratopati-red);
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.ratopati-section__title::before {
+.rp-section__title::before {
     content: '';
     display: inline-block;
     width: 4px;
-    height: 20px;
-    background-color: var(--color-primary);
+    height: 22px;
+    background-color: var(--color-ratopati-red);
     border-radius: 2px;
 }
 
-.ratopati-section__more {
-    color: var(--color-primary);
-    font-size: 14px;
+.rp-section__more {
+    color: var(--color-ratopati-red);
+    font-size: 15px;
     font-weight: 700;
-    transition: all var(--transition-fast);
 }
 
-.ratopati-section__more:hover {
-    color: var(--color-primary-dark);
+.rp-section__more:hover {
+    text-decoration: underline;
 }
 
-/* 4-column news card grid */
-.ratopati-grid-4 {
+/* 4-column Grid */
+.rp-grid-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    gap: 18px;
 }
 
-/* 3-column news card grid */
-.ratopati-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-}
-
-/* 2-column news card grid */
-.ratopati-grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-
-/* News Card Component */
-.ratopati-card {
+/* News Card */
+.rp-card {
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
-    transition: all var(--transition-base);
+    transition: all 0.2s ease;
 }
 
-.ratopati-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
+.rp-card:hover {
+    border-color: var(--color-ratopati-red);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
 }
 
-.ratopati-card__thumb {
+.rp-card__thumb {
     aspect-ratio: 16/10;
     overflow: hidden;
 }
 
-.ratopati-card__thumb img {
+.rp-card__thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--transition-base);
+    transition: transform 0.3s ease;
 }
 
-.ratopati-card:hover .ratopati-card__thumb img {
-    transform: scale(1.05);
+.rp-card:hover .rp-card__thumb img {
+    transform: scale(1.04);
 }
 
-.ratopati-card__body {
-    padding: 12px;
+.rp-card__body {
+    padding: 12px 14px;
 }
 
-.ratopati-card__title {
-    font-size: 15px;
+.rp-card__title {
+    font-size: 16px;
     font-weight: 700;
     line-height: 1.4;
     display: -webkit-box;
@@ -728,266 +593,193 @@ body.dark-mode .ratopati-top-links {
     overflow: hidden;
 }
 
-.ratopati-card__title a {
-    color: var(--color-text);
+.rp-card__title a {
+    color: var(--color-text-main);
 }
 
-.ratopati-card__title a:hover {
-    color: var(--color-primary);
+.rp-card__title a:hover {
+    color: var(--color-ratopati-red);
 }
 
-.ratopati-card__time {
+.rp-card__time {
     font-size: 12px;
-    color: var(--color-text-light);
-    margin-top: 6px;
-}
-
-/* Horizontal card */
-.ratopati-card--horizontal {
-    display: flex;
-    align-items: stretch;
-}
-
-.ratopati-card--horizontal .ratopati-card__thumb {
-    width: 130px;
-    min-width: 130px;
-    aspect-ratio: auto;
-}
-
-.ratopati-card--horizontal .ratopati-card__body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    color: var(--color-text-muted);
+    margin-top: 8px;
 }
 
 /* ============================================
-   SIDEBAR (RATOPATI STYLE)
+   SIDEBAR (TRENDING & LATEST)
    ============================================ */
-.ratopati-sidebar {
+.rp-sidebar {
     position: sticky;
-    top: 70px;
-    align-self: start;
+    top: 80px;
 }
 
-.ratopati-widget {
+.rp-widget {
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border-radius: 8px;
     margin-bottom: 24px;
     overflow: hidden;
 }
 
-.ratopati-widget__header {
-    background: var(--color-primary);
+.rp-widget__header {
+    background: var(--color-ratopati-red);
     color: #ffffff;
-    padding: 10px 16px;
-    font-size: 17px;
-    font-weight: 800;
+    padding: 12px 18px;
+    font-size: 18px;
+    font-weight: 900;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.ratopati-widget__body {
-    padding: 12px 16px;
+.rp-widget__body {
+    padding: 14px 18px;
 }
 
-/* Numbered Trending List */
-.ratopati-trending-item {
+.rp-trending-item {
     display: flex;
     align-items: flex-start;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border);
 }
 
-.ratopati-trending-item:last-child {
+.rp-trending-item:last-child {
     border-bottom: none;
 }
 
-.ratopati-trending-item__num {
-    width: 26px;
-    height: 26px;
-    background: var(--color-primary);
+.rp-trending-item__num {
+    width: 28px;
+    height: 28px;
+    background: var(--color-ratopati-red);
     color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
-    font-size: 13px;
+    font-weight: 900;
+    font-size: 14px;
     flex-shrink: 0;
 }
 
-.ratopati-trending-item__title {
-    font-size: 14px;
+.rp-trending-item__title {
+    font-size: 15px;
     font-weight: 700;
     line-height: 1.4;
 }
 
-.ratopati-trending-item__title a {
-    color: var(--color-text);
+.rp-trending-item__title a {
+    color: var(--color-text-main);
 }
 
-.ratopati-trending-item__title a:hover {
-    color: var(--color-primary);
+.rp-trending-item__title a:hover {
+    color: var(--color-ratopati-red);
 }
 
 /* ============================================
    RATOPATI FOOTER
    ============================================ */
-.ratopati-footer {
+.rp-footer {
     background: #0f172a;
     color: #cbd5e1;
-    padding: 40px 0 0;
+    padding: 48px 0 0;
 }
 
-.ratopati-footer a {
+.rp-footer a {
     color: #cbd5e1;
 }
 
-.ratopati-footer a:hover {
+.rp-footer a:hover {
     color: #ffffff;
 }
 
-.ratopati-footer__grid {
+.rp-footer__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    padding-bottom: 30px;
+    gap: 32px;
+    padding-bottom: 36px;
     border-bottom: 1px solid #1e293b;
 }
 
-.ratopati-footer__title {
-    font-size: 17px;
-    font-weight: 800;
+.rp-footer__title {
+    font-size: 18px;
+    font-weight: 900;
     color: #ffffff;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     padding-bottom: 6px;
-    border-bottom: 2px solid var(--color-primary);
+    border-bottom: 2px solid var(--color-ratopati-red);
     display: inline-block;
 }
 
-.ratopati-footer__links li {
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.ratopati-footer__copyright {
-    padding: 16px 0;
+.rp-footer__copyright {
+    padding: 20px 0;
     text-align: center;
-    font-size: 13px;
+    font-size: 14px;
     color: #64748b;
 }
 
-/* Mobile responsive */
+/* Back to Top */
+.rp-back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 44px;
+    height: 44px;
+    background: var(--color-ratopati-red);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 999;
+}
+
+.rp-back-to-top.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide unstyled/parent theme elements */
+.nispaksha-mobile-menu,
+.nispaksha-mobile-backdrop,
+#secondary,
+.ok-sidemenu,
+.mobile-site-header {
+    display: none !important;
+}
+
+/* Responsive */
 @media (max-width: 1024px) {
-    .ratopati-header .ratopati-container {
-        grid-template-columns: auto 1fr auto;
-    }
-    .ratopati-main-layout {
+    .rp-main-layout {
         grid-template-columns: 1fr;
     }
-    .ratopati-lead-grid,
-    .ratopati-grid-4 {
+    .rp-sublead-grid,
+    .rp-grid-4 {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 640px) {
-    .ratopati-lead-main__title {
+    .rp-lead-banner__title {
         font-size: 26px;
     }
-    .ratopati-lead-grid,
-    .ratopati-grid-4,
-    .ratopati-grid-3,
-    .ratopati-grid-2 {
+    .rp-sublead-grid,
+    .rp-grid-4 {
         grid-template-columns: 1fr;
     }
-    .ratopati-nav__menu {
+    .rp-nav__menu {
         display: none;
     }
-    .ratopati-hamburger {
-        display: block;
-    }
-    .ratopati-footer__grid {
+    .rp-footer__grid {
         grid-template-columns: 1fr;
     }
-}
-
-/* Mobile Drawer Menu Overrides */
-.nispaksha-mobile-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 9998;
-    display: none;
-}
-.nispaksha-mobile-backdrop.is-visible {
-    display: block !important;
-}
-
-.nispaksha-mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 280px;
-    height: 100vh;
-    background: var(--color-bg);
-    z-index: 9999;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
-    display: none;
-    overflow-y: auto;
-}
-.nispaksha-mobile-menu.is-open {
-    display: block !important;
-}
-
-.nispaksha-mobile-menu__header {
-    padding: 16px;
-    background: var(--color-primary);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.nispaksha-mobile-menu__header img {
-    max-height: 40px;
-}
-.nispaksha-mobile-menu__close {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.nispaksha-mobile-menu__nav,
-.nispaksha-mobile-menu__nav li,
-.ratopati-nav__menu,
-.ratopati-nav__menu li,
-.ratopati-footer__links,
-.ratopati-footer__links li {
-    list-style: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-.nispaksha-mobile-menu__nav li a {
-    display: block;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--color-border);
-    font-weight: 700;
-    font-size: 15px;
-}
-.nispaksha-mobile-menu__nav li a:hover {
-    color: var(--color-primary);
-    background: var(--color-primary-light);
-}
-
-/* Hide parent theme residual widgets/menu overlays */
-#secondary, .ok-sidemenu, .mobile-site-header {
-    display: none !important;
 }

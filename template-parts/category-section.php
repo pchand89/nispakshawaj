@@ -1,18 +1,13 @@
 <?php
 /**
- * Template Part: Category Section — Ratopati Style
- *
- * Displays a category section with Ratopati's signature red accent title,
- * 'थप समाचार' link, and 4-column or 3-column card grid.
+ * Template Part: Category Section — Pixel-Perfect Ratopati Style
  *
  * @package Nispaksha_Child
  */
 
 $cat_slug   = isset( $args['slug'] ) ? $args['slug'] : '';
 $cat_title  = isset( $args['title'] ) ? $args['title'] : '';
-$layout     = isset( $args['layout'] ) ? $args['layout'] : 'grid-4';
 $count      = isset( $args['count'] ) ? intval( $args['count'] ) : 4;
-$bg_class   = isset( $args['bg'] ) && $args['bg'] === 'alt' ? 'bg-alt' : '';
 $exclude    = isset( $args['exclude'] ) ? $args['exclude'] : array();
 
 if ( empty( $cat_slug ) ) {
@@ -45,48 +40,24 @@ if ( $category ) {
 }
 ?>
 
-<section class="ratopati-section <?php echo esc_attr( $bg_class ); ?>" id="section-<?php echo esc_attr( sanitize_title( $cat_slug ) ); ?>">
+<section class="rp-section" id="section-<?php echo esc_attr( sanitize_title( $cat_slug ) ); ?>">
 
-    <div class="ratopati-section__header">
-        <h2 class="ratopati-section__title">
+    <div class="rp-section__header">
+        <h2 class="rp-section__title">
             <?php echo esc_html( $cat_display_name ); ?>
         </h2>
         <?php if ( $category ) : ?>
-            <a href="<?php echo esc_url( $cat_link ); ?>" class="ratopati-section__more">
-                थप समाचार <i class="fas fa-arrow-right"></i>
+            <a href="<?php echo esc_url( $cat_link ); ?>" class="rp-section__more">
+                थप समाचार <i class="fas fa-angle-right"></i>
             </a>
         <?php endif; ?>
     </div>
 
-    <?php if ( $layout === 'grid-4' ) : ?>
-        <div class="ratopati-grid-4">
-            <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
-                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'card' ) ); ?>
-            <?php endwhile; ?>
-        </div>
-
-    <?php elseif ( $layout === 'grid-3' ) : ?>
-        <div class="ratopati-grid-3">
-            <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
-                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'card' ) ); ?>
-            <?php endwhile; ?>
-        </div>
-
-    <?php elseif ( $layout === 'grid-2' ) : ?>
-        <div class="ratopati-grid-2">
-            <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
-                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'card' ) ); ?>
-            <?php endwhile; ?>
-        </div>
-
-    <?php else : ?>
-        <div class="ratopati-grid-2">
-            <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
-                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'horizontal' ) ); ?>
-            <?php endwhile; ?>
-        </div>
-
-    <?php endif; ?>
+    <div class="rp-grid-4">
+        <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
+            <?php get_template_part( 'template-parts/news-card' ); ?>
+        <?php endwhile; ?>
+    </div>
 
 </section>
 

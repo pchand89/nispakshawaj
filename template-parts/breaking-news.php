@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Part: Breaking News Ticker — Ratopati Red Bar
+ * Template Part: Breaking News Ticker — Pixel-Perfect Ratopati Style
  *
  * @package Nispaksha_Child
  */
@@ -16,23 +16,22 @@ if ( ! $breaking->have_posts() ) {
 }
 ?>
 
-<div class="ratopati-ticker" id="breaking-news-ticker">
-    <div class="ratopati-ticker__container">
-        <span class="ratopati-ticker__badge">
+<div class="rp-ticker" id="breaking-news-ticker">
+    <div class="rp-container">
+        <span class="rp-ticker__badge">
             ब्रेकिङ
         </span>
-        <div class="ratopati-ticker__scroll">
+        <div class="rp-ticker__scroll">
             <?php while ( $breaking->have_posts() ) : $breaking->the_post(); ?>
-                <span class="ratopati-ticker__item">
+                <span class="rp-ticker__item">
                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                 </span>
             <?php endwhile; ?>
             <?php
-            // Duplicate for smooth seamless looping animation
             $breaking->rewind_posts();
             while ( $breaking->have_posts() ) : $breaking->the_post();
             ?>
-                <span class="ratopati-ticker__item">
+                <span class="rp-ticker__item">
                     <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
                 </span>
             <?php endwhile; ?>

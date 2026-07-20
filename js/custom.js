@@ -1,5 +1,5 @@
 /**
- * Nispaksha Awaj — Custom JavaScript (Ratopati Style)
+ * Nispaksha Awaj — Custom JS (Pixel-Perfect Ratopati Style)
  *
  * @package Nispaksha_Child
  */
@@ -9,13 +9,10 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         initDarkMode();
-        initSearchToggle();
         initStickyNav();
-        initMobileMenu();
         initBackToTop();
     });
 
-    // Dark Mode Toggle
     function initDarkMode() {
         const toggle = document.getElementById('dark-mode-toggle');
         if (!toggle) return;
@@ -24,37 +21,21 @@
         const icon = document.getElementById('dark-mode-icon');
         const text = document.getElementById('dark-mode-text');
 
-        const savedMode = localStorage.getItem('nispaksha-dark-mode');
+        const savedMode = localStorage.getItem('rp-dark-mode');
         if (savedMode === 'true') {
-            body.classList.add('dark-mode');
+            body.classList.add('dark');
             if (icon) icon.textContent = '☀️';
             if (text) text.textContent = 'लाइट';
         }
 
         toggle.addEventListener('click', function () {
-            const isDark = body.classList.toggle('dark-mode');
-            localStorage.setItem('nispaksha-dark-mode', isDark);
+            const isDark = body.classList.toggle('dark');
+            localStorage.setItem('rp-dark-mode', isDark);
             if (icon) icon.textContent = isDark ? '☀️' : '🌙';
             if (text) text.textContent = isDark ? 'लाइट' : 'डार्क';
         });
     }
 
-    // Search Toggle Overlay
-    function initSearchToggle() {
-        const btn = document.getElementById('search-toggle');
-        const overlay = document.getElementById('search-overlay');
-        if (!btn || !overlay) return;
-
-        btn.addEventListener('click', function () {
-            overlay.classList.toggle('is-open');
-            const input = overlay.querySelector('input');
-            if (input && overlay.classList.contains('is-open')) {
-                input.focus();
-            }
-        });
-    }
-
-    // Sticky Nav
     function initStickyNav() {
         const nav = document.getElementById('site-navigation');
         if (!nav) return;
@@ -75,33 +56,6 @@
         });
     }
 
-    // Mobile Menu Drawer
-    function initMobileMenu() {
-        const toggleBtn = document.getElementById('mobile-menu-toggle');
-        const closeBtn = document.getElementById('mobile-menu-close');
-        const menu = document.getElementById('mobile-menu');
-        const backdrop = document.getElementById('mobile-backdrop');
-
-        if (!toggleBtn || !menu) return;
-
-        function openMenu() {
-            menu.classList.add('is-open');
-            if (backdrop) backdrop.classList.add('is-visible');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMenu() {
-            menu.classList.remove('is-open');
-            if (backdrop) backdrop.classList.remove('is-visible');
-            document.body.style.overflow = '';
-        }
-
-        toggleBtn.addEventListener('click', openMenu);
-        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-        if (backdrop) backdrop.addEventListener('click', closeMenu);
-    }
-
-    // Back to top
     function initBackToTop() {
         const btn = document.getElementById('back-to-top');
         if (!btn) return;

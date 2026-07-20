@@ -1,10 +1,6 @@
 <?php
 /**
- * Template Part: Hero Lead Section — Ratopati Style
- *
- * Features Ratopati's iconic lead story design:
- * - Huge centered main lead title, category tag, large featured image, and excerpt
- * - 4-column secondary lead news grid directly below
+ * Template Part: Hero Lead Banner — Pixel-Perfect Ratopati Style
  *
  * @package Nispaksha_Child
  */
@@ -20,31 +16,37 @@ $main_post = $posts[0];
 $side_posts = array_slice( $posts, 1, 4 );
 ?>
 
-<section class="ratopati-hero" id="hero-section">
-    <div class="ratopati-container">
+<section class="rp-lead-section" id="hero-section">
+    <div class="rp-container">
 
-        <?php // ===== MAIN LEAD STORY BANNER ===== ?>
-        <div class="ratopati-lead-main">
+        <?php // ===== RATOPATI MAIN LEAD BANNER ===== ?>
+        <div class="rp-lead-banner">
             <?php
             $main_cat = nispaksha_get_primary_category( $main_post->ID );
             if ( $main_cat ) :
             ?>
-                <span class="ratopati-lead-main__cat">
+                <span class="rp-lead-banner__context">
                     <?php echo esc_html( $main_cat->name ); ?>
                 </span>
             <?php endif; ?>
 
-            <h1 class="ratopati-lead-main__title">
+            <h1 class="rp-lead-banner__title">
                 <a href="<?php echo esc_url( get_permalink( $main_post ) ); ?>">
                     <?php echo esc_html( get_the_title( $main_post ) ); ?>
                 </a>
             </h1>
 
+            <?php if ( has_excerpt( $main_post ) || $main_post->post_content ) : ?>
+                <h3 class="rp-lead-banner__sub">
+                    <?php echo esc_html( wp_trim_words( get_the_excerpt( $main_post ), 25 ) ); ?>
+                </h3>
+            <?php endif; ?>
+
             <?php
             $main_thumb = nispaksha_get_thumb_url( $main_post->ID, 'nispaksha-hero' );
             if ( ! empty( $main_thumb ) ) :
             ?>
-                <div class="ratopati-lead-main__img-wrap">
+                <div class="rp-lead-banner__image">
                     <a href="<?php echo esc_url( get_permalink( $main_post ) ); ?>">
                         <img src="<?php echo esc_url( $main_thumb ); ?>"
                              alt="<?php echo esc_attr( get_the_title( $main_post ) ); ?>"
@@ -52,35 +54,23 @@ $side_posts = array_slice( $posts, 1, 4 );
                     </a>
                 </div>
             <?php endif; ?>
-
-            <?php if ( has_excerpt( $main_post ) || $main_post->post_content ) : ?>
-                <p class="ratopati-lead-main__excerpt">
-                    <?php echo esc_html( wp_trim_words( get_the_excerpt( $main_post ), 30 ) ); ?>
-                </p>
-            <?php endif; ?>
         </div>
 
         <?php // ===== SECONDARY LEAD STORIES (4 COLUMNS GRID) ===== ?>
-        <div class="ratopati-lead-grid">
+        <div class="rp-sublead-grid">
             <?php foreach ( $side_posts as $side_post ) :
                 $side_thumb = nispaksha_get_thumb_url( $side_post->ID, 'nispaksha-card' );
-                $side_cat = nispaksha_get_primary_category( $side_post->ID );
             ?>
-                <article class="ratopati-lead-card">
-                    <div class="ratopati-lead-card__thumb">
+                <article class="rp-sublead-card">
+                    <div class="rp-sublead-card__thumb">
                         <a href="<?php echo esc_url( get_permalink( $side_post ) ); ?>">
                             <img src="<?php echo esc_url( $side_thumb ); ?>"
                                  alt="<?php echo esc_attr( get_the_title( $side_post ) ); ?>"
                                  loading="eager" />
                         </a>
                     </div>
-                    <div class="ratopati-lead-card__body">
-                        <?php if ( $side_cat ) : ?>
-                            <span class="ratopati-lead-card__cat">
-                                <?php echo esc_html( $side_cat->name ); ?>
-                            </span>
-                        <?php endif; ?>
-                        <h3 class="ratopati-lead-card__title">
+                    <div class="rp-sublead-card__body">
+                        <h3 class="rp-sublead-card__title">
                             <a href="<?php echo esc_url( get_permalink( $side_post ) ); ?>">
                                 <?php echo esc_html( get_the_title( $side_post ) ); ?>
                             </a>
