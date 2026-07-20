@@ -5,7 +5,7 @@
  * Expects $args:
  *   slug     (string)  category slug (Devanagari OK)
  *   count    (int)     posts to pull
- *   layout   (string)  lead-grid | overlay-lists | dark-band | sports-band | default
+ *   layout   (string)  main-news | lead-grid | overlay-lists | dark-band | sports-band | edu-split | default
  *   band     (string)  optional color key for band layouts (purple|navy|green)
  *   label    (string)  optional heading override
  *
@@ -45,10 +45,12 @@ $layout_args = array(
 );
 
 $layout_map = array(
+	'main-news'     => 'layouts/main-news',
 	'lead-grid'     => 'layouts/lead-grid',
 	'overlay-lists' => 'layouts/overlay-lists',
 	'dark-band'     => 'layouts/dark-band',
 	'sports-band'   => 'layouts/sports-band',
+	'edu-split'     => 'layouts/edu-split',
 );
 
 if ( isset( $layout_map[ $maglist_child_layout ] ) ) {

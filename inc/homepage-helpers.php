@@ -417,8 +417,43 @@ function maglist_child_widget_area( $sidebar_id, $wrapper_class = '', $always_re
 	}
 
 	printf( '<div class="%s" id="%s">', esc_attr( $wrapper_class ), esc_attr( $sidebar_id ) );
+
+	/**
+	 * Server-render Ad Inserter into the sidebar-ad slot so the ad does not depend
+	 * on client-side HTML replacement (which was easy to misconfigure / miss).
+	 */
+	if ( 'sidebar-ad' === $sidebar_id ) {
+		maglist_child_render_sidebar_ad_inserter();
+	}
+
 	if ( $active ) {
 		dynamic_sidebar( $sidebar_id );
 	}
 	echo '</div>';
+}
+
+/**
+ * Ad Inserter block number used for the sidebar-ad slot (filterable).
+ *
+ * @return int Block number, or 0 to skip.
+ */
+function maglist_child_sidebar_ad_inserter_block() {
+	return (int) apply_filters( 'maglist_child_sidebar_ad_inserter_block', 4 );
+}
+
+/**
+ * Echo Ad Inserter sidebar creative when the plugin is available.
+ */
+function maglist_child_render_sidebar_ad_inserter() {
+	if ( ! function_exists( 'adinserter' ) ) {
+		return;
+	}
+
+	$block = maglist_child_sidebar_ad_inserter_block();
+	if ( $block < 1 ) {
+		return;
+	}
+
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Ad Inserter returns intentional ad HTML.
+	echo adinserter( $block );
 }

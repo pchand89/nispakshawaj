@@ -19,8 +19,8 @@ $maglist_child_home_sections = apply_filters(
 	array(
 		array(
 			'slug'   => 'समाचार',
-			'count'  => 7,
-			'layout' => 'lead-grid',
+			'count'  => 7, // 1 lead + 6 list.
+			'layout' => 'main-news',
 		),
 		array(
 			'slug'   => 'राजनिती',
@@ -46,8 +46,8 @@ $maglist_child_home_sections = apply_filters(
 		),
 		array(
 			'slug'   => 'शिक्षा / साहित्य',
-			'count'  => 6,
-			'layout' => 'default',
+			'count'  => 11, // up to 6 grid + 1 side lead + 4 list.
+			'layout' => 'edu-split',
 		),
 		array(
 			'slug'   => 'व्यवसाय',

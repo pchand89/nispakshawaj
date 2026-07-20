@@ -243,11 +243,34 @@
 
 .na-ad-sidebar {
 	margin: 0 0 20px;
+	padding: 0;
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	justify-content: unset;
+	align-items: unset;
+	overflow: visible;
 }
 
 .na-ad-sidebar:empty {
 	display: none;
 	margin: 0;
+}
+
+.na-ad-sidebar .widget,
+.na-ad-sidebar .wp-block-image,
+.na-ad-sidebar figure {
+	margin: 0;
+	max-width: 100%;
+}
+
+.na-ad-sidebar img,
+.na-ad-sidebar iframe,
+.na-ad-sidebar video {
+	display: block;
+	width: 100% !important;
+	max-width: 100% !important;
+	height: auto !important;
 }
 
 .na-cat-recent__title {
