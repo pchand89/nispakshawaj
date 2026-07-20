@@ -40,13 +40,18 @@ $side_posts = array_slice( $posts, 1, 4 );
                 </a>
             </h1>
 
-            <div class="ratopati-lead-main__img-wrap">
-                <a href="<?php echo esc_url( get_permalink( $main_post ) ); ?>">
-                    <img src="<?php echo esc_url( nispaksha_get_thumb_url( $main_post->ID, 'nispaksha-hero' ) ); ?>"
-                         alt="<?php echo esc_attr( get_the_title( $main_post ) ); ?>"
-                         loading="eager" />
-                </a>
-            </div>
+            <?php
+            $main_thumb = nispaksha_get_thumb_url( $main_post->ID, 'nispaksha-hero' );
+            if ( ! empty( $main_thumb ) ) :
+            ?>
+                <div class="ratopati-lead-main__img-wrap">
+                    <a href="<?php echo esc_url( get_permalink( $main_post ) ); ?>">
+                        <img src="<?php echo esc_url( $main_thumb ); ?>"
+                             alt="<?php echo esc_attr( get_the_title( $main_post ) ); ?>"
+                             loading="eager" />
+                    </a>
+                </div>
+            <?php endif; ?>
 
             <?php if ( has_excerpt( $main_post ) || $main_post->post_content ) : ?>
                 <p class="ratopati-lead-main__excerpt">

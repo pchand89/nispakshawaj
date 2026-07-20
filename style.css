@@ -915,3 +915,79 @@ body.dark-mode .ratopati-top-links {
         grid-template-columns: 1fr;
     }
 }
+
+/* Mobile Drawer Menu Overrides */
+.nispaksha-mobile-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9998;
+    display: none;
+}
+.nispaksha-mobile-backdrop.is-visible {
+    display: block !important;
+}
+
+.nispaksha-mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--color-bg);
+    z-index: 9999;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    overflow-y: auto;
+}
+.nispaksha-mobile-menu.is-open {
+    display: block !important;
+}
+
+.nispaksha-mobile-menu__header {
+    padding: 16px;
+    background: var(--color-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nispaksha-mobile-menu__header img {
+    max-height: 40px;
+}
+.nispaksha-mobile-menu__close {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.nispaksha-mobile-menu__nav,
+.nispaksha-mobile-menu__nav li,
+.ratopati-nav__menu,
+.ratopati-nav__menu li,
+.ratopati-footer__links,
+.ratopati-footer__links li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.nispaksha-mobile-menu__nav li a {
+    display: block;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    font-weight: 700;
+    font-size: 15px;
+}
+.nispaksha-mobile-menu__nav li a:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+/* Hide parent theme residual widgets/menu overlays */
+#secondary, .ok-sidemenu, .mobile-site-header {
+    display: none !important;
+}

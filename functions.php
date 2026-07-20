@@ -313,18 +313,33 @@ function nispaksha_default_thumb() {
     return get_stylesheet_directory_uri() . '/img/default-thumb.png';
 }
 
-/**
- * Safely get post thumbnail URL with fallback
- *
- * @param int    $post_id Post ID
- * @param string $size    Image size
- * @return string URL
- */
 function nispaksha_get_thumb_url( $post_id = null, $size = 'nispaksha-card' ) {
-    if ( has_post_thumbnail( $post_id ) ) {
-        return get_the_post_thumbnail_url( $post_id, $size );
+    if ( $post_id && has_post_thumbnail( $post_id ) ) {
+        $url = get_the_post_thumbnail_url( $post_id, $size );
+        if ( ! $url ) {
+            $url = get_the_post_thumbnail_url( $post_id, 'full' );
+        }
+        if ( ! $url ) {
+            $url = get_the_post_thumbnail_url( $post_id, 'medium' );
+        }
+        if ( $url ) {
+            return $url;
+        }
     }
-    return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="250" viewBox="0 0 400 250"%3E%3Crect fill="%23E5E7EB" width="400" height="250"/%3E%3Ctext fill="%239CA3AF" font-family="sans-serif" font-size="16" text-anchor="middle" x="200" y="130"%3Eनिश्पक्ष आवाज%3C/text%3E%3C/svg%3E';
+
+    // Extract first image from post content if featured image is not set
+    if ( $post_id ) {
+        $post = get_post( $post_id );
+        if ( $post && ! empty( $post->post_content ) ) {
+            if ( preg_match( '/<img.+?src=["\']([^"\']+)["\']/i', $post->post_content, $matches ) ) {
+                if ( ! empty( $matches[1] ) ) {
+                    return $matches[1];
+                }
+            }
+        }
+    }
+
+    return 'https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png';
 }
 
 /**
