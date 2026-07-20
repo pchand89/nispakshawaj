@@ -1,9 +1,9 @@
 <?php
 /**
- * Custom Header Template
+ * Custom Header Template — Ratopati Style
  *
- * Overrides the parent Maglist theme header with a modern design
- * featuring Nepali flag colors.
+ * Centered logo header with utility bar, dark mode toggle, search overlay,
+ * and primary category navigation bar.
  *
  * @package Nispaksha_Child
  */
@@ -24,170 +24,118 @@
 <div id="page" class="site">
 <a class="skip-link visually-hidden" href="#primary">Skip to content</a>
 
-<?php // ===== TOP BAR ===== ?>
-<div class="nispaksha-topbar" id="topbar">
-    <div class="nispaksha-container">
-        <div class="nispaksha-topbar__date">
-            <?php
-            // Display current Nepali-style date
-            echo esc_html( date_i18n( 'l, j F Y' ) );
-            ?>
+<?php // ===== RATOPATI TOP UTILITY BAR ===== ?>
+<div class="ratopati-top-links">
+    <div class="ratopati-container">
+        <div class="ratopati-top-links__date">
+            <i class="far fa-calendar-alt"></i>
+            <?php echo esc_html( date_i18n( 'l, j F Y' ) ); ?>
         </div>
-        <div class="nispaksha-topbar__actions">
-            <div class="nispaksha-topbar__social">
-                <?php $fb = get_theme_mod( 'nispaksha_facebook', 'https://www.facebook.com/nispakshawaj' ); ?>
-                <?php if ( $fb ) : ?>
-                    <a href="<?php echo esc_url( $fb ); ?>" target="_blank" rel="noopener" aria-label="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                <?php endif; ?>
-
-                <?php $tw = get_theme_mod( 'nispaksha_twitter', '' ); ?>
-                <?php if ( $tw ) : ?>
-                    <a href="<?php echo esc_url( $tw ); ?>" target="_blank" rel="noopener" aria-label="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                <?php endif; ?>
-
-                <?php $yt = get_theme_mod( 'nispaksha_youtube', '' ); ?>
-                <?php if ( $yt ) : ?>
-                    <a href="<?php echo esc_url( $yt ); ?>" target="_blank" rel="noopener" aria-label="YouTube">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                <?php endif; ?>
-            </div>
-
-            <button class="nispaksha-dark-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
-                <span class="nispaksha-dark-toggle__icon">🌙</span>
-                <span class="nispaksha-dark-toggle__text">डार्क मोड</span>
-            </button>
+        <div class="ratopati-top-links__items">
+            <a href="<?php echo esc_url( home_url( '/category/समाचार/' ) ); ?>">
+                <i class="fas fa-bolt"></i> ताजा समाचार
+            </a>
+            <a href="<?php echo esc_url( home_url( '/category/राजनिती/' ) ); ?>">
+                <i class="fas fa-landmark"></i> राजनीति
+            </a>
+            <a href="<?php echo esc_url( home_url( '/category/खेलकुद/' ) ); ?>">
+                <i class="fas fa-trophy"></i> खेलकुद
+            </a>
         </div>
     </div>
 </div>
 
-<?php // ===== MAIN HEADER ===== ?>
-<header class="nispaksha-header" id="masthead" role="banner">
-    <div class="nispaksha-container">
-        <div class="nispaksha-header__logo">
+<?php // ===== RATOPATI MAIN HEADER ===== ?>
+<header class="ratopati-header" role="banner">
+    <div class="ratopati-container">
+        <div class="ratopati-header__left">
+            <button class="ratopati-hamburger" id="mobile-menu-toggle" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <div class="ratopati-header__logo">
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php bloginfo( 'name' ); ?>">
-                <?php if ( has_custom_logo() ) : ?>
-                    <?php
-                    $custom_logo_id = get_theme_mod( 'custom_logo' );
-                    $logo_url = wp_get_attachment_image_url( $custom_logo_id, 'full' );
-                    ?>
-                    <img src="<?php echo esc_url( $logo_url ); ?>"
-                         alt="<?php bloginfo( 'name' ); ?>"
-                         class="nispaksha-logo-img" />
-                <?php else : ?>
-                    <img src="https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png"
-                         alt="<?php bloginfo( 'name' ); ?>"
-                         class="nispaksha-logo-img" />
-                <?php endif; ?>
+                <img src="https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png"
+                     alt="<?php bloginfo( 'name' ); ?>" />
             </a>
         </div>
 
-        <div class="nispaksha-header__search">
-            <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-                <input type="search"
-                       placeholder="खोज्नुहोस्..."
-                       value="<?php echo get_search_query(); ?>"
-                       name="s"
-                       id="header-search"
-                       aria-label="खोज्नुहोस्" />
-                <button type="submit" aria-label="Search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+        <div class="ratopati-header__right">
+            <button class="ratopati-search-trigger" id="search-toggle" aria-label="Toggle Search">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="ratopati-theme-toggle" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
+                <span id="dark-mode-icon">🌙</span> <span id="dark-mode-text">डार्क</span>
+            </button>
         </div>
     </div>
 </header>
 
-<?php // ===== NAVIGATION ===== ?>
-<nav class="nispaksha-nav" id="site-navigation" role="navigation" aria-label="Primary Navigation">
-    <div class="nispaksha-container">
-        <div class="nispaksha-nav__sticky-logo">
-            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                <?php if ( has_custom_logo() ) : ?>
-                    <?php
-                    $custom_logo_id = get_theme_mod( 'custom_logo' );
-                    $logo_url = wp_get_attachment_image_url( $custom_logo_id, 'full' );
-                    ?>
-                    <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" />
-                <?php else : ?>
-                    <img src="https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png"
-                         alt="<?php bloginfo( 'name' ); ?>" />
-                <?php endif; ?>
-            </a>
-        </div>
+<?php // ===== RATOPATI SEARCH OVERLAY ===== ?>
+<div class="ratopati-search-overlay" id="search-overlay">
+    <div class="ratopati-container">
+        <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="ratopati-search-form">
+            <input type="search" placeholder="यहाँ खोज्नुहोस्..." value="<?php echo get_search_query(); ?>" name="s" />
+            <button type="submit">खोज्नुहोस्</button>
+        </form>
+    </div>
+</div>
 
+<?php // ===== RATOPATI PRIMARY NAVIGATION BAR ===== ?>
+<nav class="ratopati-nav" id="site-navigation" role="navigation" aria-label="Primary Navigation">
+    <div class="ratopati-container">
         <?php
         if ( has_nav_menu( 'nispaksha-primary' ) ) {
             wp_nav_menu( array(
                 'theme_location' => 'nispaksha-primary',
-                'menu_class'     => 'nispaksha-nav__menu',
+                'menu_class'     => 'ratopati-nav__menu',
                 'container'      => false,
                 'depth'          => 2,
                 'fallback_cb'    => false,
             ) );
         } else {
-            // Fallback: display categories as menu
+            // Fallback Menu
             $categories = get_categories( array(
                 'orderby'    => 'count',
                 'order'      => 'DESC',
-                'number'     => 10,
+                'number'     => 12,
                 'hide_empty' => true,
             ) );
-            if ( ! empty( $categories ) ) :
             ?>
-                <ul class="nispaksha-nav__menu">
-                    <li class="<?php echo is_front_page() ? 'current-menu-item' : ''; ?>">
-                        <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                            <i class="fas fa-home"></i> होमपेज
+            <ul class="ratopati-nav__menu">
+                <li class="<?php echo is_front_page() ? 'current-menu-item' : ''; ?>">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>"><i class="fas fa-home"></i> गृहपृष्ठ</a>
+                </li>
+                <?php foreach ( $categories as $cat ) :
+                    if ( $cat->slug === 'uncategorized' ) continue;
+                ?>
+                    <li>
+                        <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
+                            <?php echo esc_html( $cat->name ); ?>
                         </a>
                     </li>
-                    <?php foreach ( $categories as $cat ) :
-                        if ( $cat->slug === 'uncategorized' ) continue;
-                    ?>
-                        <li>
-                            <a href="<?php echo esc_url( get_category_link( $cat->term_id ) ); ?>">
-                                <?php echo esc_html( $cat->name ); ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <?php endforeach; ?>
+            </ul>
             <?php
-            endif;
         }
         ?>
-
-        <button class="nispaksha-nav__hamburger" id="mobile-menu-toggle" aria-label="Open Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
     </div>
 </nav>
 
-<?php // ===== MOBILE MENU OVERLAY ===== ?>
+<?php // ===== MOBILE DRAWER MENU ===== ?>
 <div class="nispaksha-mobile-backdrop" id="mobile-backdrop"></div>
 <div class="nispaksha-mobile-menu" id="mobile-menu">
     <div class="nispaksha-mobile-menu__header">
-        <?php if ( has_custom_logo() ) : ?>
-            <?php
-            $custom_logo_id = get_theme_mod( 'custom_logo' );
-            $logo_url = wp_get_attachment_image_url( $custom_logo_id, 'full' );
-            ?>
-            <img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>" />
-        <?php else : ?>
-            <img src="https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png"
-                 alt="<?php bloginfo( 'name' ); ?>" />
-        <?php endif; ?>
+        <img src="https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png" alt="<?php bloginfo( 'name' ); ?>" />
         <button class="nispaksha-mobile-menu__close" id="mobile-menu-close" aria-label="Close Menu">
             <i class="fas fa-times"></i>
         </button>
     </div>
     <ul class="nispaksha-mobile-menu__nav">
-        <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><i class="fas fa-home"></i> होमपेज</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><i class="fas fa-home"></i> गृहपृष्ठ</a></li>
         <?php
         $mob_cats = get_categories( array(
             'orderby'    => 'count',

@@ -1,14 +1,8 @@
 <?php
 /**
- * Front Page Template
+ * Front Page Template — Ratopati Design
  *
- * Custom homepage template for Nispaksha Awaj news portal.
- * Automatically used by WordPress when this file exists in the theme.
- *
- * Layout:
- * 1. Breaking News Ticker
- * 2. Hero Section (5 featured posts)
- * 3. Main Content (category sections) + Sidebar (trending + latest)
+ * Modeled directly after Ratopati.com homepage layout.
  *
  * @package Nispaksha_Child
  */
@@ -23,140 +17,129 @@ wp_reset_postdata();
 
 <main id="primary" class="site-main">
 
-    <?php // 1. Breaking News Ticker ?>
+    <?php // 1. Red Breaking News Ticker ?>
     <?php get_template_part( 'template-parts/breaking-news' ); ?>
 
-    <?php // 2. Hero Section ?>
+    <?php // 2. Main Lead Story & Hero Section ?>
     <?php get_template_part( 'template-parts/hero-section' ); ?>
 
-    <?php // 3. Main Content + Sidebar ?>
-    <div class="nispaksha-container">
-        <div class="nispaksha-main-layout">
+    <?php // 3. Main Category Content + Trending Sidebar ?>
+    <div class="ratopati-container">
+        <div class="ratopati-main-layout">
 
-            <?php // === MAIN CONTENT COLUMN === ?>
-            <div class="nispaksha-content">
+            <?php // === MAIN CATEGORIES COLUMN === ?>
+            <div class="ratopati-content">
 
-                <?php // समाचार (News) — Grid 3 ?>
+                <?php // समाचार (News) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'    => 'समाचार',
                     'title'   => 'समाचार',
-                    'layout'  => 'grid-3',
-                    'count'   => 6,
+                    'layout'  => 'grid-4',
+                    'count'   => 8,
                     'exclude' => $exclude_ids,
                 ) ); ?>
 
-                <?php // राजनीति (Politics) — Featured + List ?>
+                <?php // राजनीति (Politics) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'राजनिती',
                     'title'  => 'राजनीति',
-                    'layout' => 'featured-list',
-                    'count'  => 5,
-                    'bg'     => 'alt',
+                    'layout' => 'grid-4',
+                    'count'  => 4,
                 ) ); ?>
 
-                <?php // व्यवसाय (Business) — Grid 3 ?>
+                <?php // व्यवसाय (Business) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'व्यवसाय',
-                    'title'  => 'व्यवसाय',
-                    'layout' => 'grid-3',
-                    'count'  => 3,
+                    'title'  => 'बिजनेस / व्यवसाय',
+                    'layout' => 'grid-4',
+                    'count'  => 4,
                 ) ); ?>
 
-                <?php // कृषि (Agriculture) — Grid 2 ?>
+                <?php // कृषि (Agriculture) — 3 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'कृषि',
                     'title'  => 'कृषि',
-                    'layout' => 'grid-2',
-                    'count'  => 4,
-                    'bg'     => 'alt',
+                    'layout' => 'grid-3',
+                    'count'  => 3,
                 ) ); ?>
 
-                <?php // अपराध (Crime) — Horizontal ?>
+                <?php // अपराध (Crime) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'अपराध',
-                    'title'  => 'अपराध',
-                    'layout' => 'horizontal',
+                    'title'  => 'अपराध / सुरक्षा',
+                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
-                <?php // स्वास्थ्य (Health) — Grid 2 ?>
+                <?php // स्वास्थ्य (Health) — 3 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'स्वास्थ्य-विज्ञान-र-प्रव',
                     'title'  => 'स्वास्थ्य, विज्ञान र प्रविधि',
-                    'layout' => 'grid-2',
-                    'count'  => 4,
-                    'bg'     => 'alt',
+                    'layout' => 'grid-3',
+                    'count'  => 3,
                 ) ); ?>
 
-                <?php // शिक्षा / साहित्य (Education) — Featured List ?>
+                <?php // शिक्षा / साहित्य (Education) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'शिक्षा-साहित्य',
                     'title'  => 'शिक्षा / साहित्य',
-                    'layout' => 'featured-list',
-                    'count'  => 5,
+                    'layout' => 'grid-4',
+                    'count'  => 4,
                 ) ); ?>
 
-                <?php // खेलकुद (Sports) — Grid 3 ?>
+                <?php // खेलकुद (Sports) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'खेलकुद',
                     'title'  => 'खेलकुद',
-                    'layout' => 'grid-3',
-                    'count'  => 3,
-                    'bg'     => 'alt',
+                    'layout' => 'grid-4',
+                    'count'  => 4,
                 ) ); ?>
 
-                <?php // मनोरञ्जन (Entertainment) — Grid 2 ?>
+                <?php // मनोरञ्जन (Entertainment) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'मनोरञ्जन',
                     'title'  => 'मनोरञ्जन',
-                    'layout' => 'grid-2',
+                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
-                <?php // समाज (Society) — Horizontal ?>
+                <?php // समाज (Society) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'समाज',
                     'title'  => 'समाज',
-                    'layout' => 'horizontal',
+                    'layout' => 'grid-4',
                     'count'  => 4,
-                    'bg'     => 'alt',
                 ) ); ?>
 
-                <?php // स्थानीय तह/ विकास — Grid 3 ?>
+                <?php // स्थानीय तह / विकास — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'स्थानीय-तह-विकास',
                     'title'  => 'स्थानीय तह / विकास',
-                    'layout' => 'grid-3',
-                    'count'  => 6,
+                    'layout' => 'grid-4',
+                    'count'  => 4,
                 ) ); ?>
 
-                <?php // विदेश / कूटनीति (International) — Grid 2 ?>
+                <?php // विदेश / कूटनीति (International) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'विदेश-कूटनीति',
                     'title'  => 'विदेश / कूटनीति',
-                    'layout' => 'grid-2',
+                    'layout' => 'grid-4',
                     'count'  => 4,
-                    'bg'     => 'alt',
                 ) ); ?>
 
-                <?php // विविध (Miscellaneous) — Horizontal ?>
+                <?php // विविध (Miscellaneous) — 4 Column Grid ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'   => 'विविध',
                     'title'  => 'विविध',
-                    'layout' => 'horizontal',
+                    'layout' => 'grid-4',
                     'count'  => 4,
                 ) ); ?>
 
             </div>
 
-            <?php // === SIDEBAR === ?>
-            <aside class="nispaksha-sidebar" role="complementary">
+            <?php // === SIDEBAR COLUMN === ?>
+            <aside class="ratopati-sidebar-wrap" role="complementary">
                 <?php get_template_part( 'template-parts/sidebar-trending' ); ?>
-
-                <?php // Additional widget area ?>
-                <?php if ( is_active_sidebar( 'nispaksha-home-sidebar' ) ) : ?>
-                    <?php dynamic_sidebar( 'nispaksha-home-sidebar' ); ?>
-                <?php endif; ?>
             </aside>
 
         </div>

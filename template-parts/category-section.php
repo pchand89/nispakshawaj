@@ -1,26 +1,17 @@
 <?php
 /**
- * Template Part: Category Section
+ * Template Part: Category Section — Ratopati Style
  *
- * Reusable template for each category block on the homepage.
- * Pass parameters via $args array.
- *
- * Usage:
- * get_template_part( 'template-parts/category-section', null, array(
- *     'slug'   => 'samachar',
- *     'title'  => 'समाचार',
- *     'layout' => 'grid-3',  // grid-3, grid-2, featured-list, horizontal
- *     'count'  => 6,
- *     'bg'     => '',        // 'alt' for alternate background
- * ) );
+ * Displays a category section with Ratopati's signature red accent title,
+ * 'थप समाचार' link, and 4-column or 3-column card grid.
  *
  * @package Nispaksha_Child
  */
 
 $cat_slug   = isset( $args['slug'] ) ? $args['slug'] : '';
 $cat_title  = isset( $args['title'] ) ? $args['title'] : '';
-$layout     = isset( $args['layout'] ) ? $args['layout'] : 'grid-3';
-$count      = isset( $args['count'] ) ? intval( $args['count'] ) : 6;
+$layout     = isset( $args['layout'] ) ? $args['layout'] : 'grid-4';
+$count      = isset( $args['count'] ) ? intval( $args['count'] ) : 4;
 $bg_class   = isset( $args['bg'] ) && $args['bg'] === 'alt' ? 'bg-alt' : '';
 $exclude    = isset( $args['exclude'] ) ? $args['exclude'] : array();
 
@@ -45,6 +36,7 @@ if ( ! $cat_query->have_posts() ) {
     wp_reset_postdata();
     return;
 }
+
 $cat_display_name = $cat_title;
 $cat_link = '#';
 if ( $category ) {
@@ -53,59 +45,42 @@ if ( $category ) {
 }
 ?>
 
-<section class="nispaksha-category-section <?php echo esc_attr( $bg_class ); ?>" id="section-<?php echo esc_attr( sanitize_title( $cat_slug ) ); ?>">
+<section class="ratopati-section <?php echo esc_attr( $bg_class ); ?>" id="section-<?php echo esc_attr( sanitize_title( $cat_slug ) ); ?>">
 
-    <div class="nispaksha-section-header">
-        <h2 class="nispaksha-section-title">
+    <div class="ratopati-section__header">
+        <h2 class="ratopati-section__title">
             <?php echo esc_html( $cat_display_name ); ?>
         </h2>
         <?php if ( $category ) : ?>
-            <a href="<?php echo esc_url( $cat_link ); ?>" class="nispaksha-section-more">
-                थप हेर्नुहोस्
+            <a href="<?php echo esc_url( $cat_link ); ?>" class="ratopati-section__more">
+                थप समाचार <i class="fas fa-arrow-right"></i>
             </a>
         <?php endif; ?>
     </div>
 
-    <?php if ( $layout === 'grid-3' ) : ?>
-        <div class="nispaksha-grid-3">
+    <?php if ( $layout === 'grid-4' ) : ?>
+        <div class="ratopati-grid-4">
             <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
-                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'medium' ) ); ?>
+                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'card' ) ); ?>
+            <?php endwhile; ?>
+        </div>
+
+    <?php elseif ( $layout === 'grid-3' ) : ?>
+        <div class="ratopati-grid-3">
+            <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
+                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'card' ) ); ?>
             <?php endwhile; ?>
         </div>
 
     <?php elseif ( $layout === 'grid-2' ) : ?>
-        <div class="nispaksha-grid-2">
+        <div class="ratopati-grid-2">
             <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
-                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'medium' ) ); ?>
+                <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'card' ) ); ?>
             <?php endwhile; ?>
         </div>
 
-    <?php elseif ( $layout === 'featured-list' ) : ?>
-        <div class="nispaksha-featured-list">
-            <?php
-            $first = true;
-            while ( $cat_query->have_posts() ) : $cat_query->the_post();
-                if ( $first ) :
-                    $first = false;
-            ?>
-                <div class="nispaksha-featured-list__main">
-                    <?php get_template_part( 'template-parts/news-card', null, array(
-                        'variant'      => 'large',
-                        'show_excerpt' => true,
-                    ) ); ?>
-                </div>
-                <div class="nispaksha-featured-list__items">
-            <?php else : ?>
-                    <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'list' ) ); ?>
-            <?php
-                endif;
-            endwhile;
-            ?>
-                </div>
-        </div>
-
-    <?php elseif ( $layout === 'horizontal' ) : ?>
-        <div class="nispaksha-grid-2">
+    <?php else : ?>
+        <div class="ratopati-grid-2">
             <?php while ( $cat_query->have_posts() ) : $cat_query->the_post(); ?>
                 <?php get_template_part( 'template-parts/news-card', null, array( 'variant' => 'horizontal' ) ); ?>
             <?php endwhile; ?>
