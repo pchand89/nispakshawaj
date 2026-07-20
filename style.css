@@ -1,0 +1,177 @@
+/*
+Theme Name:   Maglist Child - Home Layout
+Theme URI:    https://www.nispakshawaj.com/
+Description:  Child theme for Maglist that modernizes the homepage with a
+              stacked lead feed, category grids, and drag-and-drop ad slots.
+              All customizations stay in this child theme; parent files are untouched.
+Author:       Nispaksha Awaj
+Author URI:   https://www.nispakshawaj.com/
+Template:     maglist
+Version:      1.9.4
+Requires PHP: 7.0
+Text Domain:  maglist-child
+*/
+
+/* =============================================================================
+   TABLE OF CONTENTS
+   1.  Design tokens (colors, fonts, spacing)
+   2.  Global typography overrides
+   3.  Category tag / accent styling
+   4.  Borderless containers & whitespace helpers
+   5.  Thumbnail hover states (used sitewide + homepage)
+   6.  Homepage ad-slot & widget-row base styling
+      (grid-specific rules live in assets/css/home-layout.css)
+============================================================================= */
+
+/* -----------------------------------------------------------------------
+   1. Design tokens
+----------------------------------------------------------------------- */
+:root {
+	/* Exact tokens pulled from the reference news layout's own production CSS (build/css/app.min.css),
+	   not approximated - #bf1e2e is their real brand red, section headings render in
+	   Poppins (body copy/most other headings are Mukta). Section titles use Nepal blue. */
+	--na-font-body: 'Mukta', 'Noto Serif Devanagari', sans-serif;
+	--na-font-heading: 'Mukta', 'Noto Serif Devanagari', sans-serif;
+	--na-font-section-title: 'Poppins', 'Mukta', sans-serif;
+	--na-color-heading: #111111;
+	--na-color-text: #222222;
+	--na-color-muted: #6b6b6b;
+	--na-color-accent-red: #bf1e2e;
+	--na-color-section-title: #003893;
+	--na-color-border: #ececec;
+	--na-color-surface: #ffffff;
+	--na-color-footer-dark: #303030;
+	--na-gap: 24px;
+	--na-radius: 4px;
+}
+
+/* -----------------------------------------------------------------------
+   2. Global typography overrides
+   (kept scoped enough to not fight the parent theme's own type controls
+   outside of the homepage / editorial content areas)
+----------------------------------------------------------------------- */
+body {
+	font-family: var(--na-font-body);
+	color: var(--na-color-text);
+	/* clip (not hidden) so sticky navbar still works while blocking sideways scroll */
+	overflow-x: clip;
+}
+
+h1, h2, h3, h4, h5, h6,
+.entry-title, .widget-title {
+	font-family: var(--na-font-heading);
+	color: var(--na-color-heading);
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	/* Defensive: some post titles carry stray non-breaking-space/joiner
+	   characters that stop normal word-wrapping at exactly the wrong point,
+	   which forces horizontal overflow on narrow viewports - this lets the
+	   browser break mid-word as a last resort instead of ever overflowing. */
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
+a {
+	transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* -----------------------------------------------------------------------
+   3. Category tag / accent styling
+----------------------------------------------------------------------- */
+.na-badge {
+	display: inline-block;
+	font-family: var(--na-font-body);
+	font-size: 13px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: #ffffff;
+	background-color: var(--na-color-accent-red);
+	padding: 7px 16px;
+	border-radius: var(--na-radius);
+}
+
+/* Section heading: blue Poppins title on a thin rule that spans the row. */
+.na-section__title {
+	position: relative;
+	z-index: 1;
+	background: var(--na-color-surface);
+	padding-right: 14px;
+	margin: 0;
+	line-height: 1.15;
+	font-size: 24px;
+	font-weight: 700;
+	font-family: var(--na-font-section-title);
+	color: var(--na-color-section-title, #003893);
+}
+
+.na-section__title a {
+	color: var(--na-color-section-title, #003893);
+}
+
+.na-section__title a:hover {
+	color: var(--na-color-accent-red, #bf1e2e);
+}
+
+/* -----------------------------------------------------------------------
+   4. Borderless containers & whitespace helpers
+----------------------------------------------------------------------- */
+.na-home,
+.na-section,
+.na-breaking,
+.na-widget-row {
+	border: none;
+	background: transparent;
+}
+
+.na-home .widget,
+.na-home .na-widget {
+	border: none;
+	box-shadow: none;
+	background: var(--na-color-surface);
+	padding: 16px;
+	margin: 0;
+}
+
+/* -----------------------------------------------------------------------
+   5. Thumbnail hover states
+----------------------------------------------------------------------- */
+.na-img {
+	display: block;
+	/* !important is needed: the WP Smush plugin forces
+	   `width: var(--smush-placeholder-width) !important` (the image's full
+	   native pixel width, e.g. 738px) on `.lazyload`/`.lazyloading` images
+	   until its own JS swaps the real <img> in - without this, every card
+	   thumbnail briefly (or, on slow/no-JS connections, persistently) renders
+	   at native width and blows out the whole grid horizontally. */
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover;
+	transition: transform 0.45s ease, opacity 0.3s ease;
+}
+
+a:hover > .na-img,
+a:hover .na-img {
+	transform: scale(1.06);
+	opacity: 0.94;
+}
+
+/* -----------------------------------------------------------------------
+   6. Homepage ad-slot & widget-row base styling
+----------------------------------------------------------------------- */
+.na-ad-slot {
+	width: 100%;
+	margin: var(--na-gap) 0;
+	text-align: center;
+	overflow: hidden;
+}
+
+.na-ad-slot:empty {
+	display: none;
+}
+
+.na-widget-title {
+	font-size: 15px;
+	margin: 0 0 12px;
+	padding-bottom: 8px;
+	border-bottom: 2px solid var(--na-color-border);
+}
