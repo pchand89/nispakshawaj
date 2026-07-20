@@ -1,6 +1,6 @@
 <?php
 /**
- * Front Page Template — Pixel-Perfect Ratopati Design
+ * Front Page Template — Ratopati Multi-Colored Section Blocks
  *
  * @package Nispaksha_Child
  */
@@ -8,127 +8,127 @@
 get_header();
 
 // Collect IDs of posts shown in hero to avoid duplicates
-$hero_featured = nispaksha_get_featured_posts( 5 );
+$hero_featured = nispaksha_get_featured_posts( 3 );
 $exclude_ids = wp_list_pluck( $hero_featured->posts, 'ID' );
 wp_reset_postdata();
 ?>
 
 <main id="primary" class="site-main">
 
-    <?php // 1. Red Breaking News Ticker ?>
-    <?php get_template_part( 'template-parts/breaking-news' ); ?>
-
-    <?php // 2. Main Lead Story & Hero Section ?>
+    <?php // 1. Lead News Headline Stack ?>
     <?php get_template_part( 'template-parts/hero-section' ); ?>
 
-    <?php // 3. Main Category Content + Trending Sidebar ?>
+    <?php // 2. Red Breaking Ticker Bar ?>
+    <?php get_template_part( 'template-parts/breaking-news' ); ?>
+
+    <?php // 3. Top News & Politics Block with Sidebar ?>
     <div class="rp-container">
         <div class="rp-main-layout">
-
-            <?php // === MAIN CATEGORIES COLUMN === ?>
             <div class="rp-content">
-
-                <?php // समाचार (News) — 4 Column Grid ?>
+                <?php // समाचार (News) — White Block ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
                     'slug'    => 'समाचार',
                     'title'   => 'समाचार',
                     'count'   => 8,
+                    'theme'   => 'white',
                     'exclude' => $exclude_ids,
                 ) ); ?>
 
-                <?php // राजनीति (Politics) — 4 Column Grid ?>
+                <?php // राजनीति (Politics) — White Block ?>
                 <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'राजनिती',
-                    'title'  => 'राजनीति',
-                    'count'  => 4,
+                    'slug'  => 'राजनिती',
+                    'title' => 'राजनीति',
+                    'count' => 4,
+                    'theme' => 'white',
                 ) ); ?>
-
-                <?php // व्यवसाय (Business) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'व्यवसाय',
-                    'title'  => 'बिजनेस / व्यवसाय',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // कृषि (Agriculture) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'कृषि',
-                    'title'  => 'कृषि',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // अपराध (Crime) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'अपराध',
-                    'title'  => 'अपराध / सुरक्षा',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // स्वास्थ्य (Health) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'स्वास्थ्य-विज्ञान-र-प्रव',
-                    'title'  => 'स्वास्थ्य, विज्ञान र प्रविधि',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // शिक्षा / साहित्य (Education) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'शिक्षा-साहित्य',
-                    'title'  => 'शिक्षा / साहित्य',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // खेलकुद (Sports) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'खेलकुद',
-                    'title'  => 'खेलकुद',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // मनोरञ्जन (Entertainment) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'मनोरञ्जन',
-                    'title'  => 'मनोरञ्जन',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // समाज (Society) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'समाज',
-                    'title'  => 'समाज',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // स्थानीय तह / विकास — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'स्थानीय-तह-विकास',
-                    'title'  => 'स्थानीय तह / विकास',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // विदेश / कूटनीति (International) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'विदेश-ूटनीति',
-                    'title'  => 'विदेश / कूटनीति',
-                    'count'  => 4,
-                ) ); ?>
-
-                <?php // विविध (Miscellaneous) — 4 Column Grid ?>
-                <?php get_template_part( 'template-parts/category-section', null, array(
-                    'slug'   => 'विविध',
-                    'title'  => 'विविध',
-                    'count'  => 4,
-                ) ); ?>
-
             </div>
 
-            <?php // === SIDEBAR COLUMN === ?>
             <aside class="rp-sidebar-wrap" role="complementary">
                 <?php get_template_part( 'template-parts/sidebar-trending' ); ?>
             </aside>
-
         </div>
     </div>
+
+    <?php // 4. प्रदेश (Province) — DARK NAVY BLUE BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'स्थानीय-तह-विकास',
+        'title' => 'प्रदेश समाचार / स्थानीय तह',
+        'count' => 4,
+        'theme' => 'province',
+    ) ); ?>
+
+    <?php // 5. विचार / ब्लग (Opinion) — WARM LIGHT CREAM BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'शिक्षा-साहित्य',
+        'title' => 'विचार / ब्लग',
+        'count' => 4,
+        'theme' => 'opinion',
+    ) ); ?>
+
+    <?php // 6. मनोरञ्जन (Entertainment) — DARK PURPLE BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'मनोरञ्जन',
+        'title' => 'मनोरञ्जन',
+        'count' => 4,
+        'theme' => 'entertainment',
+    ) ); ?>
+
+    <?php // 7. साहित्य (Literature) — PORTRAIT COVER BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'    => 'शिक्षा-साहित्य',
+        'title'   => 'साहित्य / कृति',
+        'count'   => 4,
+        'theme'   => 'white',
+        'variant' => 'portrait',
+    ) ); ?>
+
+    <?php // 8. खुलामञ्च (Khulamanch) — DARK FOREST GREEN BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'समाज',
+        'title' => 'खुलामञ्च / समाज',
+        'count' => 4,
+        'theme' => 'green',
+    ) ); ?>
+
+    <?php // 9. खेलकुद (Sports) — DEEP SPACE BLUE BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'खेलकुद',
+        'title' => 'खेलकुद',
+        'count' => 4,
+        'theme' => 'sports',
+    ) ); ?>
+
+    <?php // 10. रातोपाटी टीभी (TV / Video) — PURE BLACK BLOCK ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'अपराध',
+        'title' => 'टीभी / भिडियो',
+        'count' => 4,
+        'theme' => 'tv',
+    ) ); ?>
+
+    <?php // 11. अर्थतन्त्र (Economy) — White Block ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'व्यवसाय',
+        'title' => 'अर्थतन्त्र / बिजनेस',
+        'count' => 4,
+        'theme' => 'white',
+    ) ); ?>
+
+    <?php // 12. विदेश / कूटनीति (International) — White Block ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'विदेश-कूटनीति',
+        'title' => 'विदेश / कूटनीति',
+        'count' => 4,
+        'theme' => 'white',
+    ) ); ?>
+
+    <?php // 13. विविध (Miscellaneous) — White Block ?>
+    <?php get_template_part( 'template-parts/category-section', null, array(
+        'slug'  => 'विविध',
+        'title' => 'विविध',
+        'count' => 4,
+        'theme' => 'white',
+    ) ); ?>
 
 </main>
 

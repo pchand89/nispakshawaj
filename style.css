@@ -1,11 +1,11 @@
 /*
  Theme Name:   Nispaksha Awaj - Maglist Child
  Theme URI:    https://www.nispakshawaj.com
- Description:  Pixel-perfect Ratopati.com child theme clone for Nispaksha Awaj.
+ Description:  Exact Ratopati.com child theme clone featuring multi-colored section blocks (Purple Entertainment, Navy Province, Cream Opinion, Green Khulamanch, Black TV), Lead Headline Stack, and Red Footer.
  Author:       Nispaksha Awaj
  Author URI:   https://www.nispakshawaj.com
  Template:     maglist
- Version:      1.2.0
+ Version:      1.3.0
  License:      GNU General Public License v2 or later
  Text Domain:  nispaksha-child
 */
@@ -13,45 +13,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* ============================================
-   COLOR SYSTEM — RATOPATI BRANDING (#bf1e2e)
+   RATOPATI COLOR PALETTE & SECTION THEMES
    ============================================ */
 :root {
     --color-ratopati-red: #bf1e2e;
     --color-ratopati-red-dark: #9e1423;
-    --color-ratopati-red-light: #fdf2f3;
-
-    --color-text-main: #000000;
+    
+    --color-text-dark: #000000;
     --color-text-body: #1a1a1a;
     --color-text-sub: #4a5568;
     --color-text-muted: #718096;
 
-    --color-bg-page: #ffffff;
-    --color-bg-alt: #f8fafc;
-    --color-bg-card: #ffffff;
-    --color-border: #e2e8f0;
-    --color-border-dark: #cbd5e1;
+    /* Distinct Section Background Colors (From Ratopati Screenshots) */
+    --bg-page: #ffffff;
+    --bg-alt: #f8fafc;
+    --bg-province: #0d2238;     /* Dark Navy Blue */
+    --bg-opinion: #fef8e7;      /* Warm Light Cream / Yellow */
+    --bg-entertainment: #350a2e;/* Dark Purple */
+    --bg-green: #163829;        /* Dark Forest Green */
+    --bg-sports: #0a1128;       /* Deep Space Blue */
+    --bg-tv: #000000;           /* Pure Black */
+    --bg-footer-red: #bf1e2e;   /* Bottom Red Footer */
 
     --font-nepali: 'Mukta', 'Noto Sans Devanagari', sans-serif;
-    --font-english: 'Poppins', sans-serif;
-
     --container-max-width: 1240px;
 }
 
 body.dark {
-    --color-bg-page: #121212;
-    --color-bg-alt: #1e1e1e;
-    --color-bg-card: #1e1e1e;
-    --color-text-main: #ffffff;
+    --bg-page: #121212;
+    --color-text-dark: #ffffff;
     --color-text-body: #e2e8f0;
     --color-text-sub: #cbd5e1;
-    --color-text-muted: #a0aec0;
-    --color-border: #2d3748;
-    --color-border-dark: #4a5568;
 }
 
-/* ============================================
-   GLOBAL RESET
-   ============================================ */
+/* RESET */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -63,7 +58,7 @@ html, body {
     font-size: 16px;
     line-height: 1.5;
     color: var(--color-text-body);
-    background-color: var(--color-bg-page);
+    background-color: var(--bg-page);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -89,7 +84,6 @@ ul, ol {
     padding: 0 !important;
 }
 
-/* Container */
 .rp-container {
     max-width: var(--container-max-width);
     margin: 0 auto;
@@ -97,18 +91,14 @@ ul, ol {
 }
 
 /* ============================================
-   HEADER UTILITY BAR (.header-link)
+   TOP UTILITY BAR
    ============================================ */
 .rp-topbar {
     background-color: #f8fafc;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #e2e8f0;
     padding: 6px 0;
     font-size: 13px;
-    color: var(--color-text-sub);
-}
-
-body.dark .rp-topbar {
-    background-color: #1a1a1a;
+    color: #4a5568;
 }
 
 .rp-topbar .rp-container {
@@ -122,7 +112,6 @@ body.dark .rp-topbar {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: var(--color-text-sub);
 }
 
 .rp-topbar__links {
@@ -134,7 +123,7 @@ body.dark .rp-topbar {
 .rp-topbar__links a {
     font-size: 13px;
     font-weight: 500;
-    color: var(--color-text-sub);
+    color: #4a5568;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -145,12 +134,12 @@ body.dark .rp-topbar {
 }
 
 /* ============================================
-   MAIN HEADER (.header)
+   CENTERED HEADER
    ============================================ */
 .rp-header {
-    background: var(--color-bg-page);
+    background: #ffffff;
     padding: 16px 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .rp-header .rp-container {
@@ -159,36 +148,8 @@ body.dark .rp-topbar {
     align-items: center;
 }
 
-.rp-header__left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.rp-hamburger {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.rp-hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--color-text-main);
-    border-radius: 1px;
-}
-
-.rp-header__logo {
-    text-align: center;
-}
-
 .rp-header__logo img {
-    max-height: 62px;
+    max-height: 60px;
     width: auto;
     margin: 0 auto;
 }
@@ -202,7 +163,7 @@ body.dark .rp-topbar {
 
 .rp-search-btn {
     background: none;
-    border: 1px solid var(--color-border);
+    border: 1px solid #e2e8f0;
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -210,37 +171,21 @@ body.dark .rp-topbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-main);
-}
-
-.rp-search-btn:hover {
-    border-color: var(--color-ratopati-red);
-    color: var(--color-ratopati-red);
 }
 
 .rp-theme-btn {
-    background: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    padding: 6px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 5px 12px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    color: var(--color-text-main);
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
-.rp-theme-btn:hover {
-    border-color: var(--color-ratopati-red);
-}
-
-/* ============================================
-   RATOPATI NAVIGATION BAR (.site__navigation)
-   ============================================ */
+/* NAVIGATION */
 .rp-nav {
-    background-color: var(--color-bg-page);
+    background-color: #ffffff;
     border-bottom: 3px solid var(--color-ratopati-red);
     position: relative;
     z-index: 100;
@@ -252,7 +197,6 @@ body.dark .rp-topbar {
     left: 0;
     right: 0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    background-color: var(--color-bg-page);
 }
 
 .rp-nav .rp-container {
@@ -264,7 +208,6 @@ body.dark .rp-topbar {
 .rp-nav__menu {
     display: flex;
     align-items: center;
-    gap: 0;
 }
 
 .rp-nav__menu > li > a {
@@ -272,11 +215,9 @@ body.dark .rp-topbar {
     align-items: center;
     gap: 6px;
     padding: 12px 16px;
-    color: var(--color-text-main);
+    color: #000000;
     font-size: 17px;
     font-weight: 800;
-    position: relative;
-    transition: color 0.15s ease;
 }
 
 .rp-nav__menu > li > a:hover,
@@ -284,32 +225,12 @@ body.dark .rp-topbar {
     color: var(--color-ratopati-red);
 }
 
-.rp-nav__menu > li > a::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background-color: var(--color-ratopati-red);
-    opacity: 0;
-    transition: opacity 0.15s ease;
-}
-
-.rp-nav__menu > li > a:hover::after,
-.rp-nav__menu > li.current-menu-item > a::after {
-    opacity: 1;
-}
-
-/* ============================================
-   BREAKING NEWS TICKER (.ratopati-ticker)
-   ============================================ */
+/* BREAKING TICKER */
 .rp-ticker {
     background-color: var(--color-ratopati-red);
     color: #ffffff;
     height: 44px;
     overflow: hidden;
-    position: relative;
 }
 
 .rp-ticker .rp-container {
@@ -328,9 +249,7 @@ body.dark .rp-topbar {
     align-items: center;
     font-weight: 900;
     font-size: 15px;
-    letter-spacing: 0.05em;
     flex-shrink: 0;
-    z-index: 2;
 }
 
 .rp-ticker__scroll {
@@ -357,10 +276,6 @@ body.dark .rp-topbar {
     font-weight: 600;
 }
 
-.rp-ticker__item a:hover {
-    text-decoration: underline;
-}
-
 .rp-ticker__item::after {
     content: '◆';
     margin-left: 24px;
@@ -374,143 +289,198 @@ body.dark .rp-topbar {
 }
 
 /* ============================================
-   RATOPATI LEAD / HERO BANNER (.breaking--special)
+   RATOPATI LEAD HEADLINE STACK (TOP HERO)
    ============================================ */
-.rp-lead-section {
-    padding: 32px 0 24px;
-    border-bottom: 1px solid var(--color-border);
+.rp-lead-stack {
+    padding: 32px 0;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.rp-lead-banner {
+/* Individual Lead Item */
+.rp-lead-item {
     text-align: center;
-    max-width: 980px;
-    margin: 0 auto 32px;
+    max-width: 960px;
+    margin: 0 auto 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.rp-lead-banner__context {
+.rp-lead-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.rp-lead-item__badge {
     display: inline-block;
     color: var(--color-ratopati-red);
-    font-weight: 800;
+    font-weight: 900;
     font-size: 16px;
     margin-bottom: 8px;
+    letter-spacing: 0.02em;
 }
 
-.rp-lead-banner__title {
-    font-size: 40px;
+.rp-lead-item__title {
+    font-size: 42px;
     font-weight: 900;
     line-height: 1.2;
-    color: var(--color-text-main);
+    color: #000000;
     margin-bottom: 12px;
 }
 
-.rp-lead-banner__title a {
-    color: var(--color-text-main);
+.rp-lead-item__title a {
+    color: #000000;
 }
 
-.rp-lead-banner__title a:hover {
+.rp-lead-item__title a:hover {
     color: var(--color-ratopati-red);
 }
 
-.rp-lead-banner__sub {
+.rp-lead-item__sub {
     font-size: 22px;
     font-weight: 600;
-    color: var(--color-text-sub);
+    color: #4a5568;
     margin-bottom: 20px;
 }
 
-.rp-lead-banner__image {
+.rp-lead-item__image {
     max-width: 900px;
-    margin: 0 auto 16px;
+    margin: 0 auto;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-.rp-lead-banner__image img {
+.rp-lead-item__image img {
     width: 100%;
     max-height: 480px;
     object-fit: cover;
 }
 
-/* Sub-Lead Stories 4-Column Grid */
-.rp-sublead-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+/* ============================================
+   SPECIAL COLORED SECTION BLOCKS
+   ============================================ */
+.rp-section-block {
+    padding: 36px 0;
+    margin-bottom: 10px;
 }
 
-.rp-sublead-card {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.2s ease;
+/* Theme: White Standard */
+.rp-section-block--white {
+    background-color: #ffffff;
+    color: #000000;
 }
 
-.rp-sublead-card:hover {
-    border-color: var(--color-ratopati-red);
-    box-shadow: 0 6px 16px rgba(191, 30, 46, 0.12);
-    transform: translateY(-2px);
+/* Theme: Province (Dark Navy Blue #0d2238) */
+.rp-section-block--province {
+    background-color: var(--bg-province);
+    color: #ffffff;
 }
 
-.rp-sublead-card__thumb {
-    aspect-ratio: 16/10;
-    overflow: hidden;
+.rp-section-block--province .rp-section__title,
+.rp-section-block--province .rp-card__title a,
+.rp-section-block--province .rp-section__more {
+    color: #ffffff !important;
 }
 
-.rp-sublead-card__thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+.rp-section-block--province .rp-card {
+    background: #142d48;
+    border-color: #1e3a5f;
 }
 
-.rp-sublead-card:hover .rp-sublead-card__thumb img {
-    transform: scale(1.04);
+/* Theme: Opinion (Warm Light Cream #fef8e7) */
+.rp-section-block--opinion {
+    background-color: var(--bg-opinion);
+    color: #000000;
 }
 
-.rp-sublead-card__body {
-    padding: 14px;
-}
-
-.rp-sublead-card__title {
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.4;
-}
-
-.rp-sublead-card__title a {
-    color: var(--color-text-main);
-}
-
-.rp-sublead-card__title a:hover {
+.rp-section-block--opinion .rp-section__title {
     color: var(--color-ratopati-red);
 }
 
-/* ============================================
-   MAIN CONTENT & SIDEBAR LAYOUT
-   ============================================ */
-.rp-main-layout {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 32px;
-    padding: 32px 0 60px;
+.rp-section-block--opinion .rp-card {
+    background: #ffffff;
+    border-color: #f6e6c2;
+}
+
+/* Theme: Entertainment (Dark Purple #350a2e) */
+.rp-section-block--entertainment {
+    background-color: var(--bg-entertainment);
+    color: #ffffff;
+}
+
+.rp-section-block--entertainment .rp-section__title,
+.rp-section-block--entertainment .rp-card__title a,
+.rp-section-block--entertainment .rp-section__more {
+    color: #ffffff !important;
+}
+
+.rp-section-block--entertainment .rp-card {
+    background: #46123e;
+    border-color: #5b1a51;
+}
+
+/* Theme: Khulamanch (Dark Forest Green #163829) */
+.rp-section-block--green {
+    background-color: var(--bg-green);
+    color: #ffffff;
+}
+
+.rp-section-block--green .rp-section__title,
+.rp-section-block--green .rp-card__title a,
+.rp-section-block--green .rp-section__more {
+    color: #ffffff !important;
+}
+
+.rp-section-block--green .rp-card {
+    background: #204c38;
+    border-color: #2b5f47;
+}
+
+/* Theme: Sports (Deep Space Blue #0a1128) */
+.rp-section-block--sports {
+    background-color: var(--bg-sports);
+    color: #ffffff;
+}
+
+.rp-section-block--sports .rp-section__title,
+.rp-section-block--sports .rp-card__title a,
+.rp-section-block--sports .rp-section__more {
+    color: #ffffff !important;
+}
+
+.rp-section-block--sports .rp-card {
+    background: #121c3b;
+    border-color: #1a274f;
+}
+
+/* Theme: TV / Video (Pure Black #000000) */
+.rp-section-block--tv {
+    background-color: var(--bg-tv);
+    color: #ffffff;
+}
+
+.rp-section-block--tv .rp-section__title,
+.rp-section-block--tv .rp-card__title a,
+.rp-section-block--tv .rp-section__more {
+    color: #ffffff !important;
+}
+
+.rp-section-block--tv .rp-card {
+    background: #161616;
+    border-color: #262626;
 }
 
 /* ============================================
-   RATOPATI CATEGORY SECTIONS
+   CATEGORY SECTION HEADER
    ============================================ */
-.rp-section {
-    margin-bottom: 40px;
-}
-
 .rp-section__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 8px;
     border-bottom: 2px solid var(--color-ratopati-red);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .rp-section__title {
@@ -537,21 +507,25 @@ body.dark .rp-topbar {
     font-weight: 700;
 }
 
-.rp-section__more:hover {
-    text-decoration: underline;
-}
-
-/* 4-column Grid */
+/* ============================================
+   CARDS & GRIDS
+   ============================================ */
 .rp-grid-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    gap: 20px;
 }
 
-/* News Card */
+.rp-grid-5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+/* Standard Card */
 .rp-card {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
+    background: var(--bg-card);
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.2s ease;
@@ -594,30 +568,59 @@ body.dark .rp-topbar {
 }
 
 .rp-card__title a {
-    color: var(--color-text-main);
+    color: inherit;
 }
 
 .rp-card__title a:hover {
     color: var(--color-ratopati-red);
 }
 
-.rp-card__time {
-    font-size: 12px;
-    color: var(--color-text-muted);
-    margin-top: 8px;
+/* Special Variant: Portrait / Book Cover Card (3/4 Ratio) */
+.rp-card--portrait .rp-card__thumb {
+    aspect-ratio: 3/4;
+}
+
+/* Special Variant: Image Overlay Card */
+.rp-card--overlay {
+    position: relative;
+}
+
+.rp-card--overlay .rp-card__thumb {
+    aspect-ratio: 3/4;
+}
+
+.rp-card--overlay .rp-card__body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    color: #ffffff;
+}
+
+.rp-card--overlay .rp-card__title a {
+    color: #ffffff;
 }
 
 /* ============================================
-   SIDEBAR (TRENDING & LATEST)
+   MAIN LAYOUT & SIDEBAR
    ============================================ */
+.rp-main-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    padding: 32px 0 60px;
+}
+
 .rp-sidebar {
     position: sticky;
     top: 80px;
 }
 
 .rp-widget {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     margin-bottom: 24px;
     overflow: hidden;
@@ -643,7 +646,7 @@ body.dark .rp-topbar {
     align-items: flex-start;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .rp-trending-item:last-child {
@@ -670,40 +673,30 @@ body.dark .rp-topbar {
     line-height: 1.4;
 }
 
-.rp-trending-item__title a {
-    color: var(--color-text-main);
-}
-
-.rp-trending-item__title a:hover {
-    color: var(--color-ratopati-red);
-}
-
 /* ============================================
-   RATOPATI FOOTER
+   FOOTER (RED BOTTOM BAR)
    ============================================ */
-.rp-footer {
+.rp-footer-top {
     background: #0f172a;
     color: #cbd5e1;
-    padding: 48px 0 0;
+    padding: 48px 0 36px;
 }
 
-.rp-footer a {
+.rp-footer-top a {
     color: #cbd5e1;
 }
 
-.rp-footer a:hover {
+.rp-footer-top a:hover {
     color: #ffffff;
 }
 
-.rp-footer__grid {
+.rp-footer-top__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 32px;
-    padding-bottom: 36px;
-    border-bottom: 1px solid #1e293b;
 }
 
-.rp-footer__title {
+.rp-footer-top__title {
     font-size: 18px;
     font-weight: 900;
     color: #ffffff;
@@ -713,14 +706,27 @@ body.dark .rp-topbar {
     display: inline-block;
 }
 
-.rp-footer__copyright {
-    padding: 20px 0;
+/* Ratopati Bottom Red Footer Bar */
+.rp-footer-bottom {
+    background-color: var(--bg-footer-red);
+    color: #ffffff;
+    padding: 24px 0;
     text-align: center;
-    font-size: 14px;
-    color: #64748b;
 }
 
-/* Back to Top */
+.rp-footer-bottom img {
+    max-height: 45px;
+    margin: 0 auto 12px;
+    filter: brightness(0) invert(1);
+}
+
+.rp-footer-bottom__text {
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* Back to top */
 .rp-back-to-top {
     position: fixed;
     bottom: 30px;
@@ -748,7 +754,7 @@ body.dark .rp-topbar {
     visibility: visible;
 }
 
-/* Hide unstyled/parent theme elements */
+/* Hide residual parent elements */
 .nispaksha-mobile-menu,
 .nispaksha-mobile-backdrop,
 #secondary,
@@ -762,24 +768,24 @@ body.dark .rp-topbar {
     .rp-main-layout {
         grid-template-columns: 1fr;
     }
-    .rp-sublead-grid,
-    .rp-grid-4 {
+    .rp-grid-4,
+    .rp-grid-5 {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 640px) {
-    .rp-lead-banner__title {
-        font-size: 26px;
+    .rp-lead-item__title {
+        font-size: 28px;
     }
-    .rp-sublead-grid,
-    .rp-grid-4 {
+    .rp-grid-4,
+    .rp-grid-5 {
         grid-template-columns: 1fr;
     }
     .rp-nav__menu {
         display: none;
     }
-    .rp-footer__grid {
+    .rp-footer-top__grid {
         grid-template-columns: 1fr;
     }
 }
