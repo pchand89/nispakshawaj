@@ -265,7 +265,7 @@ function nispaksha_get_featured_posts( $count = 5 ) {
  */
 function nispaksha_time_ago( $post_id = null ) {
     $post_time = get_the_time( 'U', $post_id );
-    $current_time = current_time( 'timestamp' );
+    $current_time = current_time( 'U' );
     $diff = $current_time - $post_time;
 
     if ( $diff < 60 ) {
@@ -305,14 +305,31 @@ function nispaksha_get_primary_category( $post_id = null ) {
 }
 
 /**
- * Get the default thumbnail URL if no featured image
+ * Get the default thumbnail URL if no featured image.
+ *
+ * Prefers a local theme asset (so the fallback keeps working even if the
+ * production media library changes) and falls back to the known-good
+ * production logo URL if that asset hasn't been added yet.
  *
  * @return string URL to default thumbnail
  */
 function nispaksha_default_thumb() {
-    return get_stylesheet_directory_uri() . '/img/default-thumb.png';
+    $local_path = get_stylesheet_directory() . '/img/default-thumb.png';
+    if ( file_exists( $local_path ) ) {
+        return get_stylesheet_directory_uri() . '/img/default-thumb.png';
+    }
+    return 'https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png';
 }
 
+/**
+ * Resolve a display thumbnail URL for a post: featured image ➔ first
+ * <img> found in the content ➔ site default thumbnail. Never returns
+ * an empty string, so <img src=""> never happens.
+ *
+ * @param int|null $post_id Post ID (defaults to current post in the loop).
+ * @param string   $size    Registered image size to request.
+ * @return string
+ */
 function nispaksha_get_thumb_url( $post_id = null, $size = 'nispaksha-card' ) {
     if ( $post_id && has_post_thumbnail( $post_id ) ) {
         $url = get_the_post_thumbnail_url( $post_id, $size );
@@ -339,12 +356,153 @@ function nispaksha_get_thumb_url( $post_id = null, $size = 'nispaksha-card' ) {
         }
     }
 
-    return 'https://www.nispakshawaj.com/wp-content/uploads/2024/06/LogoNewTextBorder-1.png';
+    return nispaksha_default_thumb();
+}
+
+/**
+ * Estimate reading time for a post in minutes (Nepali label), based on a
+ * ~200 word-per-minute average reading speed.
+ *
+ * @param int|null $post_id Post ID (defaults to current post in the loop).
+ * @return string
+ */
+function nispaksha_reading_time( $post_id = null ) {
+    $post = get_post( $post_id );
+    if ( ! $post ) {
+        return '';
+    }
+    $word_count = str_word_count( wp_strip_all_tags( $post->post_content ) );
+    $minutes    = max( 1, (int) ceil( $word_count / 200 ) );
+    return $minutes . ' मिनेट पढ्ने समय';
+}
+
+/**
+ * Render a simple Home > Category > Title breadcrumb trail with
+ * BreadcrumbList schema markup for SEO.
+ */
+function nispaksha_breadcrumbs() {
+    $items = array(
+        array( 'name' => 'गृहपृष्ठ', 'url' => home_url( '/' ) ),
+    );
+
+    if ( is_singular( 'post' ) ) {
+        $cat = nispaksha_get_primary_category( get_the_ID() );
+        if ( $cat ) {
+            $items[] = array( 'name' => $cat->name, 'url' => get_category_link( $cat->term_id ) );
+        }
+        $items[] = array( 'name' => wp_strip_all_tags( get_the_title() ), 'url' => '' );
+    } elseif ( is_category() ) {
+        $items[] = array( 'name' => single_cat_title( '', false ), 'url' => '' );
+    } elseif ( is_search() ) {
+        $items[] = array( 'name' => 'खोज परिणाम: ' . get_search_query(), 'url' => '' );
+    } elseif ( is_archive() ) {
+        $items[] = array( 'name' => wp_strip_all_tags( get_the_archive_title() ), 'url' => '' );
+    }
+
+    if ( count( $items ) < 2 ) {
+        return;
+    }
+
+    $list_items = array();
+    echo '<nav class="rp-breadcrumb" aria-label="Breadcrumb"><ol>';
+    foreach ( $items as $index => $item ) {
+        $position = $index + 1;
+        if ( $item['url'] ) {
+            echo '<li><a href="' . esc_url( $item['url'] ) . '">' . esc_html( $item['name'] ) . '</a></li>';
+        } else {
+            echo '<li aria-current="page">' . esc_html( $item['name'] ) . '</li>';
+        }
+        $list_items[] = array(
+            '@type'    => 'ListItem',
+            'position' => $position,
+            'name'     => $item['name'],
+        ) + ( $item['url'] ? array( 'item' => $item['url'] ) : array() );
+    }
+    echo '</ol></nav>';
+
+    $schema = array(
+        '@context'        => 'https://schema.org',
+        '@type'            => 'BreadcrumbList',
+        'itemListElement' => $list_items,
+    );
+    echo '<script type="application/ld+json">' . wp_json_encode( $schema ) . '</script>';
 }
 
 /**
  * ============================================
- * 5. CUSTOMIZER OPTIONS
+ * 5. SEO: OPEN GRAPH / TWITTER CARDS / JSON-LD
+ * ============================================
+ * Skips output entirely if a dedicated SEO plugin (Yoast, Rank Math, AIOSEO)
+ * is active, since those already provide these tags and duplicates confuse
+ * social crawlers.
+ */
+function nispaksha_has_seo_plugin() {
+    return defined( 'WPSEO_VERSION' )
+        || class_exists( 'RankMath' )
+        || defined( 'AIOSEO_VERSION' );
+}
+
+add_action( 'wp_head', 'nispaksha_output_social_meta', 1 );
+function nispaksha_output_social_meta() {
+    if ( nispaksha_has_seo_plugin() ) {
+        return;
+    }
+
+    if ( is_singular( 'post' ) ) {
+        $title       = get_the_title();
+        $description = has_excerpt() ? get_the_excerpt() : wp_trim_words( wp_strip_all_tags( get_the_content() ), 35 );
+        $image       = nispaksha_get_thumb_url( get_the_ID(), 'nispaksha-hero' );
+        $url         = get_permalink();
+        $type        = 'article';
+    } else {
+        $title       = get_bloginfo( 'name' ) . ' — ' . get_bloginfo( 'description' );
+        $description = get_bloginfo( 'description' );
+        $image       = nispaksha_default_thumb();
+        $url         = home_url( '/' );
+        $type        = 'website';
+    }
+    ?>
+    <meta property="og:type" content="<?php echo esc_attr( $type ); ?>">
+    <meta property="og:title" content="<?php echo esc_attr( $title ); ?>">
+    <meta property="og:description" content="<?php echo esc_attr( wp_strip_all_tags( $description ) ); ?>">
+    <meta property="og:url" content="<?php echo esc_url( $url ); ?>">
+    <meta property="og:image" content="<?php echo esc_url( $image ); ?>">
+    <meta property="og:site_name" content="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo esc_attr( $title ); ?>">
+    <meta name="twitter:description" content="<?php echo esc_attr( wp_strip_all_tags( $description ) ); ?>">
+    <meta name="twitter:image" content="<?php echo esc_url( $image ); ?>">
+    <?php
+    if ( is_singular( 'post' ) ) {
+        $schema = array(
+            '@context'         => 'https://schema.org',
+            '@type'            => 'NewsArticle',
+            'headline'         => $title,
+            'description'      => wp_strip_all_tags( $description ),
+            'image'            => array( $image ),
+            'datePublished'    => get_the_date( 'c' ),
+            'dateModified'     => get_the_modified_date( 'c' ),
+            'mainEntityOfPage' => $url,
+            'author'           => array(
+                '@type' => 'Person',
+                'name'  => get_the_author(),
+            ),
+            'publisher'        => array(
+                '@type' => 'Organization',
+                'name'  => get_bloginfo( 'name' ),
+                'logo'  => array(
+                    '@type' => 'ImageObject',
+                    'url'   => nispaksha_default_thumb(),
+                ),
+            ),
+        );
+        echo '<script type="application/ld+json">' . wp_json_encode( $schema ) . '</script>' . "\n";
+    }
+}
+
+/**
+ * ============================================
+ * 6. CUSTOMIZER OPTIONS
  * ============================================
  */
 add_action( 'customize_register', 'nispaksha_customizer_settings' );

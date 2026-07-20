@@ -71,7 +71,40 @@
                         <li style="margin-bottom: 8px;"><i class="fas fa-envelope"></i> info@nispakshawaj.com</li>
                         <li style="margin-bottom: 8px;"><i class="fas fa-globe"></i> www.nispakshawaj.com</li>
                     </ul>
+
+                    <?php
+                    $social_links = array(
+                        'facebook' => array( 'mod' => 'nispaksha_facebook', 'icon' => 'fab fa-facebook-f' ),
+                        'twitter'  => array( 'mod' => 'nispaksha_twitter', 'icon' => 'fab fa-x-twitter' ),
+                        'youtube'  => array( 'mod' => 'nispaksha_youtube', 'icon' => 'fab fa-youtube' ),
+                    );
+                    $has_social = false;
+                    foreach ( $social_links as $network ) {
+                        if ( get_theme_mod( $network['mod'] ) ) {
+                            $has_social = true;
+                            break;
+                        }
+                    }
+                    ?>
+                    <?php if ( $has_social ) : ?>
+                        <div class="rp-footer-social">
+                            <?php foreach ( $social_links as $network ) :
+                                $url = get_theme_mod( $network['mod'] );
+                                if ( ! $url ) continue;
+                            ?>
+                                <a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener noreferrer">
+                                    <i class="<?php echo esc_attr( $network['icon'] ); ?>"></i>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
+
+                <?php if ( is_active_sidebar( 'nispaksha-footer-1' ) ) : ?>
+                    <div>
+                        <?php dynamic_sidebar( 'nispaksha-footer-1' ); ?>
+                    </div>
+                <?php endif; ?>
 
             </div>
         </div>

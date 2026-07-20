@@ -36,6 +36,16 @@ if ( ! $cat_query->have_posts() ) {
     return;
 }
 
+// Track shown post IDs globally so later sections on the same page can
+// avoid repeating the same stories (see front-page.php `$shown_ids`).
+if ( ! isset( $GLOBALS['nispaksha_shown_ids'] ) ) {
+    $GLOBALS['nispaksha_shown_ids'] = array();
+}
+$GLOBALS['nispaksha_shown_ids'] = array_merge(
+    $GLOBALS['nispaksha_shown_ids'],
+    wp_list_pluck( $cat_query->posts, 'ID' )
+);
+
 $cat_display_name = $cat_title;
 $cat_link = '#';
 if ( $category ) {

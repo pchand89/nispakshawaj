@@ -11,6 +11,8 @@
         initDarkMode();
         initStickyNav();
         initBackToTop();
+        initMobileNav();
+        initSearchOverlay();
     });
 
     function initDarkMode() {
@@ -70,6 +72,83 @@
 
         btn.addEventListener('click', function () {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    function initMobileNav() {
+        const toggle = document.getElementById('mobile-menu-toggle');
+        const menu = document.querySelector('.rp-nav__menu');
+        const backdrop = document.getElementById('nav-backdrop');
+        if (!toggle || !menu) return;
+
+        function closeMenu() {
+            toggle.classList.remove('is-active');
+            menu.classList.remove('is-open');
+            if (backdrop) backdrop.classList.remove('is-active');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('rp-no-scroll');
+        }
+
+        function openMenu() {
+            toggle.classList.add('is-active');
+            menu.classList.add('is-open');
+            if (backdrop) backdrop.classList.add('is-active');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('rp-no-scroll');
+        }
+
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.addEventListener('click', function () {
+            if (menu.classList.contains('is-open')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        });
+
+        if (backdrop) {
+            backdrop.addEventListener('click', closeMenu);
+        }
+
+        // Close the drawer once a nav link is clicked (mobile only).
+        menu.addEventListener('click', function (event) {
+            if (event.target.closest('a') && window.innerWidth <= 768) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closeMenu();
+        });
+    }
+
+    function initSearchOverlay() {
+        const toggle = document.getElementById('search-toggle');
+        const overlay = document.getElementById('rp-search-overlay');
+        const closeBtn = document.getElementById('search-close');
+        if (!toggle || !overlay) return;
+
+        function openOverlay() {
+            overlay.classList.add('is-active');
+            toggle.setAttribute('aria-expanded', 'true');
+            const input = overlay.querySelector('input[type="search"]');
+            if (input) window.setTimeout(function () { input.focus(); }, 50);
+        }
+
+        function closeOverlay() {
+            overlay.classList.remove('is-active');
+            toggle.setAttribute('aria-expanded', 'false');
+        }
+
+        toggle.addEventListener('click', openOverlay);
+        if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+
+        overlay.addEventListener('click', function (event) {
+            if (event.target === overlay) closeOverlay();
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closeOverlay();
         });
     }
 

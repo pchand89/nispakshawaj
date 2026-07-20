@@ -60,7 +60,7 @@
         </div>
 
         <div class="rp-header__right">
-            <button class="rp-search-btn" id="search-toggle" aria-label="Toggle Search">
+            <button class="rp-search-btn" id="search-toggle" aria-label="Toggle Search" aria-expanded="false" aria-controls="rp-search-overlay">
                 <i class="fas fa-search"></i>
             </button>
             <button class="rp-theme-btn" id="dark-mode-toggle" aria-label="Toggle Dark Mode">
@@ -70,7 +70,21 @@
     </div>
 </header>
 
+<?php // ===== SEARCH OVERLAY ===== ?>
+<div class="rp-search-overlay" id="rp-search-overlay">
+    <div class="rp-search-overlay__box">
+        <button class="rp-search-overlay__close" id="search-close" aria-label="Close Search">
+            <i class="fas fa-times"></i>
+        </button>
+        <form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+            <input type="search" name="s" placeholder="समाचार खोज्नुहोस्..." value="<?php echo esc_attr( get_search_query() ); ?>" required />
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
 <?php // ===== RATOPATI PRIMARY NAV BAR ===== ?>
+<div class="rp-nav-backdrop" id="nav-backdrop"></div>
 <nav class="rp-nav" id="site-navigation" role="navigation" aria-label="Primary Navigation">
     <div class="rp-container">
         <?php

@@ -37,4 +37,8 @@ $trending = nispaksha_get_trending_posts( 8 );
     </div>
     <?php endif; ?>
 
+    <?php if ( is_active_sidebar( 'nispaksha-home-sidebar' ) ) : ?>
+        <?php dynamic_sidebar( 'nispaksha-home-sidebar' ); ?>
+    <?php endif; ?>
+
 </div>
