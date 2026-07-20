@@ -184,6 +184,12 @@
 	position: sticky;
 	top: 0;
 	z-index: 1000;
+	/* Must stay visible so absolute dropdowns can paint outside the bar */
+	overflow: visible;
+}
+
+.na-nav > .na-container {
+	overflow: visible;
 }
 
 /* Keep nav below the WP admin bar when logged in */
@@ -204,19 +210,14 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-	scrollbar-width: none;
-}
-
-.na-nav__menu::-webkit-scrollbar {
-	display: none;
+	/* overflow-x:auto clips absolute submenus (and forces overflow-y:auto too).
+	   Desktop dropdowns need visible overflow; mobile uses the drawer instead. */
+	overflow: visible;
 }
 
 .na-nav__menu > li {
 	position: relative;
-	display: flex;
-	align-items: center;
+	display: block;
 	flex: 0 0 auto;
 	/* Kill Maglist Additional CSS that paints .menu-item.active with a blue block */
 	background: transparent !important;
@@ -225,6 +226,7 @@
 }
 
 .na-nav__menu > li > a {
+	position: relative;
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -237,16 +239,46 @@
 	background: transparent !important;
 }
 
+/* Underline hover/current — avoids the dark fill that looked like a broken
+   block when Home (current) sat next to a hovered dropdown parent. */
+.na-nav__menu > li > a::after {
+	content: '';
+	position: absolute;
+	left: 14px;
+	right: 14px;
+	bottom: 0;
+	height: 3px;
+	background: #fff;
+	transform: scaleX(0);
+	transform-origin: center;
+	transition: transform 0.18s ease;
+	pointer-events: none;
+}
+
+.na-nav__menu > li:hover > a::after,
+.na-nav__menu > li:focus-within > a::after,
+.na-nav__menu > li.current-menu-item > a::after,
+.na-nav__menu > li.current-menu-ancestor > a::after {
+	transform: scaleX(1);
+}
+
 .na-nav__menu > li:hover > a,
+.na-nav__menu > li:focus-within > a,
 .na-nav__menu > li.current-menu-item > a,
+.na-nav__menu > li.current-menu-ancestor > a,
 .na-nav__menu > li.active > a {
 	color: #ffffff !important;
-	background: rgba(0, 0, 0, 0.18) !important;
+	background: transparent !important;
 }
 
 .na-nav__menu > li.menu-item-home > a {
 	font-size: 20px;
 	padding: 15px 12px;
+}
+
+.na-nav__menu > li.menu-item-home > a::after {
+	left: 12px;
+	right: 12px;
 }
 
 /* GTranslate injects a "NE" language item into the primary menu - park it
@@ -265,7 +297,7 @@
 
 .na-nav__menu > li.menu-item-gtranslate > a:hover {
 	color: #ffffff !important;
-	background: rgba(0, 0, 0, 0.18) !important;
+	background: transparent !important;
 }
 
 /* Dropdown submenus (subcategories) */
@@ -275,7 +307,7 @@
 	top: 100%;
 	left: 0;
 	margin: 0 !important;
-	padding: 10px 0 !important;
+	padding: 8px 0 !important;
 	list-style: none;
 	min-width: 210px;
 	background: #fff;
@@ -283,9 +315,22 @@
 	border-radius: 0 0 6px 6px;
 	opacity: 0;
 	visibility: hidden;
-	transform: translateY(4px);
-	transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-	z-index: 30;
+	pointer-events: none;
+	transition: opacity 0.15s ease, visibility 0.15s;
+	z-index: 1100;
+}
+
+/* Invisible bridge so the pointer can move into the dropdown without
+   closing it (avoids a 1px gap between the bar and the panel). */
+.na-nav__menu > li.menu-item-has-children::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 100%;
+	height: 10px;
+	display: none;
+	z-index: 1099;
 }
 
 .na-nav__menu > li:hover > ul.sub-menu,
@@ -293,7 +338,12 @@
 .na-nav__menu > li:focus-within > ul {
 	opacity: 1;
 	visibility: visible;
-	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.na-nav__menu > li:hover.menu-item-has-children::before,
+.na-nav__menu > li:focus-within.menu-item-has-children::before {
+	display: block;
 }
 
 .na-nav__menu ul li {
@@ -313,10 +363,14 @@
 	background: transparent !important;
 }
 
+.na-nav__menu ul li a::after {
+	display: none;
+}
+
 .na-nav__menu ul li:hover > a,
 .na-nav__menu ul li.active > a {
 	color: var(--na-color-accent-red, #bf1e2e) !important;
-	background: transparent !important;
+	background: rgba(191, 30, 46, 0.06) !important;
 }
 
 /* -----------------------------------------------------------------------
@@ -342,7 +396,15 @@
 	.na-nav__menu {
 		flex-direction: column;
 		flex-wrap: wrap;
-		overflow-x: visible;
+		overflow: visible;
+	}
+
+	.na-nav__menu > li > a::after {
+		display: none;
+	}
+
+	.na-nav__menu > li.menu-item-has-children::before {
+		display: none !important;
 	}
 
 	.na-nav__menu > li.menu-item-gtranslate {
