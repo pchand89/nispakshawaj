@@ -39,7 +39,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php esc_html_e( 'इमेल:', 'maglist-child' ); ?>
 							<a href="mailto:info@nispakshawaj.com">info@nispakshawaj.com</a>
 						</p>
-						<p><?php esc_html_e( 'सुचना बिभाग दार्ता नम्बर : ३७१७-२०७९/२०८०', 'maglist-child' ); ?></p>
+						<p><?php esc_html_e( 'सुचना बिभाग दर्ता नम्बर : ३७१७-२०७९/२०८०', 'maglist-child' ); ?></p>
 					</div>
 					<ul class="na-footer__people">
 						<li><?php esc_html_e( 'अध्यक्ष: श्रीमती निर्मला जोशी', 'maglist-child' ); ?></li>
