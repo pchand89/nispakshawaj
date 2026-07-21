@@ -4,6 +4,7 @@
 
 # Keep this file
 !.gitignore
+!.cpanel.yml
 
 # Un-ignore path parents (required for gitignore negations)
 !wp-content/

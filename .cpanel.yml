@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/nispa3ad/public_html/wp-content/themes/maglist-child
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/rsync -av --delete ./wp-content/themes/maglist-child/ $DEPLOYPATH/
