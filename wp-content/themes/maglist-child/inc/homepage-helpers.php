@@ -28,7 +28,18 @@ function maglist_child_resolve_category( $cat_slug ) {
 		return false;
 	}
 
+	if ( function_exists( 'maglist_child_find_term_flexible' ) ) {
+		$category = maglist_child_find_term_flexible( $cat_slug, 'category' );
+		if ( $category ) {
+			return $category;
+		}
+	}
+
 	$category = get_category_by_slug( $cat_slug );
+
+	if ( ! $category && function_exists( 'maglist_child_softaculous_encode_slug' ) ) {
+		$category = get_category_by_slug( maglist_child_softaculous_encode_slug( $cat_slug ) );
+	}
 
 	if ( ! $category ) {
 		$category = get_category_by_slug( urlencode( $cat_slug ) );
