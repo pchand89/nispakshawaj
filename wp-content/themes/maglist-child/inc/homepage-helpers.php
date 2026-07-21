@@ -488,18 +488,20 @@ function maglist_child_widget_area( $sidebar_id, $wrapper_class = '', $always_re
 /**
  * Ad Inserter block number used for the archive/single sidebar-ad slot (filterable).
  *
+ * Default 0 = do not auto-inject. Place ads via Appearance → Widgets, or return a
+ * block number from the `maglist_child_sidebar_ad_inserter_block` filter.
+ *
  * @return int Block number, or 0 to skip.
  */
 function maglist_child_sidebar_ad_inserter_block() {
-	return (int) apply_filters( 'maglist_child_sidebar_ad_inserter_block', 4 );
+	return (int) apply_filters( 'maglist_child_sidebar_ad_inserter_block', 0 );
 }
 
 /**
  * Map of widget-area ID → Ad Inserter block number for server-rendered side rails.
  *
- * Default: every homepage rail + archive/single `sidebar-ad` use block 4 so ads
- * appear on all sections without per-slot widget setup. Override via the filter
- * (e.g. home-sidebar-ad-2 => 5) for distinct creatives.
+ * Default: no auto-injection (block 0). Assign a block per rail via the filter
+ * (e.g. home-sidebar-ad-2 => 5) when you want Ad Inserter in a specific slot.
  *
  * @return array<string, int>
  */

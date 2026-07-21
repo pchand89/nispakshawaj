@@ -44,33 +44,21 @@ function maglist_child_ad_inserter_is_sidebar_block( $block ) {
 }
 
 /**
- * Ensure sidebar-ad blocks insert on the surfaces that actually render #sidebar-ad.
+ * Point legacy Maglist sidebar selectors at #sidebar-ad only.
+ *
+ * Does not re-enable paused blocks or force PHP-call / display flags — those
+ * stay under Ad Inserter admin control so disabling an ad survives theme updates.
  *
  * @param array $block Block settings.
  * @return array{0:array,1:bool}
  */
 function maglist_child_ad_inserter_fix_sidebar_block( $block ) {
-	$changed = false;
+	$changed  = false;
+	$selector = isset( $block['html_selector'] ) ? html_entity_decode( (string) $block['html_selector'], ENT_QUOTES, 'UTF-8' ) : '';
 
-	$flags = array(
-		'html_selector'             => '#sidebar-ad',
-		'display_on_posts'          => '1', // single posts (child sidebar.php).
-		'display_on_category_pages' => '1', // category.php archives.
-		'display_on_pages'          => '1', // category hub pages (page.php hubs).
-		'display_on_homepage'       => '1', // PHP-called into #home-sidebar-ad-1 on homepage.
-		// Theme calls adinserter(N) — must allow PHP function calls.
-		'enable_php_call'           => '1',
-		// No automatic HTML insertion (avoids double client-side replace).
-		'disable_insertion'         => '',
-		'display_type'              => defined( 'AI_AUTOMATIC_INSERTION_DISABLED' ) ? (string) AI_AUTOMATIC_INSERTION_DISABLED : '0',
-	);
-
-	foreach ( $flags as $field => $value ) {
-		$current = isset( $block[ $field ] ) ? (string) $block[ $field ] : '';
-		if ( $current !== $value ) {
-			$block[ $field ] = $value;
-			$changed         = true;
-		}
+	if ( '#sidebar-ad' !== $selector ) {
+		$block['html_selector'] = '#sidebar-ad';
+		$changed                = true;
 	}
 
 	return array( $block, $changed );
