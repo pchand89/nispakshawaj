@@ -57,6 +57,27 @@ body {
 	overflow-x: clip;
 }
 
+/*
+ * Maglist parent CSS: `body:not(.page-template-full-width) #content { padding-bottom: 5rem }`
+ * leaves a large empty band under the footer when #content is present. Zero it out
+ * for the child chrome so nothing sits below .na-footer.
+ */
+body.na-body #content,
+body.na-body .site-content {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+body.na-body .na-footer {
+	margin-bottom: 0;
+}
+
+body.na-body,
+html {
+	padding-bottom: 0;
+}
+
 h1, h2, h3, h4, h5, h6,
 .entry-title, .widget-title {
 	font-family: var(--na-font-heading);
