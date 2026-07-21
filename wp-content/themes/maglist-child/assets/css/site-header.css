@@ -562,7 +562,7 @@ body.na-search-open .na-search-overlay {
 }
 
 .na-footer__top {
-	background: var(--na-color-footer-dark, #303030);
+	background: var(--na-color-footer-dark, #003893);
 	color: #fff;
 	padding: 30px 0;
 }
@@ -660,7 +660,7 @@ body.na-search-open .na-search-overlay {
 }
 
 .na-footer__bottom {
-	background: #232323;
+	background: var(--na-color-footer-darker, #00266a);
 	padding: 16px 0;
 }
 
