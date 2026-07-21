@@ -53,8 +53,13 @@ $layout_map = array(
 	'edu-split'     => 'layouts/edu-split',
 );
 
-if ( isset( $layout_map[ $maglist_child_layout ] ) ) {
-	get_template_part( 'template-parts/home/' . $layout_map[ $maglist_child_layout ], null, $layout_args );
+$layout_slug = isset( $layout_map[ $maglist_child_layout ] ) ? $layout_map[ $maglist_child_layout ] : '';
+$layout_file = $layout_slug
+	? get_stylesheet_directory() . '/template-parts/home/' . $layout_slug . '.php'
+	: '';
+
+if ( $layout_slug && file_exists( $layout_file ) ) {
+	get_template_part( 'template-parts/home/' . $layout_slug, null, $layout_args );
 	wp_reset_postdata();
 	return;
 }

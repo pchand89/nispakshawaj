@@ -14,6 +14,7 @@
  *
  * TABLE OF CONTENTS
  * 1. Container & ad slots
+ * 1b. Homepage per-section sticky sidebar ads
  * 2. Breaking feed (top stacked stories)
  * 2b. Exclusive block (gradient-overlay image cards)
  * 3. Category sections (lead card + thumbnail cards)
@@ -78,6 +79,110 @@
 	width: 100% !important;
 	max-width: 100% !important;
 	height: auto !important;
+}
+
+/* Homepage per-section content + sticky sidebar ad (Ratopati dn__news--wrap / dn__side--add). */
+.na-home__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 280px;
+	gap: 40px;
+	align-items: start;
+	margin: 28px auto;
+}
+
+.na-home__layout:first-of-type {
+	margin-top: 8px;
+}
+
+.na-home__main {
+	min-width: 0;
+}
+
+.na-home__main .na-section {
+	margin-top: 0;
+}
+
+.na-home__sidebar {
+	position: sticky;
+	top: 72px; /* clears sticky .na-nav */
+	width: 100%;
+	max-width: 280px;
+	justify-self: end;
+}
+
+.admin-bar .na-home__sidebar {
+	top: 104px; /* 72px nav + 32px WP admin bar */
+}
+
+@media (max-width: 782px) {
+	.admin-bar .na-home__sidebar {
+		top: 118px; /* 72px nav + 46px WP admin bar */
+	}
+}
+
+/* Collapse the rail when the ad slot has nothing to show. */
+.na-home__layout:has(.na-ad-sidebar:empty) {
+	grid-template-columns: 1fr;
+}
+
+.na-home__layout:has(.na-ad-sidebar:empty) .na-home__sidebar {
+	display: none;
+}
+
+.na-home__sidebar .na-ad-sidebar {
+	margin-bottom: 0;
+}
+
+/* Stack multiple creatives inside one rail (Ratopati .sidebar-adv spacing). */
+.na-home__sidebar .na-ad-sidebar > .widget + .widget,
+.na-home__sidebar .na-ad-sidebar > *:not(:first-child) {
+	margin-top: 12px;
+}
+
+/*
+ * Dense layouts (overlay dual-lists, lead-grids) need to breathe when the
+ * 280px ad rail is present — give lists more of the main column, shrink
+ * thumbs/type slightly so two list columns don’t collide with the ad.
+ */
+.na-home__main .na-overlay-lists {
+	grid-template-columns: 0.9fr 1.25fr;
+	gap: 20px 24px;
+}
+
+.na-home__main .na-overlay-lists__lead {
+	min-height: 340px;
+}
+
+.na-home__main .na-overlay-lists__lead-title {
+	font-size: 20px;
+	padding: 14px 16px;
+}
+
+.na-home__main .na-overlay-lists__cols {
+	gap: 8px 20px;
+}
+
+.na-home__main .na-list-row {
+	gap: 10px;
+}
+
+.na-home__main .na-list-row__thumb {
+	flex: 0 0 72px;
+	width: 72px;
+	height: 52px;
+}
+
+.na-home__main .na-list-row__title {
+	font-size: 15.5px;
+	line-height: 1.4;
+}
+
+.na-home__main .na-overlay-lists__list li {
+	padding: 9px 0;
+}
+
+.na-home__main .na-lead-grid {
+	gap: 18px 22px;
 }
 
 /* -----------------------------------------------------------------------
@@ -600,88 +705,160 @@
 }
 
 /* -----------------------------------------------------------------------
-   Main news (मुख्य समाचार) — lead + vertical list
+   Main news (समाचार) — overlay lead + stacked overlays + bottom thumb rows
 ----------------------------------------------------------------------- */
 .na-main-news {
-	display: grid;
-	grid-template-columns: 1.35fr 1fr;
-	gap: 28px 36px;
-	align-items: start;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
 }
 
-.na-main-news__lead-thumb {
+.na-main-news__feature {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr;
+	gap: 14px;
+	align-items: stretch;
+}
+
+.na-main-news__lead,
+.na-main-news__stack-item {
+	position: relative;
 	display: block;
 	overflow: hidden;
 	border-radius: 3px;
-	aspect-ratio: 16 / 10;
-	margin-bottom: 14px;
 	background: #f2f2f2;
+	min-height: 170px;
 }
 
-.na-main-news__lead-thumb img {
+.na-main-news__lead {
+	min-height: 360px;
+}
+
+.na-main-news__lead::before,
+.na-main-news__stack-item::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+.na-main-news__lead img,
+.na-main-news__stack-item img {
+	position: absolute;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
 }
 
-.na-main-news__lead-title {
-	font-size: 26px;
-	font-weight: 800;
-	line-height: 1.35;
-	margin: 0 0 10px;
+.na-main-news__stack {
+	display: grid;
+	grid-template-rows: 1fr 1fr;
+	gap: 14px;
+	min-height: 360px;
 }
 
-.na-main-news__lead-title a {
-	color: var(--na-color-heading, #111);
-}
-
-.na-main-news__lead-title a:hover {
-	color: var(--na-color-accent-red, #bf1e2e);
-}
-
-.na-main-news__lead-excerpt {
-	font-size: 15px;
-	line-height: 1.65;
-	color: var(--na-color-text, #222);
-	margin: 0 0 12px;
-}
-
-.na-main-news__lead-meta {
-	margin: 0;
-	font-size: 13px;
-	color: var(--na-color-muted, #6b6b6b);
-}
-
-.na-main-news__dot {
-	margin: 0 6px;
-}
-
-.na-main-news__list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	border-top: 1px solid var(--na-color-border, #ececec);
-}
-
-.na-main-news__list li {
-	border-bottom: 1px solid var(--na-color-border, #ececec);
-}
-
-.na-main-news__item {
-	display: block;
-	padding: 14px 0;
-}
-
-.na-main-news__item-title {
+.na-main-news__overlay-title {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 2;
+	width: 100%;
+	padding: 14px;
+	color: #fff;
 	font-size: 17px;
 	font-weight: 700;
-	line-height: 1.4;
+	line-height: 1.35;
+}
+
+.na-main-news__lead .na-main-news__overlay-title {
+	font-size: 24px;
+	font-weight: 800;
+	padding: 18px;
+}
+
+.na-main-news__bottom {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.na-main-news__row {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	text-decoration: none;
+	color: inherit;
+}
+
+.na-main-news__row-thumb {
+	flex: 0 0 88px;
+	width: 88px;
+	height: 64px;
+	overflow: hidden;
+	border-radius: 3px;
+	background: #f2f2f2;
+}
+
+.na-main-news__row-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.na-main-news__row-title {
+	flex: 1;
+	min-width: 0;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.35;
 	color: var(--na-color-heading, #111);
 }
 
-.na-main-news__item:hover .na-main-news__item-title {
+.na-main-news__row:hover .na-main-news__row-title {
 	color: var(--na-color-accent-red, #bf1e2e);
+}
+
+/* Beside the homepage ad rail: keep bottom row readable. */
+.na-home__main .na-main-news__feature {
+	gap: 12px;
+}
+
+.na-home__main .na-main-news__lead,
+.na-home__main .na-main-news__stack {
+	min-height: 300px;
+}
+
+.na-home__main .na-main-news__lead {
+	min-height: 300px;
+}
+
+.na-home__main .na-main-news__lead .na-main-news__overlay-title {
+	font-size: 20px;
+	padding: 14px;
+}
+
+.na-home__main .na-main-news__overlay-title {
+	font-size: 15px;
+	padding: 12px;
+}
+
+.na-home__main .na-main-news__bottom {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px 18px;
+}
+
+.na-home__main .na-main-news__row-thumb {
+	flex: 0 0 76px;
+	width: 76px;
+	height: 56px;
+}
+
+.na-home__main .na-main-news__row-title {
+	font-size: 15px;
 }
 
 /* -----------------------------------------------------------------------
@@ -1293,6 +1470,15 @@
    7. Responsive breakpoints
 ----------------------------------------------------------------------- */
 @media (max-width: 991px) {
+	.na-home__layout {
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	.na-home__sidebar {
+		display: none;
+	}
+
 	.na-section__grid,
 	.na-section__grid--cols-2,
 	.na-section__grid--cols-4 {
@@ -1320,7 +1506,7 @@
 	.na-overlay-lists,
 	.na-dark-feature,
 	.na-sports-band,
-	.na-main-news,
+	.na-main-news__feature,
 	.na-edu-split {
 		grid-template-columns: 1fr;
 	}
@@ -1329,8 +1515,17 @@
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.na-main-news__lead-title {
-		font-size: 22px;
+	.na-main-news__lead,
+	.na-main-news__stack {
+		min-height: 240px;
+	}
+
+	.na-main-news__lead .na-main-news__overlay-title {
+		font-size: 20px;
+	}
+
+	.na-main-news__bottom {
+		grid-template-columns: 1fr 1fr;
 	}
 
 	.na-dark-feature__main {
@@ -1377,6 +1572,7 @@
 	.na-lead-grid__side,
 	.na-sports-band__grid,
 	.na-dark-feature__bottom,
+	.na-main-news__bottom,
 	.na-edu-split__grid {
 		grid-template-columns: 1fr;
 	}

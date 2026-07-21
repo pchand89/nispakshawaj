@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.5' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.11' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -299,9 +299,33 @@ function maglist_child_register_sidebars() {
 			'name'        => esc_html__( 'Home Sidebar Row', 'maglist-child' ),
 			'description' => esc_html__( 'A row of drag-and-drop widgets (recent posts, custom HTML, ads, etc.) shown near the bottom of the homepage.', 'maglist-child' ),
 		),
+		'home-sidebar-ad-1'   => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 1 (समाचार)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the समाचार section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-2'   => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 2 (राजनिती)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the राजनिती section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-3'   => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 3 (समाज)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the समाज section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-4'   => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 4 (शिक्षा / साहित्य)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the शिक्षा / साहित्य section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-5'   => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 5 (व्यवसाय)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the व्यवसाय section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-6'   => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 6 (स्थानीय)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the स्थानीय तह/विकास section on the homepage.', 'maglist-child' ),
+		),
 		'sidebar-ad'          => array(
 			'name'        => esc_html__( 'Sidebar Ad', 'maglist-child' ),
-			'description' => esc_html__( 'Ad slot in the category archive sidebar and the single-post Maglist sidebar (above other widgets).', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky ad slot in category archives and the single-post Maglist sidebar (above other widgets).', 'maglist-child' ),
 		),
 	);
 

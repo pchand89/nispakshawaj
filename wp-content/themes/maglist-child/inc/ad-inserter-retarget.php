@@ -2,7 +2,7 @@
 /**
  * One-time retarget of Ad Inserter HTML selectors away from removed Maglist
  * banner markup onto the child theme ad-slot anchors, and repair sidebar-ad
- * insertion flags so the ad actually fires on category + single templates.
+ * insertion flags so the ad fires on homepage, category, and single templates.
  *
  * @package Maglist_Child
  */
@@ -57,7 +57,7 @@ function maglist_child_ad_inserter_fix_sidebar_block( $block ) {
 		'display_on_posts'          => '1', // single posts (child sidebar.php).
 		'display_on_category_pages' => '1', // category.php archives.
 		'display_on_pages'          => '1', // category hub pages (page.php hubs).
-		'display_on_homepage'       => '0', // homepage has no #sidebar-ad.
+		'display_on_homepage'       => '1', // PHP-called into #home-sidebar-ad-1 on homepage.
 		// Theme calls adinserter(N) — must allow PHP function calls.
 		'enable_php_call'           => '1',
 		// No automatic HTML insertion (avoids double client-side replace).

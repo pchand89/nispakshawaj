@@ -1,26 +1,17 @@
-# This repo IS the maglist-child theme (files live at the repo root).
+# This repo tracks the maglist-child theme where WordPress loads it.
 # Ignore the surrounding WordPress install and local noise.
 *
 
 # Keep this file
 !.gitignore
 
-# Theme root files
-!assets/
-!assets/**
-!inc/
-!inc/**
-!template-parts/
-!template-parts/**
-!category.php
-!footer.php
-!front-page.php
-!functions.php
-!header.php
-!page.php
-!sidebar.php
-!style.css
-!template-home.php
+# Un-ignore path parents (required for gitignore negations)
+!wp-content/
+wp-content/*
+!wp-content/themes/
+wp-content/themes/*
+!wp-content/themes/maglist-child/
+!wp-content/themes/maglist-child/**
 
 # Editor/OS noise
 .DS_Store

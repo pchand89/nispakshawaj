@@ -419,12 +419,10 @@ function maglist_child_widget_area( $sidebar_id, $wrapper_class = '', $always_re
 	printf( '<div class="%s" id="%s">', esc_attr( $wrapper_class ), esc_attr( $sidebar_id ) );
 
 	/**
-	 * Server-render Ad Inserter into the sidebar-ad slot so the ad does not depend
+	 * Server-render Ad Inserter into mapped sidebar slots so ads do not depend
 	 * on client-side HTML replacement (which was easy to misconfigure / miss).
 	 */
-	if ( 'sidebar-ad' === $sidebar_id ) {
-		maglist_child_render_sidebar_ad_inserter();
-	}
+	maglist_child_render_sidebar_ad_inserter( $sidebar_id );
 
 	if ( $active ) {
 		dynamic_sidebar( $sidebar_id );
@@ -433,7 +431,7 @@ function maglist_child_widget_area( $sidebar_id, $wrapper_class = '', $always_re
 }
 
 /**
- * Ad Inserter block number used for the sidebar-ad slot (filterable).
+ * Ad Inserter block number used for the archive/single sidebar-ad slot (filterable).
  *
  * @return int Block number, or 0 to skip.
  */
@@ -442,14 +440,41 @@ function maglist_child_sidebar_ad_inserter_block() {
 }
 
 /**
- * Echo Ad Inserter sidebar creative when the plugin is available.
+ * Map of widget-area ID → Ad Inserter block number for server-rendered side rails.
+ *
+ * Default: archive/single `sidebar-ad` and homepage rail 1 share block 4.
+ * Add more entries (e.g. home-sidebar-ad-2 => 5) to fill later rails via PHP.
+ *
+ * @return array<string, int>
  */
-function maglist_child_render_sidebar_ad_inserter() {
+function maglist_child_sidebar_ad_inserter_map() {
+	$default_block = maglist_child_sidebar_ad_inserter_block();
+
+	$map = array(
+		'sidebar-ad'        => $default_block,
+		'home-sidebar-ad-1' => $default_block,
+	);
+
+	/**
+	 * Filter sidebar-slot → Ad Inserter block map.
+	 *
+	 * @param array<string, int> $map Area ID => block number (0 skips).
+	 */
+	return apply_filters( 'maglist_child_sidebar_ad_inserter_map', $map );
+}
+
+/**
+ * Echo Ad Inserter creative for a sidebar slot when the plugin is available.
+ *
+ * @param string $sidebar_id Widget-area ID being rendered.
+ */
+function maglist_child_render_sidebar_ad_inserter( $sidebar_id = 'sidebar-ad' ) {
 	if ( ! function_exists( 'adinserter' ) ) {
 		return;
 	}
 
-	$block = maglist_child_sidebar_ad_inserter_block();
+	$map   = maglist_child_sidebar_ad_inserter_map();
+	$block = isset( $map[ $sidebar_id ] ) ? (int) $map[ $sidebar_id ] : 0;
 	if ( $block < 1 ) {
 		return;
 	}
