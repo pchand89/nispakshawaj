@@ -569,8 +569,8 @@ body.na-search-open .na-search-overlay {
 
 .na-footer__top-grid {
 	display: grid;
-	grid-template-columns: 1fr 2fr;
-	gap: 30px;
+	grid-template-columns: 2fr 1fr;
+	gap: 36px;
 }
 
 .na-footer__heading {
@@ -585,7 +585,54 @@ body.na-search-open .na-search-overlay {
 	font-size: 14px;
 	line-height: 1.8;
 	color: rgba(255, 255, 255, 0.76);
-	margin: 0 0 8px;
+	margin: 0 0 10px;
+}
+
+.na-footer__about-title {
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+	margin: 0 0 12px;
+}
+
+.na-footer__contact {
+	margin: 18px 0 14px;
+	padding-top: 14px;
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.na-footer__contact p {
+	margin: 0 0 4px;
+}
+
+.na-footer__contact-name {
+	font-weight: 600;
+	color: #fff;
+	margin-bottom: 6px !important;
+}
+
+.na-footer__contact a {
+	color: rgba(255, 255, 255, 0.9);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.na-footer__contact a:hover {
+	color: #fff;
+}
+
+.na-footer__people {
+	margin: 0;
+	padding: 12px 0 0;
+	list-style: none;
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.na-footer__people li {
+	font-size: 14px;
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.76);
+	margin: 0 0 2px;
 }
 
 .na-footer__about .widget-title {

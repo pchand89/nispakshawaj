@@ -23,10 +23,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php if ( is_active_sidebar( 'footer-about' ) ) : ?>
 					<?php dynamic_sidebar( 'footer-about' ); ?>
 				<?php else : ?>
-					<p class="na-footer__about-placeholder">
-						<?php bloginfo( 'name' ); ?><br>
-						<?php bloginfo( 'description' ); ?>
-					</p>
+					<h5 class="na-footer__heading"><?php esc_html_e( 'हाम्रोबारे', 'maglist-child' ); ?></h5>
+					<?php if ( has_custom_logo() ) : ?>
+						<span class="na-footer__logo"><?php the_custom_logo(); ?></span>
+					<?php endif; ?>
+					<!-- <p class="na-footer__about-title">निश्पक्ष आवाज</p> -->
+					<div class="na-footer__contact">
+						<p class="na-footer__contact-name"><?php esc_html_e( 'निश्पक्ष आवाज प्रा. लि.', 'maglist-child' ); ?></p>
+						<p><?php esc_html_e( 'भीमदत्त–१०, महेन्द्रनगर, कञ्चनपुर', 'maglist-child' ); ?></p>
+						<p>
+							<?php esc_html_e( 'फोन:', 'maglist-child' ); ?>
+							<a href="tel:+9779742379333">९७४२३७९३३३</a>
+						</p>
+						<p>
+							<?php esc_html_e( 'इमेल:', 'maglist-child' ); ?>
+							<a href="mailto:info@nispakshawaj.com">info@nispakshawaj.com</a>
+						</p>
+						<p><?php esc_html_e( 'सुचना बिभाग दार्ता नम्बर : ३७१७-२०७९/२०८०', 'maglist-child' ); ?></p>
+					</div>
+					<ul class="na-footer__people">
+						<li><?php esc_html_e( 'अध्यक्ष: श्रीमती निर्मला जोशी', 'maglist-child' ); ?></li>
+						<li><?php esc_html_e( 'सञ्चालक: श्रीमती दक्षिणा कुमारी बम', 'maglist-child' ); ?></li>
+						<li><?php esc_html_e( 'सम्पादक: श्री राज बहादुर चन्द', 'maglist-child' ); ?></li>
+					</ul>
 				<?php endif; ?>
 			</div>
 
