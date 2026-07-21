@@ -1,6 +1,6 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/nispa3ad/public_html/wp-content/themes/maglist-child
+    - export DEPLOYPATH=/home2/nispa3ad/public_html/wp-content/themes/maglist-child
     - /bin/mkdir -p $DEPLOYPATH
     - /bin/cp -Rfu ./wp-content/themes/maglist-child/. $DEPLOYPATH
