@@ -415,6 +415,44 @@ function maglist_child_sidebar_slot_has_content( $sidebar_id ) {
 }
 
 /**
+ * Whether HTML contains visible ad/widget content (not just empty wrappers).
+ *
+ * @param string $html Captured markup.
+ * @return bool
+ */
+function maglist_child_html_has_content( $html ) {
+	$html = trim( (string) $html );
+	if ( $html === '' ) {
+		return false;
+	}
+
+	$html = preg_replace( '/<!--.*?-->/s', '', $html );
+	if ( ! is_string( $html ) || trim( $html ) === '' ) {
+		return false;
+	}
+
+	// Creatives often have no text — treat media / ad / script tags as content.
+	if ( preg_match( '/<(img|iframe|ins|video|embed|object|svg|script|amp-ad)\b/i', $html ) ) {
+		return true;
+	}
+
+	return trim( wp_strip_all_tags( $html ) ) !== '';
+}
+
+/**
+ * Capture sidebar-ad inner HTML (Ad Inserter + widgets) without the wrapper.
+ *
+ * @param string $sidebar_id Widget-area ID.
+ * @return string
+ */
+function maglist_child_get_sidebar_ad_inner_html( $sidebar_id ) {
+	ob_start();
+	maglist_child_render_sidebar_ad_inserter( $sidebar_id );
+	dynamic_sidebar( $sidebar_id );
+	return (string) ob_get_clean();
+}
+
+/**
  * Print a widget area wrapper.
  *
  * By default only prints when the sidebar has widgets. Pass $always_render = true

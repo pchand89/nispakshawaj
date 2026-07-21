@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.18' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.19' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 

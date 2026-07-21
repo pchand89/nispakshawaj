@@ -107,17 +107,20 @@ $maglist_child_band_layouts = array( 'dark-band', 'sports-band' );
 			$sidebar_id = (string) $maglist_child_section['sidebar_ad'];
 		}
 
-		// Always open the rail when a slot is configured so Widgets and Ad Inserter
-		// anchors both render (do not gate on is_active_sidebar — AI-only slots
-		// would otherwise never appear).
-		if ( $sidebar_id ) :
+		$sidebar_inner = $sidebar_id ? maglist_child_get_sidebar_ad_inner_html( $sidebar_id ) : '';
+		$has_sidebar   = $sidebar_id && maglist_child_html_has_content( $sidebar_inner );
+
+		// Only reserve the sticky rail when widgets / Ad Inserter actually output content.
+		if ( $has_sidebar ) :
 			?>
 			<div class="na-container na-home__layout">
 				<div class="na-home__main">
 					<?php echo $maglist_child_section_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template HTML ?>
 				</div>
 				<aside class="na-home__sidebar" aria-label="<?php echo esc_attr__( 'Advertisement', 'maglist-child' ); ?>">
-					<?php maglist_child_widget_area( $sidebar_id, 'na-ad-slot na-ad-sidebar', true ); ?>
+					<div class="na-ad-slot na-ad-sidebar" id="<?php echo esc_attr( $sidebar_id ); ?>">
+						<?php echo $sidebar_inner; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ad/widget HTML ?>
+					</div>
 				</aside>
 			</div>
 			<?php
