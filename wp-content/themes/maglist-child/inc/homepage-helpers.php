@@ -399,6 +399,22 @@ function maglist_child_category_badge( $post_id ) {
 }
 
 /**
+ * Whether a homepage/archive sidebar slot has something to show
+ * (widgets and/or a mapped Ad Inserter block).
+ *
+ * @param string $sidebar_id Widget-area ID.
+ * @return bool
+ */
+function maglist_child_sidebar_slot_has_content( $sidebar_id ) {
+	if ( is_active_sidebar( $sidebar_id ) ) {
+		return true;
+	}
+
+	$map = maglist_child_sidebar_ad_inserter_map();
+	return ! empty( $map[ $sidebar_id ] ) && (int) $map[ $sidebar_id ] > 0 && function_exists( 'adinserter' );
+}
+
+/**
  * Print a widget area wrapper.
  *
  * By default only prints when the sidebar has widgets. Pass $always_render = true
@@ -424,9 +440,10 @@ function maglist_child_widget_area( $sidebar_id, $wrapper_class = '', $always_re
 	 */
 	maglist_child_render_sidebar_ad_inserter( $sidebar_id );
 
-	if ( $active ) {
-		dynamic_sidebar( $sidebar_id );
-	}
+	// Always attempt dynamic_sidebar when the wrapper is printed. Relying only on
+	// is_active_sidebar() can miss newly-assigned widgets under some cache plugins.
+	dynamic_sidebar( $sidebar_id );
+
 	echo '</div>';
 }
 
@@ -442,8 +459,9 @@ function maglist_child_sidebar_ad_inserter_block() {
 /**
  * Map of widget-area ID → Ad Inserter block number for server-rendered side rails.
  *
- * Default: archive/single `sidebar-ad` and homepage rail 1 share block 4.
- * Add more entries (e.g. home-sidebar-ad-2 => 5) to fill later rails via PHP.
+ * Default: every homepage rail + archive/single `sidebar-ad` use block 4 so ads
+ * appear on all sections without per-slot widget setup. Override via the filter
+ * (e.g. home-sidebar-ad-2 => 5) for distinct creatives.
  *
  * @return array<string, int>
  */
@@ -453,6 +471,11 @@ function maglist_child_sidebar_ad_inserter_map() {
 	$map = array(
 		'sidebar-ad'        => $default_block,
 		'home-sidebar-ad-1' => $default_block,
+		'home-sidebar-ad-2' => $default_block,
+		'home-sidebar-ad-3' => $default_block,
+		'home-sidebar-ad-4' => $default_block,
+		'home-sidebar-ad-5' => $default_block,
+		'home-sidebar-ad-6' => $default_block,
 	);
 
 	/**

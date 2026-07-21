@@ -120,17 +120,14 @@
 	}
 }
 
-/* Collapse the rail when the ad slot has nothing to show. */
-.na-home__layout:has(.na-ad-sidebar:empty) {
-	grid-template-columns: 1fr;
-}
-
-.na-home__layout:has(.na-ad-sidebar:empty) .na-home__sidebar {
-	display: none;
-}
-
 .na-home__sidebar .na-ad-sidebar {
-	margin-bottom: 0;
+	margin: 0;
+	overflow: visible;
+}
+
+/* Don't let the global `.na-ad-slot:empty` rule hide a filled rail. */
+.na-home__sidebar .na-ad-sidebar:not(:empty) {
+	display: block;
 }
 
 /* Stack multiple creatives inside one rail (Ratopati .sidebar-adv spacing). */
@@ -1479,6 +1476,42 @@
 		display: none;
 	}
 
+	/* Beat the desktop `.na-home__main …` compact rules so sections stack. */
+	.na-home__main .na-overlay-lists,
+	.na-home__main .na-lead-grid,
+	.na-home__main .na-main-news__feature,
+	.na-home__main .na-edu-split {
+		grid-template-columns: 1fr;
+	}
+
+	.na-home__main .na-overlay-lists__cols {
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	.na-home__main .na-overlay-lists__lead {
+		min-height: 220px;
+	}
+
+	.na-home__main .na-list-row__thumb {
+		flex: 0 0 88px;
+		width: 88px;
+		height: 64px;
+	}
+
+	.na-home__main .na-list-row__title {
+		font-size: 16px;
+	}
+
+	.na-home__main .na-main-news__bottom {
+		grid-template-columns: 1fr;
+	}
+
+	.na-home__main .na-main-news__lead,
+	.na-home__main .na-main-news__stack {
+		min-height: 220px;
+	}
+
 	.na-section__grid,
 	.na-section__grid--cols-2,
 	.na-section__grid--cols-4 {
@@ -1537,7 +1570,12 @@
 	}
 
 	.na-overlay-lists__lead {
-		min-height: 260px;
+		min-height: 220px;
+	}
+
+	.na-overlay-lists__cols {
+		grid-template-columns: 1fr;
+		gap: 0;
 	}
 }
 

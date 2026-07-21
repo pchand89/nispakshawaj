@@ -3,7 +3,7 @@
  * Homepage body — section order and layouts modelled on the reference
  * news homepage screenshots (stacked hero, then varied category bands/grids).
  *
- * Each non-band category row gets its own content + sticky sidebar-ad column
+ * Each non-band category row gets a fixed sticky sidebar-ad column
  * (Ratopati’s per-section `dn__news--wrap` / `dn__side--add` pattern).
  * Full-bleed bands stay edge-to-edge without a side rail.
  *
@@ -20,26 +20,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Optional keys:
  *   sidebar_ad (string|false) Widget-area ID for this row’s sticky rail.
- *                             Omit to auto-assign home-sidebar-ad-N for non-band rows.
  *                             Set false to skip the rail for that row.
  */
 $maglist_child_home_sections = apply_filters(
 	'maglist_child_home_sections',
 	array(
 		array(
-			'slug'   => 'समाचार',
-			'count'  => 7, // 1 lead + 6 list.
-			'layout' => 'main-news',
+			'slug'       => 'समाचार',
+			'count'      => 7, // 1 lead + 2 stack + 4 bottom.
+			'layout'     => 'main-news',
+			'sidebar_ad' => 'home-sidebar-ad-1',
 		),
 		array(
-			'slug'   => 'राजनिती',
-			'count'  => 5,
-			'layout' => 'lead-grid',
+			'slug'       => 'राजनिती',
+			'count'      => 5,
+			'layout'     => 'lead-grid',
+			'sidebar_ad' => 'home-sidebar-ad-2',
 		),
 		array(
-			'slug'   => 'समाज',
-			'count'  => 11,
-			'layout' => 'overlay-lists',
+			'slug'       => 'समाज',
+			'count'      => 11,
+			'layout'     => 'overlay-lists',
+			'sidebar_ad' => 'home-sidebar-ad-3',
 		),
 		array(
 			'slug'   => 'मनोरञ्जन',
@@ -54,25 +56,27 @@ $maglist_child_home_sections = apply_filters(
 			'band'   => 'navy',
 		),
 		array(
-			'slug'   => 'शिक्षा / साहित्य',
-			'count'  => 11, // up to 6 grid + 1 side lead + 4 list.
-			'layout' => 'edu-split',
+			'slug'       => 'शिक्षा / साहित्य',
+			'count'      => 11, // up to 6 grid + 1 side lead + 4 list.
+			'layout'     => 'edu-split',
+			'sidebar_ad' => 'home-sidebar-ad-4',
 		),
 		array(
-			'slug'   => 'व्यवसाय',
-			'count'  => 5,
-			'layout' => 'lead-grid',
+			'slug'       => 'व्यवसाय',
+			'count'      => 5,
+			'layout'     => 'lead-grid',
+			'sidebar_ad' => 'home-sidebar-ad-5',
 		),
 		array(
-			'slug'   => 'स्थानीय तह/ विकास',
-			'count'  => 5,
-			'layout' => 'lead-grid',
+			'slug'       => 'स्थानीय तह/ विकास',
+			'count'      => 5,
+			'layout'     => 'lead-grid',
+			'sidebar_ad' => 'home-sidebar-ad-6',
 		),
 	)
 );
 
 $maglist_child_band_layouts = array( 'dark-band', 'sports-band' );
-$maglist_child_sidebar_n    = 0;
 ?>
 
 <section class="na-home">
@@ -98,15 +102,14 @@ $maglist_child_sidebar_n    = 0;
 			continue;
 		}
 
-		// Explicit false disables the rail; otherwise auto-number non-band rows.
 		$sidebar_id = null;
-		if ( array_key_exists( 'sidebar_ad', $maglist_child_section ) ) {
-			$sidebar_id = $maglist_child_section['sidebar_ad'] ? (string) $maglist_child_section['sidebar_ad'] : null;
-		} elseif ( ! $is_band ) {
-			++$maglist_child_sidebar_n;
-			$sidebar_id = 'home-sidebar-ad-' . $maglist_child_sidebar_n;
+		if ( array_key_exists( 'sidebar_ad', $maglist_child_section ) && $maglist_child_section['sidebar_ad'] ) {
+			$sidebar_id = (string) $maglist_child_section['sidebar_ad'];
 		}
 
+		// Always open the rail when a slot is configured so Widgets and Ad Inserter
+		// anchors both render (do not gate on is_active_sidebar — AI-only slots
+		// would otherwise never appear).
 		if ( $sidebar_id ) :
 			?>
 			<div class="na-container na-home__layout">

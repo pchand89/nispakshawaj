@@ -169,6 +169,13 @@ a:hover .na-img {
 	display: none;
 }
 
+/* Sidebar rails must not clip tall creatives or collapse when filled. */
+.na-ad-slot.na-ad-sidebar {
+	overflow: visible;
+	text-align: left;
+	margin: 0;
+}
+
 .na-widget-title {
 	font-size: 15px;
 	margin: 0 0 12px;
