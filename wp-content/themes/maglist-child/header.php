@@ -16,6 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<script>
+		( function () {
+			try {
+				if ( localStorage.getItem( 'na-dark-mode' ) === 'true' ) {
+					document.documentElement.classList.add( 'na-dark' );
+				}
+			} catch ( e ) {}
+		} )();
+	</script>
 	<?php wp_head(); ?>
 </head>
 
@@ -52,9 +61,21 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header',
 			<div class="na-topbar__links" aria-hidden="true"></div>
 		<?php endif; ?>
 
-		<button type="button" class="na-topbar__search-btn" data-na-search-toggle aria-label="<?php esc_attr_e( 'Search', 'maglist-child' ); ?>">
-			<i class="fa fa-search" aria-hidden="true"></i>
-		</button>
+		<div class="na-topbar__actions">
+			<button
+				type="button"
+				class="na-topbar__theme-btn"
+				data-na-theme-toggle
+				aria-pressed="false"
+				aria-label="<?php esc_attr_e( 'Toggle dark mode', 'maglist-child' ); ?>"
+			>
+				<i class="fa fa-moon-o" data-na-theme-icon aria-hidden="true"></i>
+				<span data-na-theme-label><?php esc_html_e( 'डार्क', 'maglist-child' ); ?></span>
+			</button>
+			<button type="button" class="na-topbar__search-btn" data-na-search-toggle aria-label="<?php esc_attr_e( 'Search', 'maglist-child' ); ?>">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div>
 	</div>
 </div><!-- .na-topbar -->
 

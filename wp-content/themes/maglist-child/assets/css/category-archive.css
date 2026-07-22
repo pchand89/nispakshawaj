@@ -6,7 +6,7 @@
 
 .na-cat {
 	padding: 28px 0 48px;
-	background: var(--na-color-bg, #fff);
+	background: var(--na-color-page, #fff);
 }
 
 .na-cat__header {
@@ -37,7 +37,7 @@
 .na-cat__view-btn {
 	appearance: none;
 	border: 1px solid var(--na-color-border, #e0e0e0);
-	background: #fff;
+	background: var(--na-color-surface, #fff);
 	color: var(--na-color-muted, #6b6b6b);
 	font-family: inherit;
 	font-size: 13px;
@@ -91,7 +91,7 @@
 	overflow: hidden;
 	border-radius: var(--na-radius, 4px);
 	aspect-ratio: 16 / 10;
-	background: #f2f2f2;
+	background: var(--na-color-surface-alt, #f2f2f2);
 }
 
 .na-cat-lead__thumb img {
@@ -149,7 +149,7 @@
 	aspect-ratio: 4 / 3;
 	overflow: hidden;
 	border-radius: 3px;
-	background: #f2f2f2;
+	background: var(--na-color-surface-alt, #f2f2f2);
 }
 
 .na-cat-list-item__thumb img {
@@ -213,7 +213,7 @@
 	overflow: hidden;
 	border-radius: 3px;
 	aspect-ratio: 4 / 3;
-	background: #f2f2f2;
+	background: var(--na-color-surface-alt, #f2f2f2);
 }
 
 .na-cat-grid-item__thumb img {

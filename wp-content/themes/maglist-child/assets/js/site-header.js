@@ -16,10 +16,56 @@
 	}
 
 	ready( function () {
+		initDarkMode();
 		initNavToggle();
 		initMobileSubmenus();
 		initSearchOverlay();
 	} );
+
+	/**
+	 * Persist light/dark preference on <html class="na-dark"> (also set early
+	 * in header.php to avoid a flash of the wrong theme).
+	 */
+	function initDarkMode() {
+		var toggle = document.querySelector( '[data-na-theme-toggle]' );
+
+		if ( ! toggle ) {
+			return;
+		}
+
+		var icon = toggle.querySelector( '[data-na-theme-icon]' );
+		var label = toggle.querySelector( '[data-na-theme-label]' );
+		var storageKey = 'na-dark-mode';
+
+		function isDark() {
+			return document.documentElement.classList.contains( 'na-dark' );
+		}
+
+		function apply( dark ) {
+			document.documentElement.classList.toggle( 'na-dark', dark );
+			document.body.classList.toggle( 'na-dark', dark );
+			toggle.setAttribute( 'aria-pressed', dark ? 'true' : 'false' );
+
+			if ( icon ) {
+				icon.className = dark ? 'fa fa-sun-o' : 'fa fa-moon-o';
+			}
+
+			if ( label ) {
+				label.textContent = dark ? 'लाइट' : 'डार्क';
+			}
+
+			try {
+				localStorage.setItem( storageKey, dark ? 'true' : 'false' );
+			} catch ( e ) {}
+		}
+
+		// Sync body class + button chrome with the early <html> class.
+		apply( isDark() );
+
+		toggle.addEventListener( 'click', function () {
+			apply( ! isDark() );
+		} );
+	}
 
 	function initNavToggle() {
 		var toggle = document.querySelector( '[data-na-nav-toggle]' );

@@ -24,7 +24,7 @@
 	margin: 0;
 	padding: 8px 12px;
 	text-align: center;
-	background: #f7f7f7;
+	background: var(--na-color-surface-alt, #f7f7f7);
 	border-bottom: 1px solid var(--na-color-border, #ececec);
 }
 
@@ -115,6 +115,39 @@
 	opacity: 0.85;
 }
 
+.na-topbar__actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: 0 0 auto;
+}
+
+.na-topbar__theme-btn {
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	background: rgba(255, 255, 255, 0.14);
+	color: #fff;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	font-family: inherit;
+	line-height: 1;
+	height: 24px;
+	padding: 0 10px;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	white-space: nowrap;
+}
+
+.na-topbar__theme-btn:hover {
+	background: rgba(255, 255, 255, 0.26);
+}
+
+.na-topbar__theme-btn .fa {
+	font-size: 12px;
+}
+
 .na-topbar__search-btn {
 	border: none;
 	background: rgba(255, 255, 255, 0.18);
@@ -139,7 +172,7 @@
    2. Header — white bar, centered logo
 ----------------------------------------------------------------------- */
 .na-header {
-	background: #fff;
+	background: var(--na-color-surface, #fff);
 	padding: 14px 15px;
 	box-shadow: none;
 }
@@ -310,7 +343,7 @@
 	padding: 8px 0 !important;
 	list-style: none;
 	min-width: 210px;
-	background: #fff;
+	background: var(--na-color-surface, #fff);
 	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 	border-radius: 0 0 6px 6px;
 	opacity: 0;
@@ -358,7 +391,7 @@
 	padding: 8px 20px !important;
 	font-size: 14.5px;
 	font-weight: 500;
-	color: rgba(0, 0, 0, 0.72) !important;
+	color: var(--na-color-text, rgba(0, 0, 0, 0.72)) !important;
 	white-space: nowrap;
 	background: transparent !important;
 }
@@ -512,8 +545,8 @@ body.na-search-open .na-search-overlay {
    6. Trending tag ticker
 ----------------------------------------------------------------------- */
 .na-trending-tags {
-	background: rgba(241, 241, 241, 0.98);
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	background: var(--na-color-surface-alt, rgba(241, 241, 241, 0.98));
+	border-top: 1px solid var(--na-color-border, rgba(0, 0, 0, 0.15));
 	padding: 10px 0;
 }
 
@@ -537,13 +570,13 @@ body.na-search-open .na-search-overlay {
 
 .na-trending-tags a {
 	display: inline-block;
-	background: #fff;
-	border: 1px solid rgba(0, 0, 0, 0.2);
+	background: var(--na-color-surface, #fff);
+	border: 1px solid var(--na-color-border, rgba(0, 0, 0, 0.2));
 	border-radius: 60px;
 	padding: 4px 15px;
 	font-size: 13px;
 	font-weight: 500;
-	color: rgba(0, 0, 0, 0.6);
+	color: var(--na-color-muted, rgba(0, 0, 0, 0.6));
 	white-space: nowrap;
 }
 
@@ -736,5 +769,15 @@ body.na-search-open .na-search-overlay {
 
 	.na-topbar__date {
 		font-size: 12px;
+	}
+
+	.na-topbar__theme-btn [data-na-theme-label] {
+		display: none;
+	}
+
+	.na-topbar__theme-btn {
+		width: 24px;
+		padding: 0;
+		justify-content: center;
 	}
 }

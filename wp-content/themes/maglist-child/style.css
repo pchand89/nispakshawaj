@@ -7,7 +7,7 @@ Description:  Child theme for Maglist that modernizes the homepage with a
 Author:       Nispaksha Awaj
 Author URI:   https://www.nispakshawaj.com/
 Template:     maglist
-Version:      1.9.24
+Version:      1.9.25
 Requires PHP: 7.0
 Text Domain:  maglist-child
 */
@@ -39,11 +39,56 @@ Text Domain:  maglist-child
 	--na-color-accent-red: #bf1e2e;
 	--na-color-section-title: #003893;
 	--na-color-border: #ececec;
+	--na-color-page: #ffffff;
 	--na-color-surface: #ffffff;
+	--na-color-surface-alt: #f2f2f2;
 	--na-color-footer-dark: #003893;
 	--na-color-footer-darker: #00266a;
 	--na-gap: 24px;
 	--na-radius: 4px;
+}
+
+/* Dark mode — token swap; chrome/content that already use these vars follow along. */
+html.na-dark {
+	--na-color-heading: #f3f3f3;
+	--na-color-text: #e2e2e2;
+	--na-color-muted: #a0a0a0;
+	--na-color-section-title: #7eb6ff;
+	--na-color-border: #2f2f2f;
+	--na-color-page: #121212;
+	--na-color-surface: #1a1a1a;
+	--na-color-surface-alt: #242424;
+	--na-color-footer-dark: #0a1628;
+	--na-color-footer-darker: #060e1a;
+	color-scheme: dark;
+}
+
+html.na-dark body,
+html.na-dark body.na-body {
+	background-color: var(--na-color-page);
+	color: var(--na-color-text);
+}
+
+/* Parent Maglist surfaces that sit outside child markup. */
+html.na-dark #page,
+html.na-dark #content,
+html.na-dark .site,
+html.na-dark .site-content,
+html.na-dark .content-area,
+html.na-dark .entry-content,
+html.na-dark article,
+html.na-dark .widget,
+html.na-dark .widget-area {
+	background-color: transparent;
+	color: var(--na-color-text);
+}
+
+html.na-dark a {
+	color: var(--na-color-text);
+}
+
+html.na-dark a:hover {
+	color: var(--na-color-accent-red);
 }
 
 /* -----------------------------------------------------------------------
@@ -54,6 +99,7 @@ Text Domain:  maglist-child
 body {
 	font-family: var(--na-font-body);
 	color: var(--na-color-text);
+	background-color: var(--na-color-page);
 	/* clip (not hidden) so sticky navbar still works while blocking sideways scroll */
 	overflow-x: clip;
 }
