@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.64' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.65' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -401,7 +401,7 @@ function maglist_child_register_sidebars() {
 		),
 		'sidebar-ad'          => array(
 			'name'        => esc_html__( 'Sidebar Ad', 'maglist-child' ),
-			'description' => esc_html__( 'Sticky ad slot in category archives and the single-post Maglist sidebar (above other widgets).', 'maglist-child' ),
+			'description' => esc_html__( 'Ad slot above the main Sidebar widgets on singles, category, tag, and author archives.', 'maglist-child' ),
 		),
 	);
 

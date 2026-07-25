@@ -83,6 +83,7 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 
 			<div class="na-cat__sidebar">
 				<?php maglist_child_widget_area( 'sidebar-ad', 'na-ad-slot na-ad-sidebar', true ); ?>
+				<?php get_template_part( 'template-parts/common/sidebar-widgets' ); ?>
 				<?php get_template_part( 'template-parts/category/sidebar-recent' ); ?>
 			</div>
 		</div>
