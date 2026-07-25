@@ -17,15 +17,11 @@ $post = isset( $args['post'] ) ? $args['post'] : null;
 if ( ! $post instanceof WP_Post ) {
 	return;
 }
-
-$has_thumb = has_post_thumbnail( $post );
 ?>
-<article <?php post_class( 'na-cat-lead' . ( $has_thumb ? '' : ' na-cat-lead--no-thumb' ), $post ); ?>>
-	<?php if ( $has_thumb ) : ?>
-		<a class="na-cat-lead__thumb" href="<?php echo esc_url( get_permalink( $post ) ); ?>">
-			<?php echo maglist_child_get_thumbnail( $post->ID, 'maglist-child-hero' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-		</a>
-	<?php endif; ?>
+<article <?php post_class( 'na-cat-lead', $post ); ?>>
+	<a class="na-cat-lead__thumb" href="<?php echo esc_url( get_permalink( $post ) ); ?>">
+		<?php echo maglist_child_get_thumbnail( $post->ID, 'maglist-child-hero', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+	</a>
 
 	<div class="na-cat-lead__body">
 		<h2 class="na-cat-lead__title">

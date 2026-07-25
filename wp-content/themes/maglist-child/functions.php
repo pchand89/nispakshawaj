@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.25' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.32' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -44,6 +44,16 @@ require MAGLIST_CHILD_DIR . '/inc/homepage-helpers.php';
  * Category archive helpers (hub detection, pagination, query).
  */
 require MAGLIST_CHILD_DIR . '/inc/category-archive.php';
+
+/**
+ * Single post helpers (banner disable, related query, date+time).
+ */
+require MAGLIST_CHILD_DIR . '/inc/single-post.php';
+
+/**
+ * DB-backed reaction counts + REST API.
+ */
+require MAGLIST_CHILD_DIR . '/inc/reactions.php';
 
 /**
  * Map Unicode path segments to Softaculous percent-encoded slugs (fixes 404s).
@@ -186,6 +196,40 @@ function maglist_child_enqueue_assets() {
 			array(),
 			$theme_version,
 			true
+		);
+	}
+
+	// Ratopati-style single post layout.
+	wp_enqueue_style(
+		'maglist-child-single-post',
+		MAGLIST_CHILD_URI . '/assets/css/single-post.css',
+		array( 'maglist-child-category-archive' ),
+		$theme_version
+	);
+
+	if ( is_singular( 'post' ) ) {
+		wp_enqueue_script(
+			'maglist-child-single-post',
+			MAGLIST_CHILD_URI . '/assets/js/single-post.js',
+			array(),
+			$theme_version,
+			true
+		);
+
+		$post_id = (int) get_queried_object_id();
+		wp_localize_script(
+			'maglist-child-single-post',
+			'naSinglePost',
+			array(
+				'restUrl'   => esc_url_raw( rest_url( 'maglist-child/v1' ) ),
+				'restNonce' => wp_create_nonce( 'wp_rest' ),
+				'postId'    => $post_id,
+				'counts'    => maglist_child_get_reaction_counts( $post_id ),
+				'selected'  => (string) get_transient( maglist_child_reaction_vote_transient_key( $post_id ) ),
+				'i18n'      => array(
+					'error' => __( 'प्रतिक्रिया बचत हुन सकेन।', 'maglist-child' ),
+				),
+			)
 		);
 	}
 }

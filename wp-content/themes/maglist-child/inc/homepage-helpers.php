@@ -119,28 +119,78 @@ function maglist_child_category_exists( $cat_slug ) {
 }
 
 /**
- * Output a post thumbnail, or an empty string when the post has no featured
- * image. We deliberately do NOT fall back to a placeholder/logo - posts
- * without a featured image should render as text-only.
+ * Site logo URL for blurred placeholder backgrounds.
  *
- * @param int    $post_id Post ID.
- * @param string $size    Registered image size.
- * @return string HTML <img> markup, or '' if the post has no featured image.
+ * @return string Empty when no custom logo is set.
  */
-function maglist_child_get_thumbnail( $post_id, $size = 'maglist-child-card' ) {
-	if ( ! has_post_thumbnail( $post_id ) ) {
+function maglist_child_placeholder_logo_url() {
+	$logo_id = (int) get_theme_mod( 'custom_logo' );
+	if ( ! $logo_id ) {
 		return '';
 	}
 
-	return get_the_post_thumbnail(
-		$post_id,
-		$size,
-		array(
-			'class'   => 'na-img',
-			'loading' => 'lazy',
-			'alt'     => get_the_title( $post_id ),
-		)
+	$url = wp_get_attachment_image_url( $logo_id, 'medium' );
+	return $url ? $url : '';
+}
+
+/**
+ * HTML markup for the theme placeholder: blurred site logo with post title overlay.
+ *
+ * @param string $title Post title shown on top of the placeholder.
+ * @return string
+ */
+function maglist_child_get_placeholder_image( $title = '' ) {
+	$title = is_string( $title ) ? trim( wp_strip_all_tags( $title ) ) : '';
+	if ( '' === $title ) {
+		$title = __( 'तस्बिर उपलब्ध छैन', 'maglist-child' );
+	}
+
+	$logo_url = maglist_child_placeholder_logo_url();
+	$logo     = '';
+	if ( $logo_url ) {
+		$logo = sprintf(
+			'<span class="na-img--placeholder__logo" aria-hidden="true"><img src="%s" alt="" loading="lazy" decoding="async" /></span>',
+			esc_url( $logo_url )
+		);
+	}
+
+	return sprintf(
+		'<span class="na-img na-img--placeholder%1$s" role="img" aria-label="%2$s">%3$s<span class="na-img--placeholder__title">%4$s</span></span>',
+		$logo_url ? ' na-img--placeholder--has-logo' : '',
+		esc_attr( $title ),
+		$logo,
+		esc_html( $title )
 	);
+}
+
+/**
+ * Output a post thumbnail. When $fallback is true and the post has no
+ * featured image, returns the theme placeholder instead of an empty string.
+ * Homepage layouts keep $fallback false so text-only cards stay text-only.
+ *
+ * @param int    $post_id  Post ID.
+ * @param string $size     Registered image size.
+ * @param bool   $fallback Whether to show a placeholder when no featured image.
+ * @return string HTML <img> markup, or '' if no image and no fallback.
+ */
+function maglist_child_get_thumbnail( $post_id, $size = 'maglist-child-card', $fallback = false ) {
+	if ( has_post_thumbnail( $post_id ) ) {
+		return get_the_post_thumbnail(
+			$post_id,
+			$size,
+			array(
+				'class'   => 'na-img',
+				'loading' => 'lazy',
+				'alt'     => get_the_title( $post_id ),
+			)
+		);
+	}
+
+	if ( $fallback ) {
+		return maglist_child_get_placeholder_image( get_the_title( $post_id ) );
+	}
+
+	return '';
 }
 
 /**

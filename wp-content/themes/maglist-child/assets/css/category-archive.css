@@ -82,11 +82,8 @@
 	border-bottom: 1px solid var(--na-color-border, #ececec);
 }
 
-.na-cat-lead--no-thumb {
-	grid-template-columns: 1fr;
-}
-
 .na-cat-lead__thumb {
+	position: relative;
 	display: block;
 	overflow: hidden;
 	border-radius: var(--na-radius, 4px);
@@ -130,6 +127,10 @@
 	flex-direction: column;
 }
 
+.na-cat__feed-list[hidden] {
+	display: none !important;
+}
+
 .na-cat-list-item {
 	border-bottom: 1px solid var(--na-color-border, #ececec);
 }
@@ -144,6 +145,7 @@
 }
 
 .na-cat-list-item__thumb {
+	position: relative;
 	flex: 0 0 140px;
 	width: 140px;
 	aspect-ratio: 4 / 3;
@@ -184,10 +186,6 @@
 	color: var(--na-color-muted, #666);
 }
 
-.na-cat-list-item--no-thumb .na-cat-list-item__link {
-	display: block;
-}
-
 /* Grid feed */
 .na-cat__feed-grid {
 	display: grid;
@@ -209,6 +207,7 @@
 }
 
 .na-cat-grid-item__thumb {
+	position: relative;
 	display: block;
 	overflow: hidden;
 	border-radius: 3px;
@@ -221,6 +220,67 @@
 	height: 100%;
 	object-fit: cover;
 	display: block;
+}
+
+.na-img--placeholder {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background:
+		linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.55)),
+		linear-gradient(#bf1e2e, #bf1e2e) top / 100% 4px no-repeat,
+		#e8ecf1;
+	color: #fff;
+	text-align: center;
+}
+
+.na-img--placeholder__logo {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.na-img--placeholder__logo img {
+	width: 72%;
+	max-width: 220px;
+	height: auto;
+	object-fit: contain;
+	opacity: 0.55;
+	filter: blur(3px);
+	transform: scale(1.15);
+}
+
+.na-img--placeholder__title {
+	position: relative;
+	z-index: 1;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+	padding: 10px 12px;
+	font-family: var(--na-font-heading, 'Mukta', sans-serif);
+	font-size: clamp(12px, 1.9vw, 16px);
+	font-weight: 700;
+	line-height: 1.35;
+	color: #fff;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.na-cat-list-item__thumb .na-img--placeholder__title {
+	-webkit-line-clamp: 2;
+	font-size: 12px;
+}
+
+.na-cat-lead__thumb .na-img--placeholder__title {
+	-webkit-line-clamp: 4;
+	font-size: clamp(16px, 2.4vw, 22px);
+	padding: 16px 20px;
 }
 
 .na-cat-grid-item__title {
