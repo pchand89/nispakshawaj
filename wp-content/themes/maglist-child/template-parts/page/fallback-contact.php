@@ -11,12 +11,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="na-page-contact">
 	<p class="na-page-contact__brand"><?php esc_html_e( 'nispakshawaj.com', 'maglist-child' ); ?></p>
-	<p><strong><?php esc_html_e( 'निष्पक्ष आवाज प्रा. लि.', 'maglist-child' ); ?></strong></p>
+	<p><strong><?php esc_html_e( 'निश्पक्ष आवाज प्रा. लि.', 'maglist-child' ); ?></strong></p>
 	<p><?php esc_html_e( 'सूचना विभाग दर्ता नं.: ३७१७', 'maglist-child' ); ?></p>
 	<p><?php esc_html_e( 'भीमदत्त–१०, महेन्द्रनगर, कञ्चनपुर', 'maglist-child' ); ?></p>
 	<p>
+		<?php esc_html_e( 'फोन:', 'maglist-child' ); ?>
 		<a href="tel:+9779742379333">९७४२३७९३३३</a>
 	</p>
+
 	<p class="na-page-contact__label"><?php esc_html_e( 'इमेल', 'maglist-child' ); ?></p>
 	<p><a href="mailto:info@nispakshawaj.com">info@nispakshawaj.com</a></p>
+
+	<p class="na-page-contact__label"><?php esc_html_e( 'सम्पादकीय टोली', 'maglist-child' ); ?></p>
+	<p><?php esc_html_e( 'अध्यक्ष: श्रीमती निर्मला जोशी', 'maglist-child' ); ?></p>
+	<p><?php esc_html_e( 'सञ्चालक: श्रीमती दक्षिणा कुमारी बम', 'maglist-child' ); ?></p>
+	<p><?php esc_html_e( 'सम्पादक: श्री राज बहादुर चन्द', 'maglist-child' ); ?></p>
 </div>
