@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.53' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.55' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -54,6 +54,16 @@ require MAGLIST_CHILD_DIR . '/inc/single-post.php';
  * DB-backed reaction counts + REST API.
  */
 require MAGLIST_CHILD_DIR . '/inc/reactions.php';
+
+/**
+ * DB-backed share counts + REST API.
+ */
+require MAGLIST_CHILD_DIR . '/inc/shares.php';
+
+/**
+ * Facebook Graph share_count sync into stored totals.
+ */
+require MAGLIST_CHILD_DIR . '/inc/share-facebook-sync.php';
 
 /**
  * Map Unicode path segments to Softaculous percent-encoded slugs (fixes 404s).
@@ -239,12 +249,13 @@ function maglist_child_enqueue_assets() {
 			'maglist-child-single-post',
 			'naSinglePost',
 			array(
-				'restUrl'   => esc_url_raw( rest_url( 'maglist-child/v1' ) ),
-				'restNonce' => wp_create_nonce( 'wp_rest' ),
-				'postId'    => $post_id,
-				'counts'    => maglist_child_get_reaction_counts( $post_id ),
-				'selected'  => (string) get_transient( maglist_child_reaction_vote_transient_key( $post_id ) ),
-				'i18n'      => array(
+				'restUrl'     => esc_url_raw( rest_url( 'maglist-child/v1' ) ),
+				'restNonce'   => wp_create_nonce( 'wp_rest' ),
+				'postId'      => $post_id,
+				'counts'      => maglist_child_get_reaction_counts( $post_id ),
+				'selected'    => (string) get_transient( maglist_child_reaction_vote_transient_key( $post_id ) ),
+				'shareCounts' => maglist_child_get_share_counts( $post_id ),
+				'i18n'        => array(
 					'error' => __( 'प्रतिक्रिया बचत हुन सकेन।', 'maglist-child' ),
 				),
 			)

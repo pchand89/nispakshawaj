@@ -160,6 +160,18 @@ body.single .maglist-sticky-share ul li a:hover {
 	flex: 0 0 auto;
 }
 
+.na-single-share__total {
+	margin-right: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--na-color-muted, #6b6b6b);
+	white-space: nowrap;
+}
+
+.na-single-share__total.is-empty {
+	display: none;
+}
+
 .na-single-share__btn {
 	appearance: none;
 	display: inline-flex;

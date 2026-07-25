@@ -1,10 +1,82 @@
 /**
- * Single post: copy link + DB-backed reactions.
+ * Single post: copy link + DB-backed reactions + share counts.
  *
  * @package Maglist_Child
  */
 (function () {
 	'use strict';
+
+	function getConfig() {
+		return window.naSinglePost || {};
+	}
+
+	function toNepaliDigits(value) {
+		return String(value).replace(/[0-9]/g, function (d) {
+			return '०१२३४५६७८९'.charAt(parseInt(d, 10));
+		});
+	}
+
+	function recordShare(network) {
+		var cfg = getConfig();
+		var postId = cfg.postId;
+		if (!postId || !network) {
+			return;
+		}
+
+		var url =
+			(cfg.restUrl || '').replace(/\/?$/, '/') +
+			'shares/' +
+			encodeURIComponent(postId);
+		var payload = JSON.stringify({ network: network });
+
+		var updateTotal = function (counts) {
+			if (!counts || typeof counts.total === 'undefined') {
+				return;
+			}
+			var root = document.querySelector('.na-single-share');
+			if (!root) {
+				return;
+			}
+			var label = root.querySelector('[data-na-share-total-label]');
+			var totalEl = root.querySelector('.na-single-share__total');
+			var total = parseInt(counts.total, 10) || 0;
+			root.setAttribute('data-na-share-total', String(total));
+			if (label) {
+				label.textContent = toNepaliDigits(total);
+			}
+			if (totalEl) {
+				totalEl.hidden = total < 1;
+				totalEl.classList.toggle('is-empty', total < 1);
+			}
+		};
+
+		fetch(url, {
+			method: 'POST',
+			credentials: 'same-origin',
+			keepalive: true,
+			headers: {
+				'Content-Type': 'application/json',
+				'X-WP-Nonce': cfg.restNonce || '',
+			},
+			body: payload,
+		})
+			.then(function (res) {
+				return res.json().then(function (body) {
+					if (!res.ok) {
+						throw new Error((body && body.message) || 'Error');
+					}
+					return body;
+				});
+			})
+			.then(function (body) {
+				if (body && body.counts) {
+					updateTotal(body.counts);
+				}
+			})
+			.catch(function () {
+				/* ignore tracking failures */
+			});
+	}
 
 	function initCopy() {
 		var buttons = document.querySelectorAll('[data-na-copy-link]');
@@ -18,6 +90,7 @@
 				var done = function () {
 					btn.classList.add('is-copied');
 					btn.setAttribute('title', 'कपी भयो');
+					recordShare(btn.getAttribute('data-na-share') || 'copy');
 					window.setTimeout(function () {
 						btn.classList.remove('is-copied');
 						btn.setAttribute('title', 'लिंक कपी');
@@ -31,6 +104,18 @@
 				} else {
 					fallbackCopy(url, done);
 				}
+			});
+		});
+	}
+
+	function initShares() {
+		document.querySelectorAll('[data-na-share]').forEach(function (el) {
+			// Copy is recorded after a successful clipboard write.
+			if (el.hasAttribute('data-na-copy-link')) {
+				return;
+			}
+			el.addEventListener('click', function () {
+				recordShare(el.getAttribute('data-na-share') || '');
 			});
 		});
 	}
@@ -89,10 +174,6 @@
 			btn.setAttribute('aria-pressed', active ? 'true' : 'false');
 		});
 		root.setAttribute('data-na-selected', selected || '');
-	}
-
-	function getConfig() {
-		return window.naSinglePost || {};
 	}
 
 	function postReaction(postId, reaction) {
@@ -204,6 +285,7 @@
 
 	function init() {
 		initCopy();
+		initShares();
 		initReactions();
 	}
 
