@@ -127,6 +127,19 @@ function maglist_child_collect_main_query_posts() {
 }
 
 /**
+ * Show pagination page numbers in Nepali digits (URLs stay ASCII).
+ *
+ * @param string $formatted Formatted number from number_format_i18n.
+ * @return string
+ */
+function maglist_child_pagination_nepali_number( $formatted ) {
+	if ( function_exists( 'maglist_child_to_nepali_digits' ) ) {
+		return maglist_child_to_nepali_digits( $formatted );
+	}
+	return $formatted;
+}
+
+/**
  * Render pagination for the main query or a custom hub query.
  *
  * @param WP_Query|null $query Optional custom query (hub pages).
@@ -140,6 +153,7 @@ function maglist_child_category_pagination( $query = null ) {
 		$wp_query = $query; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	}
 
+	add_filter( 'number_format_i18n', 'maglist_child_pagination_nepali_number' );
 	the_posts_pagination(
 		array(
 			'mid_size'  => 2,
@@ -148,6 +162,7 @@ function maglist_child_category_pagination( $query = null ) {
 			'class'     => 'na-cat-pagination',
 		)
 	);
+	remove_filter( 'number_format_i18n', 'maglist_child_pagination_nepali_number' );
 
 	if ( $swap instanceof WP_Query ) {
 		$wp_query = $swap; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
