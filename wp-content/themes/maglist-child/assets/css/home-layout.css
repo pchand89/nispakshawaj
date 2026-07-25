@@ -232,15 +232,6 @@
 	color: var(--na-color-accent-red, #bf1e2e);
 }
 
-.na-breaking__meta {
-	font-size: 13px;
-	color: var(--na-color-muted, #6b6b6b);
-	margin-bottom: 16px;
-}
-
-.na-breaking__dot {
-	margin: 0 6px;
-}
 
 .na-breaking__thumb {
 	display: block;

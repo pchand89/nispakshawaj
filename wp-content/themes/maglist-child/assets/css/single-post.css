@@ -107,46 +107,11 @@ body.single .maglist-sticky-share ul li a:hover {
 	margin-bottom: 22px;
 }
 
-/* Meta */
-.na-single-meta {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 10px 16px;
-	min-width: 0;
-	margin: 0;
+/* Meta (shared .na-post-meta styles live in style.css) */
+.na-single-toolbar .na-post-meta {
 	flex: 1 1 auto;
-}
-
-.na-single-meta__author {
-	display: inline-flex;
-	align-items: center;
-	gap: 10px;
-	color: inherit;
-	text-decoration: none;
-}
-
-.na-single-meta__avatar img {
-	display: block;
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	object-fit: cover;
-}
-
-.na-single-meta__name {
-	font-size: 15px;
-	font-weight: 700;
-	color: var(--na-color-heading, #111);
-}
-
-.na-single-meta__author:hover .na-single-meta__name {
-	color: var(--na-color-accent-red, #bf1e2e);
-}
-
-.na-single-meta__date {
-	font-size: 14px;
-	color: var(--na-color-muted, #6b6b6b);
+	justify-content: flex-start;
+	margin: 0;
 }
 
 /* Share */

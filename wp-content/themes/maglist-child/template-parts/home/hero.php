@@ -51,11 +51,17 @@ $maglist_child_breaking_index = 0;
 				<p class="na-breaking__dek"><?php echo esc_html( $maglist_child_breaking_excerpt ); ?></p>
 			<?php endif; ?>
 
-			<div class="na-breaking__meta">
-				<span class="na-breaking__author"><?php the_author(); ?></span>
-				<span class="na-breaking__dot" aria-hidden="true">&middot;</span>
-				<span class="na-breaking__time"><?php echo esc_html( maglist_child_time_ago( get_the_ID() ) ); ?></span>
-			</div>
+			<?php
+			get_template_part(
+				'template-parts/common/post-meta',
+				null,
+				array(
+					'modifier'  => 'na-post-meta--breaking',
+					'avatar'    => 28,
+					'show_time' => false,
+				)
+			);
+			?>
 
 			<?php if ( has_post_thumbnail() ) : ?>
 				<a class="na-breaking__thumb" href="<?php the_permalink(); ?>">

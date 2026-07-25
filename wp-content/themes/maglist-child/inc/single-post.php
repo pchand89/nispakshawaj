@@ -48,8 +48,22 @@ function maglist_child_to_nepali_digits( $text ) {
 }
 
 /**
- * Nepali BS date plus clock time for single-post meta.
- * Example: शनिबार, ०९ साउन २०८३, १५ : ०२
+ * Nepali BS date string for a post (no time).
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function maglist_child_single_date( $post_id ) {
+	$post_id = absint( $post_id );
+	$date    = maglist_child_nepali_bs_date( $post_id );
+	if ( '' === $date ) {
+		$date = get_the_date( '', $post_id );
+	}
+	return (string) $date;
+}
+
+/**
+ * Clock time for a post in Nepali digits. Example: १५ : ०२
  *
  * Time is parsed from post_date directly so filtered get_post_time()
  * cannot inject a Unix timestamp into the hour slot.
@@ -57,16 +71,11 @@ function maglist_child_to_nepali_digits( $text ) {
  * @param int $post_id Post ID.
  * @return string
  */
-function maglist_child_single_datetime( $post_id ) {
+function maglist_child_single_time( $post_id ) {
 	$post_id = absint( $post_id );
-	$date    = maglist_child_nepali_bs_date( $post_id );
-	if ( '' === $date ) {
-		$date = get_the_date( '', $post_id );
-	}
-
-	$post = get_post( $post_id );
+	$post    = get_post( $post_id );
 	if ( ! $post instanceof WP_Post || empty( $post->post_date ) ) {
-		return $date;
+		return '';
 	}
 
 	// Local MySQL datetime: YYYY-MM-DD HH:MM:SS
@@ -77,10 +86,24 @@ function maglist_child_single_datetime( $post_id ) {
 		$minute = (int) $m[5];
 	}
 
-	$time = maglist_child_to_nepali_digits(
+	return maglist_child_to_nepali_digits(
 		sprintf( '%02d : %02d', $hour, $minute )
 	);
+}
 
+/**
+ * Nepali BS date plus clock time for single-post meta.
+ * Example: शनिबार, ०९ साउन २०८३, १५ : ०२
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function maglist_child_single_datetime( $post_id ) {
+	$date = maglist_child_single_date( $post_id );
+	$time = maglist_child_single_time( $post_id );
+	if ( '' === $time ) {
+		return $date;
+	}
 	return trim( $date . ', ' . $time );
 }
 
