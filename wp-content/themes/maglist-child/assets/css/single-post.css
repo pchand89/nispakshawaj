@@ -97,13 +97,25 @@ body.single .maglist-sticky-share ul li a:hover {
 	color: var(--na-color-heading, #111);
 }
 
+/* Meta + share toolbar */
+.na-single-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 20px;
+	margin-bottom: 22px;
+}
+
 /* Meta */
 .na-single-meta {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 14px 20px;
-	margin-bottom: 16px;
+	gap: 10px 16px;
+	min-width: 0;
+	margin: 0;
+	flex: 1 1 auto;
 }
 
 .na-single-meta__author {
@@ -142,8 +154,10 @@ body.single .maglist-sticky-share ul li a:hover {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 10px;
-	margin-bottom: 22px;
+	justify-content: flex-end;
+	gap: 8px;
+	margin: 0;
+	flex: 0 0 auto;
 }
 
 .na-single-share__btn {
@@ -151,13 +165,13 @@ body.single .maglist-sticky-share ul li a:hover {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 40px;
-	height: 40px;
+	width: 36px;
+	height: 36px;
 	padding: 0;
 	border: 0;
 	border-radius: 50%;
 	color: #fff;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 1;
 	text-decoration: none;
 	cursor: pointer;
@@ -656,6 +670,22 @@ body.single .maglist-sticky-share ul li a:hover {
 
 	.na-single-article__content {
 		font-size: 17px;
+	}
+
+	.na-single-toolbar {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 14px;
+	}
+
+	.na-single-share {
+		justify-content: flex-start;
+	}
+
+	.na-single-share__btn {
+		width: 34px;
+		height: 34px;
+		font-size: 15px;
 	}
 
 	.na-single-author__card {

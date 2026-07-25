@@ -23,8 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<h1 class="na-single-article__title"><?php the_title(); ?></h1>
 
-		<?php get_template_part( 'template-parts/single/meta' ); ?>
-		<?php get_template_part( 'template-parts/single/share' ); ?>
+		<div class="na-single-toolbar">
+			<?php get_template_part( 'template-parts/single/meta' ); ?>
+			<?php get_template_part( 'template-parts/single/share' ); ?>
+		</div>
 	</header>
 
 	<?php get_template_part( 'template-parts/single/hero' ); ?>
