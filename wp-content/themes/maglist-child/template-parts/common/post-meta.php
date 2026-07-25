@@ -4,7 +4,7 @@
  *
  * Optional $args:
  *   @type string $modifier   Extra BEM modifier class (e.g. 'na-post-meta--breaking').
- *   @type int    $avatar     Avatar size in px (default 32).
+ *   @type int    $avatar     Avatar size in px (default 20).
  *   @type bool   $show_time  Whether to append clock time (default true).
  *
  * @package Maglist_Child
@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $modifier    = isset( $args['modifier'] ) ? (string) $args['modifier'] : '';
-$avatar_px   = isset( $args['avatar'] ) ? absint( $args['avatar'] ) : 32;
-$avatar_px   = $avatar_px > 0 ? $avatar_px : 32;
+$avatar_px   = isset( $args['avatar'] ) ? absint( $args['avatar'] ) : 20;
+$avatar_px   = $avatar_px > 0 ? $avatar_px : 20;
 $show_time   = ! isset( $args['show_time'] ) || (bool) $args['show_time'];
 $author_id   = (int) get_the_author_meta( 'ID' );
 $author_name = get_the_author();

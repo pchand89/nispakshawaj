@@ -57,7 +57,7 @@ $maglist_child_breaking_index = 0;
 				null,
 				array(
 					'modifier'  => 'na-post-meta--breaking',
-					'avatar'    => 28,
+					'avatar'    => 18,
 					'show_time' => false,
 				)
 			);

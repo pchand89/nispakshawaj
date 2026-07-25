@@ -14,6 +14,6 @@ get_template_part(
 	null,
 	array(
 		'modifier' => 'na-post-meta--single',
-		'avatar'   => 32,
+		'avatar'   => 20,
 	)
 );

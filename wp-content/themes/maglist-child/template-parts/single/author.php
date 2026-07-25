@@ -18,7 +18,7 @@ $bio         = get_the_author_meta( 'description', $author_id );
 	<h2 class="na-single-author__heading"><?php esc_html_e( 'लेखकको बारेमा', 'maglist-child' ); ?></h2>
 	<div class="na-single-author__card">
 		<a class="na-single-author__avatar" href="<?php echo esc_url( $author_url ); ?>">
-			<?php echo get_avatar( $author_id, 72, '', $author_name ); ?>
+			<?php echo get_avatar( $author_id, 48, '', $author_name ); ?>
 		</a>
 		<div class="na-single-author__body">
 			<h3 class="na-single-author__name">

@@ -415,14 +415,18 @@ body.single .maglist-sticky-share ul li a:hover {
 
 .na-single-author__card {
 	display: flex;
-	gap: 16px;
+	gap: 12px;
 	align-items: flex-start;
+}
+
+.na-single-author__avatar {
+	flex: 0 0 48px;
 }
 
 .na-single-author__avatar img {
 	display: block;
-	width: 72px;
-	height: 72px;
+	width: 48px;
+	height: 48px;
 	border-radius: 50%;
 	object-fit: cover;
 }
