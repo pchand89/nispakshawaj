@@ -485,7 +485,56 @@ body.single .maglist-sticky-share ul li a:hover {
 }
 
 .na-single__sidebar .na-ad-sidebar {
-	margin: 0 0 8px;
+	margin: 0 0 20px;
+}
+
+.na-single-widgets {
+	margin: 0 0 24px;
+}
+
+.na-single-widgets .widget {
+	margin: 0 0 24px;
+}
+
+.na-single-widgets .widget-title,
+.na-single-widgets .wp-block-heading {
+	margin: 0 0 14px;
+	padding-bottom: 10px;
+	border-bottom: 2px solid var(--na-color-accent-red, #bf1e2e);
+	font-family: var(--na-font-heading, 'Mukta', sans-serif);
+	font-size: 20px;
+	font-weight: 800;
+	color: var(--na-color-heading, #111);
+}
+
+.na-single-widgets .widget ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.na-single-widgets .widget li {
+	border-bottom: 1px solid var(--na-color-border, #ececec);
+}
+
+.na-single-widgets .widget li a {
+	display: block;
+	padding: 12px 0;
+	font-size: 14.5px;
+	font-weight: 600;
+	line-height: 1.45;
+	color: var(--na-color-heading, #111);
+	text-decoration: none;
+}
+
+.na-single-widgets .widget li a:hover {
+	color: var(--na-color-accent-red, #bf1e2e);
+}
+
+.na-single-widgets img,
+.na-single-widgets iframe {
+	max-width: 100%;
+	height: auto;
 }
 
 .na-single-sideblock__list {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Single post sidebar: ad + भर्खरै + ट्रेन्डिङ.
+ * Single post sidebar: sidebar-ad + Maglist sidebar widgets + भर्खरै + ट्रेन्डिङ.
  *
  * @package Maglist_Child
  */
@@ -39,8 +39,23 @@ if ( ! $trending->have_posts() ) {
 	$trending = new WP_Query( $trending_args );
 }
 ?>
-<aside class="na-single__sidebar" aria-label="<?php echo esc_attr__( 'साइडबार', 'maglist-child' ); ?>">
+<aside id="secondary" class="na-single__sidebar widget-area" aria-label="<?php echo esc_attr__( 'साइडबार', 'maglist-child' ); ?>">
 	<?php maglist_child_widget_area( 'sidebar-ad', 'na-ad-slot na-ad-sidebar', true ); ?>
+
+	<div class="na-single-widgets">
+		<?php if ( is_active_sidebar( 'maglist_sidebar' ) ) : ?>
+			<?php
+			$sidebar = apply_filters( Maglist_Theme::fn_prefix( 'sidebar' ), 'maglist_sidebar' );
+			dynamic_sidebar( $sidebar );
+			?>
+		<?php else : ?>
+			<?php
+			Maglist_Theme::the_default_search();
+			Maglist_Theme::the_default_recent_post();
+			Maglist_Theme::the_default_archive();
+			?>
+		<?php endif; ?>
+	</div>
 
 	<?php if ( $recent->have_posts() ) : ?>
 		<div class="na-single-sideblock">
