@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.63' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.64' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -265,7 +265,7 @@ function maglist_child_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'maglist_child_enqueue_assets', 20 );
 
 /**
- * Show 20 posts per page on category and tag archives (dense news feed).
+ * Show 20 posts per page on category, tag, and author archives (dense news feed).
  *
  * @param WP_Query $query Main query.
  */
@@ -273,7 +273,7 @@ function maglist_child_category_posts_per_page( $query ) {
 	if ( is_admin() || ! $query->is_main_query() ) {
 		return;
 	}
-	if ( ! $query->is_category() && ! $query->is_tag() ) {
+	if ( ! $query->is_category() && ! $query->is_tag() && ! $query->is_author() ) {
 		return;
 	}
 	$query->set( 'posts_per_page', 20 );
