@@ -2,9 +2,8 @@
 /**
  * Custom site footer - replaces the parent Maglist theme's footer
  * entirely (see the note at the top of header.php for why this is safe to
- * do sitewide). Structure mirrors the reference news layout's real .first-footer /
- * .last-footer bands: a dark "about/contact + quicklinks" band, then a
- * "logo + copyright + social icons" band.
+ * do sitewide). Four-column band (about, categories, useful links, follow)
+ * plus a copyright bar.
  *
  * @package Maglist_Child
  */
@@ -12,6 +11,14 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$na_footer_year = function_exists( 'maglist_child_to_nepali_digits' )
+	? maglist_child_to_nepali_digits( date_i18n( 'Y' ) )
+	: date_i18n( 'Y' );
+
+$na_footer_categories = maglist_child_get_footer_categories();
+$na_footer_useful     = maglist_child_get_footer_useful_links();
+$na_footer_social     = maglist_child_get_footer_social_links();
 ?>
 
 <footer class="na-footer">
@@ -19,73 +26,103 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="na-footer__top">
 		<div class="na-container na-footer__top-grid">
 
-			<div class="na-footer__about">
-				<?php if ( is_active_sidebar( 'footer-about' ) ) : ?>
-					<?php dynamic_sidebar( 'footer-about' ); ?>
-				<?php else : ?>
-					<h5 class="na-footer__heading"><?php esc_html_e( 'हाम्रोबारे', 'maglist-child' ); ?></h5>
-					<?php if ( has_custom_logo() ) : ?>
-						<span class="na-footer__logo"><?php the_custom_logo(); ?></span>
-					<?php endif; ?>
-					<!-- <p class="na-footer__about-title">निश्पक्ष आवाज</p> -->
-					<div class="na-footer__contact">
-						<p class="na-footer__contact-name"><?php esc_html_e( 'निश्पक्ष आवाज प्रा. लि.', 'maglist-child' ); ?></p>
-						<p><?php esc_html_e( 'भीमदत्त–१०, महेन्द्रनगर, कञ्चनपुर', 'maglist-child' ); ?></p>
-						<p>
-							<?php esc_html_e( 'फोन:', 'maglist-child' ); ?>
+			<div class="na-footer__col na-footer__about">
+				<?php if ( has_custom_logo() ) : ?>
+					<span class="na-footer__logo na-footer__logo--about"><?php the_custom_logo(); ?></span>
+				<?php endif; ?>
+				<p class="na-footer__tagline"><?php esc_html_e( 'निश्पक्ष आवाज प्रा. लि.', 'maglist-child' ); ?></p>
+
+				<ul class="na-footer__meta">
+					<li>
+						<i class="fa fa-user" aria-hidden="true"></i>
+						<span><?php esc_html_e( 'अध्यक्ष: श्रीमती निर्मला जोशी', 'maglist-child' ); ?></span>
+					</li>
+					<li>
+						<i class="fa fa-user" aria-hidden="true"></i>
+						<span><?php esc_html_e( 'सञ्चालक: श्रीमती दक्षिणा कुमारी बम', 'maglist-child' ); ?></span>
+					</li>
+					<li>
+						<i class="fa fa-pencil" aria-hidden="true"></i>
+						<span><?php esc_html_e( 'सम्पादक: श्री राज बहादुर चन्द', 'maglist-child' ); ?></span>
+					</li>
+					<li>
+						<i class="fa fa-map-marker" aria-hidden="true"></i>
+						<span><?php esc_html_e( 'भीमदत्त–१०, महेन्द्रनगर, कञ्चनपुर', 'maglist-child' ); ?></span>
+					</li>
+					<li>
+						<i class="fa fa-phone" aria-hidden="true"></i>
+						<span>
+							<?php esc_html_e( 'सम्पर्क:', 'maglist-child' ); ?>
 							<a href="tel:+9779742379333">९७४२३७९३३३</a>
-						</p>
-						<p>
+						</span>
+					</li>
+					<li>
+						<i class="fa fa-envelope" aria-hidden="true"></i>
+						<span>
 							<?php esc_html_e( 'इमेल:', 'maglist-child' ); ?>
 							<a href="mailto:info@nispakshawaj.com">info@nispakshawaj.com</a>
-						</p>
-						<p><?php esc_html_e( 'सुचना बिभाग दर्ता नम्बर : ३७१७-२०७९/२०८०', 'maglist-child' ); ?></p>
-					</div>
-					<ul class="na-footer__people">
-						<li><?php esc_html_e( 'अध्यक्ष: श्रीमती निर्मला जोशी', 'maglist-child' ); ?></li>
-						<li><?php esc_html_e( 'सञ्चालक: श्रीमती दक्षिणा कुमारी बम', 'maglist-child' ); ?></li>
-						<li><?php esc_html_e( 'सम्पादक: श्री राज बहादुर चन्द', 'maglist-child' ); ?></li>
+						</span>
+					</li>
+				</ul>
+			</div>
+
+			<div class="na-footer__col na-footer__cats">
+				<h5 class="na-footer__heading"><?php esc_html_e( 'समाचार विधा', 'maglist-child' ); ?></h5>
+				<?php if ( has_nav_menu( 'footer-categories' ) ) : ?>
+					<?php
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer-categories',
+							'container'      => false,
+							'menu_class'     => 'na-footer__list',
+							'depth'          => 1,
+						)
+					);
+					?>
+				<?php elseif ( ! empty( $na_footer_categories ) ) : ?>
+					<ul class="na-footer__list">
+						<?php foreach ( $na_footer_categories as $na_footer_cat ) : ?>
+							<li>
+								<a href="<?php echo esc_url( $na_footer_cat['url'] ); ?>">
+									<?php echo esc_html( $na_footer_cat['label'] ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
 			</div>
 
-			<?php if ( has_nav_menu( 'footer' ) ) : ?>
-				<div class="na-footer__links">
-					<h5 class="na-footer__heading"><?php esc_html_e( 'उपयोगी लिंकहरु', 'maglist-child' ); ?></h5>
+			<div class="na-footer__col na-footer__links">
+				<h5 class="na-footer__heading"><?php esc_html_e( 'उपयोगी लिंक', 'maglist-child' ); ?></h5>
+				<?php if ( has_nav_menu( 'footer' ) ) : ?>
 					<?php
 					wp_nav_menu(
 						array(
 							'theme_location' => 'footer',
 							'container'      => false,
-							'menu_class'     => 'na-footer__links-menu',
+							'menu_class'     => 'na-footer__list',
 							'depth'          => 1,
 						)
 					);
 					?>
-				</div>
-			<?php endif; ?>
-
-		</div>
-	</div><!-- .na-footer__top -->
-
-	<div class="na-footer__bottom">
-		<div class="na-container na-footer__bottom-grid">
-
-			<div class="na-footer__brand">
-				<?php if ( has_custom_logo() ) : ?>
-					<span class="na-footer__logo"><?php the_custom_logo(); ?></span>
+				<?php elseif ( ! empty( $na_footer_useful ) ) : ?>
+					<ul class="na-footer__list">
+						<?php foreach ( $na_footer_useful as $na_footer_link ) : ?>
+							<li>
+								<a href="<?php echo esc_url( $na_footer_link['url'] ); ?>">
+									<?php echo esc_html( $na_footer_link['label'] ); ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
 				<?php endif; ?>
-				<p class="na-footer__copyright">
-					&copy; <?php echo esc_html( date_i18n( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'All rights reserved.', 'maglist-child' ); ?>
-				</p>
 			</div>
 
-			<?php if ( has_nav_menu( 'social-menu-footer' ) ) : ?>
-				<div class="na-footer__social">
+			<div class="na-footer__col na-footer__follow">
+				<h5 class="na-footer__heading"><?php esc_html_e( 'हामीलाई फलो गर्नुहोस्', 'maglist-child' ); ?></h5>
+
+				<?php if ( has_nav_menu( 'social-menu-footer' ) ) : ?>
 					<?php
-					// Menu item titles for this location are already authored as raw
-					// icon markup (e.g. `<i class="fa fa-facebook">`), matching how the
-					// parent theme's own header social menu is used - render as-is.
 					wp_nav_menu(
 						array(
 							'theme_location' => 'social-menu-footer',
@@ -95,9 +132,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 						)
 					);
 					?>
-				</div>
-			<?php endif; ?>
+				<?php elseif ( ! empty( $na_footer_social ) ) : ?>
+					<ul class="na-footer__social-menu">
+						<?php foreach ( $na_footer_social as $na_footer_social_item ) : ?>
+							<li>
+								<a
+									href="<?php echo esc_url( $na_footer_social_item['url'] ); ?>"
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label="<?php echo esc_attr( $na_footer_social_item['label'] ); ?>"
+									title="<?php echo esc_attr( $na_footer_social_item['label'] ); ?>"
+								>
+									<i class="<?php echo esc_attr( $na_footer_social_item['icon'] ); ?>" aria-hidden="true"></i>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
 
+				<p class="na-footer__reg">
+					<?php esc_html_e( 'सूचना विभाग दर्ता नं.: ३७१७', 'maglist-child' ); ?>
+				</p>
+			</div>
+
+		</div>
+	</div><!-- .na-footer__top -->
+
+	<div class="na-footer__bottom">
+		<div class="na-container na-footer__bottom-grid">
+			<div class="na-footer__brand">
+				<?php if ( has_custom_logo() ) : ?>
+					<span class="na-footer__logo"><?php the_custom_logo(); ?></span>
+				<?php endif; ?>
+				<p class="na-footer__copyright">
+					&copy; <?php echo esc_html( $na_footer_year ); ?>
+					<?php esc_html_e( 'निश्पक्ष आवाज प्रा. लि.', 'maglist-child' ); ?> ।
+					<?php esc_html_e( 'सर्वाधिकार सुरक्षित।', 'maglist-child' ); ?>
+				</p>
+			</div>
 		</div>
 	</div><!-- .na-footer__bottom -->
 

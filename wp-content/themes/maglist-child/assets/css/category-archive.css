@@ -404,6 +404,7 @@
 /* Hide Maglist archive banner leftovers if any slip through */
 .na-cat ~ .inner-banner-wrapper,
 body.category .inner-banner-wrapper,
+body.tag .inner-banner-wrapper,
 body.page .inner-banner-wrapper:has(+ .na-cat) {
 	display: none;
 }

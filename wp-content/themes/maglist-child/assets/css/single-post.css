@@ -303,6 +303,7 @@ body.single .maglist-sticky-share ul li a:hover {
 .na-single-article__tags {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: 8px;
 	margin: 28px 0 0;
 	padding-top: 20px;
@@ -310,15 +311,20 @@ body.single .maglist-sticky-share ul li a:hover {
 }
 
 .na-single-article__tag {
+	box-sizing: border-box;
 	display: inline-flex;
 	align-items: center;
-	padding: 6px 12px;
+	justify-content: center;
+	height: 30px;
+	padding: 0 12px;
 	border: 1px solid var(--na-color-border, #e0e0e0);
 	border-radius: 999px;
 	font-size: 13px;
 	font-weight: 600;
+	line-height: 1;
 	color: var(--na-color-heading, #111);
 	text-decoration: none;
+	white-space: nowrap;
 }
 
 .na-single-article__tag:hover {

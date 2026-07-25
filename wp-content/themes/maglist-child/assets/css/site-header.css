@@ -547,11 +547,12 @@ body.na-search-open .na-search-overlay {
 .na-trending-tags {
 	background: var(--na-color-surface-alt, rgba(241, 241, 241, 0.98));
 	border-top: 1px solid var(--na-color-border, rgba(0, 0, 0, 0.15));
-	padding: 10px 0;
+	padding: 6px 0;
 }
 
 .na-trending-tags ul {
 	display: flex;
+	align-items: center;
 	gap: 6px;
 	margin: 0;
 	padding: 0;
@@ -566,22 +567,48 @@ body.na-search-open .na-search-overlay {
 
 .na-trending-tags li {
 	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
 }
 
 .na-trending-tags a {
-	display: inline-block;
-	background: var(--na-color-surface, #fff);
-	border: 1px solid var(--na-color-border, rgba(0, 0, 0, 0.2));
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 30px;
+	padding: 0 15px;
+	background: #e8eef8;
+	background: color-mix(in srgb, var(--na-color-section-title, #003893) 12%, #fff);
+	border: 1px solid #c5d4ef;
+	border: 1px solid color-mix(in srgb, var(--na-color-section-title, #003893) 22%, #fff);
 	border-radius: 60px;
-	padding: 4px 15px;
 	font-size: 13px;
 	font-weight: 500;
-	color: var(--na-color-muted, rgba(0, 0, 0, 0.6));
+	line-height: 1;
+	color: var(--na-color-section-title, #003893);
 	white-space: nowrap;
 }
 
 .na-trending-tags a:hover {
-	color: var(--na-color-accent-red, #bf1e2e);
+	background: #d7e3f5;
+	background: color-mix(in srgb, var(--na-color-section-title, #003893) 20%, #fff);
+	border-color: #a8c0e8;
+	border-color: color-mix(in srgb, var(--na-color-section-title, #003893) 35%, #fff);
+	color: var(--na-color-section-title, #003893);
+}
+
+html.na-dark .na-trending-tags a {
+	background: #1a2740;
+	background: color-mix(in srgb, var(--na-color-section-title, #7eb6ff) 22%, #1a1a1a);
+	border-color: #2a3f66;
+	border-color: color-mix(in srgb, var(--na-color-section-title, #7eb6ff) 35%, #1a1a1a);
+	color: var(--na-color-section-title, #7eb6ff);
+}
+
+html.na-dark .na-trending-tags a:hover {
+	background: #223552;
+	background: color-mix(in srgb, var(--na-color-section-title, #7eb6ff) 32%, #1a1a1a);
 }
 
 /* -----------------------------------------------------------------------
@@ -597,137 +624,119 @@ body.na-search-open .na-search-overlay {
 .na-footer__top {
 	background: var(--na-color-footer-dark, #003893);
 	color: #fff;
-	padding: 30px 0;
+	padding: 40px 0 36px;
 }
 
 .na-footer__top-grid {
 	display: grid;
-	grid-template-columns: 2fr 1fr;
-	gap: 36px;
+	grid-template-columns: 1.4fr 1fr 1fr 1fr;
+	gap: 32px 28px;
+	align-items: start;
 }
 
 .na-footer__heading {
-	font-size: 18px;
-	font-weight: 600;
-	margin: 0 0 15px;
+	font-size: 17px;
+	font-weight: 700;
+	margin: 0 0 16px;
+	padding-left: 12px;
+	color: #fff;
+	border-left: 3px solid var(--na-color-accent-red, #bf1e2e);
+	line-height: 1.3;
+}
+
+.na-footer__logo--about {
+	display: inline-block;
+	margin-bottom: 12px;
+	line-height: 0;
+}
+
+.na-footer__about .na-footer__logo--about img,
+.na-footer__about .na-footer__logo--about .custom-logo {
+	display: block;
+	width: 200px !important;
+	max-width: 100% !important;
+	height: auto !important;
+	max-height: none !important;
+	object-fit: contain;
+	filter: brightness(0) invert(1);
+	opacity: 0.95;
+}
+
+.na-footer__brand-name {
+	margin: 0 0 8px;
+	font-size: 22px;
+	font-weight: 700;
 	color: #fff;
 }
 
-.na-footer__about p,
-.na-footer__about-placeholder {
+.na-footer__tagline {
+	margin: 0 0 16px;
 	font-size: 14px;
-	line-height: 1.8;
-	color: rgba(255, 255, 255, 0.76);
-	margin: 0 0 10px;
-}
-
-.na-footer__about-title {
-	font-size: 16px;
 	font-weight: 600;
-	color: #fff;
-	margin: 0 0 12px;
+	color: rgba(255, 255, 255, 0.92);
 }
 
-.na-footer__contact {
-	margin: 18px 0 14px;
-	padding-top: 14px;
-	border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.na-footer__contact p {
-	margin: 0 0 4px;
-}
-
-.na-footer__contact-name {
-	font-weight: 600;
-	color: #fff;
-	margin-bottom: 6px !important;
-}
-
-.na-footer__contact a {
-	color: rgba(255, 255, 255, 0.9);
-	text-decoration: underline;
-	text-underline-offset: 2px;
-}
-
-.na-footer__contact a:hover {
-	color: #fff;
-}
-
-.na-footer__people {
-	margin: 0;
-	padding: 12px 0 0;
-	list-style: none;
-	border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.na-footer__people li {
-	font-size: 14px;
-	line-height: 1.7;
-	color: rgba(255, 255, 255, 0.76);
-	margin: 0 0 2px;
-}
-
-.na-footer__about .widget-title {
-	color: #fff;
-	font-size: 16px;
-}
-
-.na-footer__links-menu {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 8px 20px;
+.na-footer__meta {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-.na-footer__links-menu a {
+.na-footer__meta li {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	margin: 0 0 10px;
 	font-size: 14px;
-	color: rgba(255, 255, 255, 0.76);
-	line-height: 1.6;
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.82);
 }
 
-.na-footer__links-menu a:hover {
-	color: #fff;
-}
-
-.na-footer__bottom {
-	background: var(--na-color-footer-darker, #00266a);
-	padding: 16px 0;
-}
-
-.na-footer__bottom-grid {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	flex-wrap: wrap;
-}
-
-.na-footer__brand {
-	display: flex;
-	align-items: center;
-	gap: 14px;
-}
-
-.na-footer__logo img {
-	max-height: 32px;
-	width: auto;
-	filter: brightness(0) invert(1);
-	opacity: 0.9;
-}
-
-.na-footer__copyright {
-	margin: 0;
-	font-size: 13px;
+.na-footer__meta .fa {
+	flex: 0 0 16px;
+	width: 16px;
+	margin-top: 3px;
+	text-align: center;
 	color: rgba(255, 255, 255, 0.7);
+}
+
+.na-footer__meta a {
+	color: rgba(255, 255, 255, 0.95);
+	text-decoration: none;
+}
+
+.na-footer__meta a:hover {
+	color: #fff;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.na-footer__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.na-footer__list li {
+	margin: 0 0 8px;
+}
+
+.na-footer__list a {
+	font-size: 14px;
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.82);
+	text-decoration: none;
+}
+
+.na-footer__list a:hover {
+	color: #fff;
 }
 
 .na-footer__social-menu {
 	display: flex;
-	gap: 12px;
-	margin: 0;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0 0 18px;
 	padding: 0;
 	list-style: none;
 }
@@ -736,27 +745,85 @@ body.na-search-open .na-search-overlay {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 34px;
-	height: 34px;
+	width: 40px;
+	height: 40px;
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.12);
 	color: #fff;
+	font-size: 16px;
+	text-decoration: none;
+	transition: background 0.15s ease;
 }
 
 .na-footer__social-menu a:hover {
 	background: var(--na-color-accent-red, #bf1e2e);
 }
 
+.na-footer__reg {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.78);
+}
+
+.na-footer__bottom {
+	background: var(--na-color-footer-darker, #00266a);
+	padding: 16px 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.na-footer__bottom-grid {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	flex-wrap: wrap;
+	text-align: center;
+}
+
+.na-footer__brand {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	flex-wrap: wrap;
+}
+
+.na-footer__brand .na-footer__logo img,
+.na-footer__brand .na-footer__logo .custom-logo {
+	display: block;
+	width: auto !important;
+	max-width: 120px !important;
+	height: auto !important;
+	max-height: 32px !important;
+	object-fit: contain;
+	filter: brightness(0) invert(1);
+	opacity: 0.9;
+}
+
+.na-footer__copyright {
+	margin: 0;
+	font-size: 13px;
+	color: rgba(255, 255, 255, 0.72);
+}
+
 /* -----------------------------------------------------------------------
    8. Responsive breakpoints
 ----------------------------------------------------------------------- */
-@media (max-width: 767px) {
+@media (max-width: 991px) {
 	.na-footer__top-grid {
-		grid-template-columns: 1fr;
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 767px) {
+	.na-footer__top {
+		padding: 28px 0 24px;
 	}
 
-	.na-footer__links-menu {
-		grid-template-columns: repeat(2, 1fr);
+	.na-footer__top-grid {
+		grid-template-columns: 1fr;
+		gap: 28px;
 	}
 
 	.na-header__logo img,

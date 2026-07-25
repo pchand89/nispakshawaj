@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return bool
  */
 function maglist_child_is_category_layout() {
-	if ( is_category() ) {
+	if ( is_category() || is_tag() ) {
 		return true;
 	}
 
@@ -104,17 +104,23 @@ function maglist_child_get_category_archive_query( $term_id ) {
 /**
  * Collect posts from the main query as an array of WP_Post objects.
  *
+ * Uses $wp_query->posts directly (already scoped by WordPress to the current
+ * category/tag term) instead of walking the loop, so we never alter loop state.
+ *
  * @return WP_Post[]
  */
 function maglist_child_collect_main_query_posts() {
-	$posts = array();
+	global $wp_query;
 
-	if ( have_posts() ) {
-		while ( have_posts() ) {
-			the_post();
-			$posts[] = get_post();
+	if ( ! $wp_query instanceof WP_Query || empty( $wp_query->posts ) ) {
+		return array();
+	}
+
+	$posts = array();
+	foreach ( $wp_query->posts as $post ) {
+		if ( $post instanceof WP_Post ) {
+			$posts[] = $post;
 		}
-		rewind_posts();
 	}
 
 	return $posts;

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.35' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.48' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -64,6 +64,16 @@ require MAGLIST_CHILD_DIR . '/inc/permalink-slug-fix.php';
  * One-time Ad Inserter selector retarget (old Maglist banner → child ad slots).
  */
 require MAGLIST_CHILD_DIR . '/inc/ad-inserter-retarget.php';
+
+/**
+ * Footer helpers (category / useful / social link lists).
+ */
+require MAGLIST_CHILD_DIR . '/inc/footer.php';
+
+/**
+ * Static page helpers (Ratopati-style about/contact/privacy layout).
+ */
+require MAGLIST_CHILD_DIR . '/inc/static-page.php';
 
 /**
  * Load child theme text domain (parent theme already loads its own
@@ -207,6 +217,14 @@ function maglist_child_enqueue_assets() {
 		$theme_version
 	);
 
+	// Ratopati-style static pages (about / contact / privacy / terms).
+	wp_enqueue_style(
+		'maglist-child-static-page',
+		MAGLIST_CHILD_URI . '/assets/css/static-page.css',
+		array( 'maglist-child-style' ),
+		$theme_version
+	);
+
 	if ( is_singular( 'post' ) ) {
 		wp_enqueue_script(
 			'maglist-child-single-post',
@@ -236,12 +254,15 @@ function maglist_child_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'maglist_child_enqueue_assets', 20 );
 
 /**
- * Show 20 posts per page on category archives (matches a dense news feed).
+ * Show 20 posts per page on category and tag archives (dense news feed).
  *
  * @param WP_Query $query Main query.
  */
 function maglist_child_category_posts_per_page( $query ) {
-	if ( is_admin() || ! $query->is_main_query() || ! $query->is_category() ) {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+	if ( ! $query->is_category() && ! $query->is_tag() ) {
 		return;
 	}
 	$query->set( 'posts_per_page', 20 );
@@ -286,15 +307,15 @@ function maglist_child_custom_logo_image_attributes( $attr ) {
 add_filter( 'get_custom_logo_image_attributes', 'maglist_child_custom_logo_image_attributes' );
 
 /**
- * Register the child theme's own nav menu location for the footer's
- * "उपयोगी लिंकहरु" (quick links) column - reuses whatever menu the site
- * owner assigns under Appearance > Menus, independent of the parent theme's
- * own 'primary' / 'top-bar' locations (which are still used as-is in header.php).
+ * Register child theme footer menu locations.
+ * Assign menus under Appearance > Menus. Parent Maglist still provides
+ * `social-menu-footer` for the follow column.
  */
 function maglist_child_register_nav_menus() {
 	register_nav_menus(
 		array(
-			'footer' => esc_html__( 'Footer Quick Links', 'maglist-child' ),
+			'footer'            => esc_html__( 'Footer Useful Links (उपयोगी लिंक)', 'maglist-child' ),
+			'footer-categories' => esc_html__( 'Footer Categories (समाचार विधा)', 'maglist-child' ),
 		)
 	);
 }
@@ -308,8 +329,8 @@ add_action( 'after_setup_theme', 'maglist_child_register_nav_menus' );
 function maglist_child_register_sidebars() {
 	$areas = array(
 		'footer-about'        => array(
-			'name'        => esc_html__( 'Footer About / Contact', 'maglist-child' ),
-			'description' => esc_html__( 'Shown in the dark footer column next to "उपयोगी लिंकहरु" - add a Custom HTML widget with your registration number, editor/chairman names, and contact details.', 'maglist-child' ),
+			'name'        => esc_html__( 'Footer About / Contact (unused)', 'maglist-child' ),
+			'description' => esc_html__( 'Deprecated — about/contact copy is hardcoded in footer.php. Safe to leave empty.', 'maglist-child' ),
 		),
 		'home-above-header'   => array(
 			'name'        => esc_html__( 'Above Header Leaderboard Ad', 'maglist-child' ),
