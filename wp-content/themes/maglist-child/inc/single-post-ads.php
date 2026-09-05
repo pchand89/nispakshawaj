@@ -77,7 +77,9 @@ function maglist_child_get_ad_slot_html( $sidebar_id, $wrapper_class = 'na-ad-sl
 	$label = '';
 
 	if ( $show_label && maglist_child_html_has_content( $inner ) ) {
-		$label = '<span class="na-ad-slot__label">' . esc_html( maglist_child_ad_slot_label() ) . '</span>';
+		// A div (not a span) so the caption still sits above the creative even
+		// when a cache/minify plugin serves a stale copy of the theme CSS.
+		$label = '<div class="na-ad-slot__label">' . esc_html( maglist_child_ad_slot_label() ) . '</div>';
 	}
 
 	return sprintf(

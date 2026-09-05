@@ -536,17 +536,18 @@ body.single .maglist-sticky-share ul li a:hover {
 	margin: 0;
 }
 
-.na-ad-below-title img,
-.na-ad-below-title iframe,
-.na-ad-after-content img,
-.na-ad-after-content iframe,
-.na-ad-before-related img,
-.na-ad-before-related iframe,
-.na-single-article__content .na-ad-inline img,
-.na-single-article__content .na-ad-inline iframe {
-	display: inline-block;
+/* Creatives never outgrow their column, whichever slot they land in. */
+.na-ad-slot img,
+.na-ad-slot iframe,
+.na-ad-slot video {
 	max-width: 100%;
 	height: auto;
+}
+
+.na-ad-slot figure,
+.na-ad-slot .wp-block-image {
+	margin: 0;
+	max-width: 100%;
 }
 
 .na-sidebar-widgets {
