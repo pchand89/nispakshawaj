@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</header>
 
-	<?php maglist_child_ad_slot( 'single-below-title', 'na-ad-slot na-ad-below-title' ); ?>
+	<?php maglist_child_ad_slot( 'single-below-title', 'na-ad-slot na-ad-single na-ad-below-title' ); ?>
 
 	<?php get_template_part( 'template-parts/single/hero' ); ?>
 
@@ -45,7 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	</div>
 
-	<?php maglist_child_ad_slot( 'single-after-content', 'na-ad-slot na-ad-after-content' ); ?>
+	<?php maglist_child_ad_slot( 'single-after-content', 'na-ad-slot na-ad-single na-ad-after-content' ); ?>
 
 	<?php
 	$tags = get_the_tags();

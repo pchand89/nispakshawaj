@@ -24,7 +24,7 @@ get_header();
 			</div>
 			<?php get_template_part( 'template-parts/single/sidebar' ); ?>
 		</div>
-		<?php maglist_child_ad_slot( 'single-before-related', 'na-ad-slot na-ad-before-related' ); ?>
+		<?php maglist_child_ad_slot( 'single-before-related', 'na-ad-slot na-ad-single na-ad-before-related' ); ?>
 		<?php get_template_part( 'template-parts/single/related' ); ?>
 	</div>
 </section>

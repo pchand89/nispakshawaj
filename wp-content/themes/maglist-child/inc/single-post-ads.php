@@ -284,7 +284,7 @@ function maglist_child_inject_single_content_ads( $content ) {
 		}
 
 		$taken[ $index ]                                = true;
-		$insertions[ $paragraphs[ $index - 1 ]['end'] ] = maglist_child_get_ad_slot_html( $area, 'na-ad-slot na-ad-inline' );
+		$insertions[ $paragraphs[ $index - 1 ]['end'] ] = maglist_child_get_ad_slot_html( $area, 'na-ad-slot na-ad-single na-ad-inline' );
 	}
 
 	$running = false;

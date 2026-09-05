@@ -512,6 +512,12 @@ body.single .maglist-sticky-share ul li a:hover {
 	text-align: left;
 }
 
+/* home-layout.css centres `.na-ad-slot` as a flex row, which would put the
+   caption beside the creative. Single-post slots stack instead. */
+.na-ad-single {
+	display: block;
+}
+
 .na-ad-below-title,
 .na-ad-after-content,
 .na-ad-before-related {
@@ -536,16 +542,17 @@ body.single .maglist-sticky-share ul li a:hover {
 	margin: 0;
 }
 
-/* Creatives never outgrow their column, whichever slot they land in. */
-.na-ad-slot img,
-.na-ad-slot iframe,
-.na-ad-slot video {
+/* Creatives never outgrow the article column. Scoped to the single-post slots
+   so the header, homepage, and archive rails keep their own sizing rules. */
+.na-ad-single img,
+.na-ad-single iframe,
+.na-ad-single video {
 	max-width: 100%;
 	height: auto;
 }
 
-.na-ad-slot figure,
-.na-ad-slot .wp-block-image {
+.na-ad-single figure,
+.na-ad-single .wp-block-image {
 	margin: 0;
 	max-width: 100%;
 }
