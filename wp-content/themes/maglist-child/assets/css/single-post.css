@@ -489,6 +489,66 @@ body.single .maglist-sticky-share ul li a:hover {
 	margin: 0 0 20px;
 }
 
+.na-single__sidebar .na-ad-sidebar--second {
+	margin: 24px 0 20px;
+}
+
+/* -----------------------------------------------------------------------
+   Single post ad slots (below title, in-content, after content, pre-related)
+----------------------------------------------------------------------- */
+.na-ad-slot__label {
+	display: block;
+	margin: 0 0 6px;
+	font-family: var(--na-font-heading, 'Mukta', sans-serif);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-align: center;
+	text-transform: uppercase;
+	color: var(--na-color-muted, #999);
+}
+
+.na-ad-sidebar .na-ad-slot__label {
+	text-align: left;
+}
+
+.na-ad-below-title,
+.na-ad-after-content,
+.na-ad-before-related {
+	margin: 24px 0;
+}
+
+.na-ad-before-related {
+	margin-top: 40px;
+}
+
+/* In-content ads sit inside .entry-content, so reset the inherited article
+   typography and keep them clear of the surrounding paragraphs. */
+.na-single-article__content .na-ad-inline {
+	clear: both;
+	margin: 28px 0;
+	padding: 0;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.na-single-article__content .na-ad-inline p {
+	margin: 0;
+}
+
+.na-ad-below-title img,
+.na-ad-below-title iframe,
+.na-ad-after-content img,
+.na-ad-after-content iframe,
+.na-ad-before-related img,
+.na-ad-before-related iframe,
+.na-single-article__content .na-ad-inline img,
+.na-single-article__content .na-ad-inline iframe {
+	display: inline-block;
+	max-width: 100%;
+	height: auto;
+}
+
 .na-sidebar-widgets {
 	margin: 0 0 24px;
 }

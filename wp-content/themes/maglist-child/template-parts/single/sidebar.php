@@ -40,7 +40,7 @@ if ( ! $trending->have_posts() ) {
 }
 ?>
 <aside id="secondary" class="na-single__sidebar widget-area" aria-label="<?php echo esc_attr__( 'साइडबार', 'maglist-child' ); ?>">
-	<?php maglist_child_widget_area( 'sidebar-ad', 'na-ad-slot na-ad-sidebar', true ); ?>
+	<?php maglist_child_ad_slot( 'sidebar-ad', 'na-ad-slot na-ad-sidebar' ); ?>
 
 	<?php get_template_part( 'template-parts/common/sidebar-widgets' ); ?>
 
@@ -62,6 +62,8 @@ if ( ! $trending->have_posts() ) {
 		wp_reset_postdata();
 	endif;
 	?>
+
+	<?php maglist_child_ad_slot( 'sidebar-ad-2', 'na-ad-slot na-ad-sidebar na-ad-sidebar--second' ); ?>
 
 	<?php if ( $trending->have_posts() ) : ?>
 		<div class="na-single-sideblock na-single-sideblock--trending">
