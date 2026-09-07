@@ -46,7 +46,18 @@
 
 .na-ad-top {
 	margin-top: 0;
-	padding: 12px 20px;
+	padding: 12px 0;
+}
+
+.na-ad-top img,
+.na-ad-top iframe,
+.na-ad-top video,
+.na-ad-mid img,
+.na-ad-mid iframe,
+.na-ad-mid video {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
 }
 
 .na-ad-mid {

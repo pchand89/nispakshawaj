@@ -81,9 +81,8 @@ $maglist_child_band_layouts = array( 'dark-band', 'sports-band' );
 
 <section class="na-home">
 
-	<?php maglist_child_widget_area( 'home-top-banner', 'na-ad-slot na-ad-top', true ); ?>
-
 	<div class="na-container">
+		<?php maglist_child_widget_area( 'home-top-banner', 'na-ad-slot na-ad-top', true ); ?>
 		<?php get_template_part( 'template-parts/home/hero' ); ?>
 		<?php get_template_part( 'template-parts/home/exclusive-block' ); ?>
 		<?php maglist_child_widget_area( 'home-mid-grid-ad-1', 'na-ad-slot na-ad-mid', true ); ?>

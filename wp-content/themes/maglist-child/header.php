@@ -33,7 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php
 // Sitewide leaderboard — always render the anchor so Ad Inserter can target it.
-maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header', true );
+// Keep the slot inside .na-container so it matches page content width (1200px).
+maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header na-container', true );
 ?>
 
 <div class="na-topbar">

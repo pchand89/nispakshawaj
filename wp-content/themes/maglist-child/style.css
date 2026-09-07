@@ -324,6 +324,12 @@ a:hover .na-img {
 	overflow: hidden;
 }
 
+.na-home .na-ad-slot .widget,
+.na-home .na-ad-slot .na-widget {
+	padding: 0;
+	background: transparent;
+}
+
 .na-ad-slot:empty {
 	display: none;
 }

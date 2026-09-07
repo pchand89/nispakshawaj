@@ -354,7 +354,7 @@ function maglist_child_register_sidebars() {
 		),
 		'home-top-banner'       => array(
 			'name'        => esc_html__( 'Home Top Banner Ad', 'maglist-child' ),
-			'description' => esc_html__( 'Full-width banner/ad slot shown right below the header, above the hero section.', 'maglist-child' ),
+			'description' => esc_html__( 'Banner/ad slot shown right below the header, above the hero section (same width as page content).', 'maglist-child' ),
 		),
 		'home-breaking-ad-1'    => array(
 			'name'        => esc_html__( 'Home Breaking Ad Slot 1', 'maglist-child' ),
