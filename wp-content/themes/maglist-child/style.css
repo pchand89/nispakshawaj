@@ -328,6 +328,10 @@ a:hover .na-img {
 .na-home .na-ad-slot .na-widget {
 	padding: 0;
 	background: transparent;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	flex: 1 1 auto;
 }
 
 .na-ad-slot:empty {

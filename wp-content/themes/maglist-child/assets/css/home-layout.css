@@ -44,6 +44,17 @@
 	align-items: center;
 }
 
+/* Custom HTML / block widgets inside a flex slot collapse to 0px when the
+   creative uses container-type: inline-size (no intrinsic width). */
+.na-ad-slot > .widget,
+.na-ad-slot > .na-widget,
+.na-ad-slot > .widget_block {
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
 .na-ad-top {
 	margin-top: 0;
 	padding: 12px 0;
