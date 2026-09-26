@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.88' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.90' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -136,6 +136,11 @@ require MAGLIST_CHILD_DIR . '/inc/permalink-slug-fix.php';
  * Category restructure (local-first menu) + redirects for merged category slugs.
  */
 require MAGLIST_CHILD_DIR . '/inc/category-restructure.php';
+
+/**
+ * Reporter guidance above the Categories panel in the post editor.
+ */
+require MAGLIST_CHILD_DIR . '/inc/editor-category-guide.php';
 
 /**
  * One-time Ad Inserter selector retarget (old Maglist banner → child ad slots).
