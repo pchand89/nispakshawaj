@@ -18,23 +18,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 function maglist_child_get_footer_categories() {
 	$slugs = array(
 		'समाचार',
-		'राजनिती',
+		'सुदूरपश्चिम',
+		'राष्ट्रिय',
+		'राजनीति',
 		'समाज',
 		'मनोरञ्जन',
 		'खेलकुद',
-		'शिक्षा / साहित्य',
-		'व्यवसाय',
-		'स्थानीय तह/ विकास',
+		'शिक्षा-साहित्य',
+		'अर्थ-कृषि',
+		'स्थानीय-तह-विकास',
 		'भिडियो',
 	);
 
 	$items = array();
 	foreach ( $slugs as $slug ) {
-		$term = get_term_by( 'slug', $slug, 'category' );
-		if ( ! $term || is_wp_error( $term ) ) {
-			$term = get_term_by( 'name', $slug, 'category' );
-		}
-		if ( ! $term || is_wp_error( $term ) ) {
+		$term = maglist_child_resolve_category( $slug );
+		if ( ! $term ) {
 			continue;
 		}
 		$link = get_term_link( $term );

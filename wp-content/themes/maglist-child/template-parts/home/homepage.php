@@ -19,8 +19,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Filter with `maglist_child_home_sections` to reorder/retarget without editing this file.
  *
  * Optional keys:
- *   sidebar_ad (string|false) Widget-area ID for this row’s sticky rail.
- *                             Set false to skip the rail for that row.
+ *   sidebar_ad    (string|false) Widget-area ID for this row’s sticky rail.
+ *                                Set false to skip the rail for that row.
+ *   exclude_shown (bool)         Skip posts already shown higher on the page
+ *                                (default true — most local posts carry
+ *                                समाचार + सुदूरपश्चिम + समाज at once).
  */
 $maglist_child_home_sections = apply_filters(
 	'maglist_child_home_sections',
@@ -32,10 +35,20 @@ $maglist_child_home_sections = apply_filters(
 			'sidebar_ad' => 'home-sidebar-ad-1',
 		),
 		array(
-			'slug'       => 'राजनिती',
+			'slug'   => 'सुदूरपश्चिम', // Includes कञ्चनपुर and the other districts.
+			'count'  => 11,
+			'layout' => 'overlay-lists',
+		),
+		array(
+			'slug'       => 'राजनीति',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
 			'sidebar_ad' => 'home-sidebar-ad-2',
+		),
+		array(
+			'slug'   => 'राष्ट्रिय',
+			'count'  => 5,
+			'layout' => 'lead-grid',
 		),
 		array(
 			'slug'       => 'समाज',
@@ -56,19 +69,19 @@ $maglist_child_home_sections = apply_filters(
 			'band'   => 'navy',
 		),
 		array(
-			'slug'       => 'शिक्षा / साहित्य',
+			'slug'       => 'शिक्षा-साहित्य',
 			'count'      => 11, // up to 6 grid + 1 side lead + 4 list.
 			'layout'     => 'edu-split',
 			'sidebar_ad' => 'home-sidebar-ad-4',
 		),
 		array(
-			'slug'       => 'व्यवसाय',
+			'slug'       => 'अर्थ-कृषि',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
 			'sidebar_ad' => 'home-sidebar-ad-5',
 		),
 		array(
-			'slug'       => 'स्थानीय तह/ विकास',
+			'slug'       => 'स्थानीय-तह-विकास',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
 			'sidebar_ad' => 'home-sidebar-ad-6',

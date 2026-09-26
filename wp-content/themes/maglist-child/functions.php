@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.84' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.86' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -131,6 +131,11 @@ require MAGLIST_CHILD_DIR . '/inc/share-facebook-sync.php';
  * Map Unicode path segments to Softaculous percent-encoded slugs (fixes 404s).
  */
 require MAGLIST_CHILD_DIR . '/inc/permalink-slug-fix.php';
+
+/**
+ * Category restructure (local-first menu) + redirects for merged category slugs.
+ */
+require MAGLIST_CHILD_DIR . '/inc/category-restructure.php';
 
 /**
  * One-time Ad Inserter selector retarget (old Maglist banner → child ad slots).
@@ -442,8 +447,8 @@ function maglist_child_register_sidebars() {
 			'description' => esc_html__( 'Sticky sidebar beside the समाचार section on the homepage.', 'maglist-child' ),
 		),
 		'home-sidebar-ad-2'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 2 (राजनिती)', 'maglist-child' ),
-			'description' => esc_html__( 'Sticky sidebar beside the राजनिती section on the homepage.', 'maglist-child' ),
+			'name'        => esc_html__( 'Home Sidebar Ad 2 (राजनीति)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the राजनीति section on the homepage.', 'maglist-child' ),
 		),
 		'home-sidebar-ad-3'     => array(
 			'name'        => esc_html__( 'Home Sidebar Ad 3 (समाज)', 'maglist-child' ),
@@ -454,8 +459,8 @@ function maglist_child_register_sidebars() {
 			'description' => esc_html__( 'Sticky sidebar beside the शिक्षा / साहित्य section on the homepage.', 'maglist-child' ),
 		),
 		'home-sidebar-ad-5'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 5 (व्यवसाय)', 'maglist-child' ),
-			'description' => esc_html__( 'Sticky sidebar beside the व्यवसाय section on the homepage.', 'maglist-child' ),
+			'name'        => esc_html__( 'Home Sidebar Ad 5 (अर्थ/कृषि)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the अर्थ/कृषि section on the homepage.', 'maglist-child' ),
 		),
 		'home-sidebar-ad-6'     => array(
 			'name'        => esc_html__( 'Home Sidebar Ad 6 (स्थानीय)', 'maglist-child' ),

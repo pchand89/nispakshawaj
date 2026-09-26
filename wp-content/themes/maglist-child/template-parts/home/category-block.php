@@ -25,11 +25,15 @@ if ( $maglist_child_slug && ! maglist_child_category_exists( $maglist_child_slug
 	return;
 }
 
-$maglist_child_query = maglist_child_get_category_query( $maglist_child_slug, $maglist_child_count );
+$maglist_child_shown   = isset( $GLOBALS['maglist_child_shown_ids'] ) ? (array) $GLOBALS['maglist_child_shown_ids'] : array();
+$maglist_child_exclude = ( ! isset( $args['exclude_shown'] ) || $args['exclude_shown'] ) ? $maglist_child_shown : array();
+$maglist_child_query   = maglist_child_get_category_query( $maglist_child_slug, $maglist_child_count, $maglist_child_exclude );
 
 if ( ! $maglist_child_query->have_posts() ) {
 	return;
 }
+
+$GLOBALS['maglist_child_shown_ids'] = array_merge( $maglist_child_shown, wp_list_pluck( $maglist_child_query->posts, 'ID' ) );
 
 $maglist_child_term = $maglist_child_slug ? maglist_child_resolve_category( $maglist_child_slug ) : false;
 $maglist_child_link = $maglist_child_term ? get_category_link( $maglist_child_term ) : '';

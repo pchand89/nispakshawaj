@@ -55,6 +55,8 @@ wp_reset_postdata();
 if ( empty( $maglist_child_exclusive_cards ) ) {
 	return;
 }
+
+$GLOBALS['maglist_child_shown_ids'] = array_merge( $maglist_child_exclusive_exclude, wp_list_pluck( $maglist_child_exclusive_cards, 'ID' ) );
 ?>
 
 <div class="na-exclusive">
