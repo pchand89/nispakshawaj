@@ -43,6 +43,8 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header n
 			<span></span><span></span><span></span>
 		</button>
 
+		<?php maglist_child_sticky_logo( 'topbar' ); ?>
+
 		<span class="na-topbar__date"><?php echo esc_html( maglist_child_today_nepali_bs_date() ); ?></span>
 
 		<?php if ( has_nav_menu( 'top-bar' ) ) : ?>
@@ -108,6 +110,8 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header n
 <nav class="na-nav" data-na-nav>
 	<div class="na-container">
 		<?php
+		maglist_child_sticky_logo( 'nav' );
+
 		wp_nav_menu(
 			array(
 				'theme_location' => 'primary',

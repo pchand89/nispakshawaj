@@ -17,10 +17,73 @@
 
 	ready( function () {
 		initDarkMode();
+		initStickyLogo();
+		initBackToTop();
 		initNavToggle();
 		initMobileSubmenus();
 		initSearchOverlay();
 	} );
+
+	/**
+	 * Flag <body> once the white logo header has scrolled out of view, so the
+	 * sticky bars can reveal their compact logo (see site-header.css).
+	 */
+	function initStickyLogo() {
+		var header = document.querySelector( '.na-header' );
+
+		if ( ! header ) {
+			return;
+		}
+
+		var threshold = 0;
+		var ticking = false;
+
+		function measure() {
+			var rect = header.getBoundingClientRect();
+			// Distance from the top of the document to the bottom of the header.
+			threshold = rect.top + window.pageYOffset + rect.height;
+		}
+
+		function update() {
+			ticking = false;
+			document.body.classList.toggle( 'na-scrolled', window.pageYOffset > threshold );
+		}
+
+		measure();
+		update();
+
+		window.addEventListener(
+			'scroll',
+			function () {
+				if ( ! ticking ) {
+					ticking = true;
+					window.requestAnimationFrame( update );
+				}
+			},
+			{ passive: true }
+		);
+
+		window.addEventListener( 'resize', function () {
+			measure();
+			update();
+		} );
+	}
+
+	/**
+	 * Back-to-top button; its visibility follows body.na-scrolled in CSS.
+	 */
+	function initBackToTop() {
+		var button = document.querySelector( '[data-na-to-top]' );
+
+		if ( ! button ) {
+			return;
+		}
+
+		button.addEventListener( 'click', function () {
+			var reduceMotion = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+			window.scrollTo( { top: 0, behavior: reduceMotion ? 'auto' : 'smooth' } );
+		} );
+	}
 
 	/**
 	 * Persist light/dark preference on <html class="na-dark"> (also set early

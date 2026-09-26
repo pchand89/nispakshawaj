@@ -249,6 +249,60 @@
 	}
 }
 
+/* Compact logo inside the sticky bars, revealed once the white logo header has
+   scrolled away (body.na-scrolled comes from site-header.js). `visibility`
+   keeps the hidden duplicate out of the tab order. */
+.na-nav > .na-container {
+	display: flex;
+	align-items: stretch;
+}
+
+.na-sticky-logo {
+	display: flex;
+	align-items: center;
+	flex: 0 0 auto;
+	max-width: 0;
+	overflow: hidden;
+	opacity: 0;
+	visibility: hidden;
+	line-height: 0;
+	transition: max-width 0.25s ease, opacity 0.2s ease, margin 0.25s ease, visibility 0.25s;
+}
+
+body.na-scrolled .na-sticky-logo {
+	max-width: 180px;
+	opacity: 1;
+	visibility: visible;
+}
+
+.na-sticky-logo__img {
+	display: block;
+	width: auto !important;
+	height: 36px !important;
+	max-width: none !important;
+	max-height: none !important;
+	object-fit: contain;
+	/* The brand mark is dark red, so flatten it to white for the red bar
+	   (same treatment as the footer logo). */
+	filter: brightness(0) invert(1);
+}
+
+.na-sticky-logo__text {
+	color: #fff;
+	font-family: var(--na-font-heading, 'Mukta', sans-serif);
+	font-size: 16px;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+body.na-scrolled .na-sticky-logo--nav {
+	margin-right: 14px;
+}
+
+.na-sticky-logo--topbar {
+	display: none;
+}
+
 .na-nav__menu {
 	display: flex;
 	flex-wrap: nowrap;
@@ -325,6 +379,15 @@
 .na-nav__menu > li.menu-item-home > a::after {
 	left: 12px;
 	right: 12px;
+}
+
+/* The compact logo already links home, so the home icon is redundant while
+   it is showing. Desktop only: on mobile the menu is a drawer and the logo
+   lives in the topbar instead. */
+@media (min-width: 992px) {
+	body.na-scrolled .na-nav__menu > li.menu-item-home {
+		display: none;
+	}
 }
 
 /* GTranslate injects a "NE" language item into the primary menu - park it
@@ -428,6 +491,54 @@
 	}
 
 	.na-topbar__links {
+		display: none;
+	}
+
+	/* The red menu bar is a drawer here, so the topbar is the bar that stays
+	   put — it already carries the hamburger and search. */
+	.na-topbar {
+		position: sticky;
+		top: 0;
+		z-index: 1001;
+	}
+
+	.admin-bar .na-topbar {
+		top: 46px;
+	}
+
+	.na-sticky-logo--nav {
+		display: none;
+	}
+
+	.na-sticky-logo--topbar {
+		display: flex;
+	}
+
+	/* Roomier strip so the centred logo has space. Kept at this height whether
+	   or not the page is scrolled, so revealing the logo shifts nothing. */
+	.na-topbar__inner {
+		position: relative;
+		min-height: 46px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+
+	/* Centred on the bar itself, not in the gap between the hamburger and the
+	   action buttons, so it reads as the middle of the screen. */
+	body.na-scrolled .na-sticky-logo--topbar {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		margin: 0;
+		max-width: 170px;
+	}
+
+	.na-sticky-logo--topbar .na-sticky-logo__img {
+		height: 30px !important;
+	}
+
+	/* The date would push the logo off the strip on narrow screens. */
+	body.na-scrolled .na-topbar__date {
 		display: none;
 	}
 
@@ -818,6 +929,55 @@ html.na-dark .na-trending-tags a:hover {
 	margin: 0;
 	font-size: 13px;
 	color: rgba(255, 255, 255, 0.72);
+}
+
+/* Back-to-top button, shown with the sticky logo (body.na-scrolled). Sits
+   below the search overlay (z-index 1100) so it never covers it. */
+.na-to-top {
+	position: fixed;
+	right: 15px;
+	bottom: 15px;
+	z-index: 900;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: var(--na-color-accent-red, #bf1e2e);
+	color: #fff;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(10px);
+	transition: opacity 0.25s ease, visibility 0.25s, transform 0.25s ease;
+}
+
+body.na-scrolled .na-to-top {
+	opacity: 0.8;
+	visibility: visible;
+	transform: none;
+}
+
+body.na-scrolled .na-to-top:hover,
+body.na-scrolled .na-to-top:focus-visible {
+	opacity: 1;
+}
+
+/* FontAwesome's angle-up ink sits 0.0375em below the middle of its line box. */
+.na-to-top .fa {
+	display: block;
+	line-height: 1;
+	transform: translateY(-0.0375em);
+}
+
+body.na-search-open .na-to-top {
+	visibility: hidden;
 }
 
 /* -----------------------------------------------------------------------

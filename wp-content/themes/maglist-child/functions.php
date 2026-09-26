@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.71' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.75' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -32,6 +32,41 @@ function maglist_child_logo_widths() {
 		'tablet'  => $tablet >= 60 ? $tablet : 260,
 		'mobile'  => $mobile >= 40 ? $mobile : 200,
 	);
+}
+
+/**
+ * Compact home link for the sticky bars, shown once the white logo header has
+ * scrolled out of view. Hidden (and out of tab order) until then via CSS.
+ *
+ * @param string $modifier Placement modifier, e.g. 'nav' or 'topbar'.
+ */
+function maglist_child_sticky_logo( $modifier ) {
+	$logo_id = (int) get_theme_mod( 'custom_logo' );
+
+	printf(
+		'<a class="na-sticky-logo na-sticky-logo--%1$s" href="%2$s" rel="home">',
+		esc_attr( $modifier ),
+		esc_url( home_url( '/' ) )
+	);
+
+	if ( $logo_id ) {
+		echo wp_get_attachment_image( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$logo_id,
+			'medium',
+			false,
+			array(
+				// The slot starts collapsed to zero width, so lazy loading (native
+				// or Smush's) would never trigger and the logo would stay blank.
+				'class'   => 'na-sticky-logo__img no-lazyload skip-lazy',
+				'alt'     => get_bloginfo( 'name' ),
+				'loading' => 'eager',
+			)
+		);
+	} else {
+		printf( '<span class="na-sticky-logo__text">%s</span>', esc_html( get_bloginfo( 'name' ) ) );
+	}
+
+	echo '</a>';
 }
 
 /**
