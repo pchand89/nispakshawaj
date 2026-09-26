@@ -266,8 +266,6 @@
 	opacity: 0;
 	visibility: hidden;
 	line-height: 0;
-	/* No margin transition: site-header.js reads the final margin right after
-	   the class flips to decide how tightly to pack the menu. */
 	transition: max-width 0.25s ease, opacity 0.2s ease, visibility 0.25s;
 }
 
@@ -307,6 +305,7 @@ body.na-scrolled .na-sticky-logo--nav {
 
 .na-nav__menu {
 	display: flex;
+	flex: 1 1 auto;
 	flex-wrap: nowrap;
 	align-items: stretch;
 	margin: 0;
@@ -332,7 +331,7 @@ body.na-scrolled .na-sticky-logo--nav {
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	padding: 15px var(--na-nav-pad-x, 14px);
+	padding: 15px var(--na-nav-pad-x, 8.5px);
 	font-size: var(--na-nav-font, 17px);
 	font-weight: 600;
 	color: #ffffff !important;
@@ -346,8 +345,8 @@ body.na-scrolled .na-sticky-logo--nav {
 .na-nav__menu > li > a::after {
 	content: '';
 	position: absolute;
-	left: var(--na-nav-pad-x, 14px);
-	right: var(--na-nav-pad-x, 14px);
+	left: var(--na-nav-pad-x, 8.5px);
+	right: var(--na-nav-pad-x, 8.5px);
 	bottom: 0;
 	height: 3px;
 	background: #fff;
@@ -383,6 +382,12 @@ body.na-scrolled .na-sticky-logo--nav {
 	right: 12px;
 }
 
+/* Dropdown indicator appended to parent items (maglist_child_nav_caret). */
+.na-nav__caret {
+	font-size: 0.8em;
+	opacity: 0.85;
+}
+
 /* The compact logo already links home, so the home icon is redundant while
    it is showing. Desktop only: on mobile the menu is a drawer and the logo
    lives in the topbar instead. */
@@ -391,34 +396,82 @@ body.na-scrolled .na-sticky-logo--nav {
 		display: none;
 	}
 
+	/* Every link fills the 55px bar, so labels, the home icon and the
+	   language switch share one vertical centre and the underline sits on
+	   the bar's bottom edge. The padding gives a 17px gap between labels. */
+	.na-nav__menu > li {
+		display: flex;
+	}
+
+	.na-nav__menu > li > a {
+		min-height: 55px;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	/* Flush with the container edge, like the first label on ratopati.com. */
+	.na-nav__menu > li.menu-item-home > a {
+		padding: 0 var(--na-nav-pad-x, 8.5px) 0 0;
+	}
+
+	.na-nav__menu > li.menu-item-home > a::after {
+		left: 0;
+		right: var(--na-nav-pad-x, 8.5px);
+	}
+
+	.na-nav__menu > li.menu-item-gtranslate > a {
+		padding-right: 0;
+	}
+
 	/* Progressively tighter menu, picked by site-header.js (fitNav) as the
-	   smallest step at which the bar's contents fit on one line. */
+	   smallest step at which the bar's contents fit on one line. Past the
+	   last step, trailing items move into the "थप" (More) dropdown instead
+	   of shrinking the text any further. */
 	.na-nav[data-na-fit="1"] {
-		--na-nav-pad-x: 10px;
+		--na-nav-pad-x: 7px;
 	}
 
 	.na-nav[data-na-fit="2"] {
-		--na-nav-pad-x: 8px;
+		--na-nav-pad-x: 6px;
 		--na-nav-font: 15px;
 	}
 
 	.na-nav[data-na-fit="3"] {
-		--na-nav-pad-x: 6px;
-		--na-nav-font: 14px;
-	}
-
-	.na-nav[data-na-fit="4"] {
 		--na-nav-pad-x: 5px;
-		--na-nav-font: 13px;
+		--na-nav-font: 14px;
 	}
 
 	.na-nav[data-na-fit="3"] .na-sticky-logo__img {
 		height: 30px !important;
 	}
 
-	.na-nav[data-na-fit="4"] .na-sticky-logo__img {
-		height: 26px !important;
+	.na-nav__menu > li.na-nav__more.is-active {
+		display: flex;
 	}
+
+	.na-nav__more > a {
+		cursor: default;
+	}
+
+	/* Items tucked into "थप" only offer their top link (see below). */
+	.na-nav__more ul .na-nav__caret {
+		display: none;
+	}
+
+	/* Sits at the right end of the bar, so open towards the left. */
+	.na-nav__menu > li.na-nav__more > ul.sub-menu {
+		left: auto;
+		right: 0;
+	}
+
+	/* Moved items keep their own sub-menus; only their top link is offered. */
+	.na-nav__more ul ul {
+		display: none !important;
+	}
+}
+
+.na-nav__menu > li.na-nav__more {
+	display: none;
 }
 
 /* GTranslate injects a "NE" language item into the primary menu - park it
@@ -614,6 +667,10 @@ body.na-scrolled .na-sticky-logo--nav {
 	.na-nav__menu > li > a {
 		padding: 12px 20px;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+	}
+
+	.na-nav__caret {
+		margin-left: auto;
 	}
 
 	.na-nav__menu > li > ul.sub-menu,

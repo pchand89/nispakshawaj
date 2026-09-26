@@ -17,11 +17,12 @@
 
 	ready( function () {
 		initDarkMode();
+		initNavToggle();
+		// Before initNavFit, so items later moved into "थप" keep their handlers.
+		initMobileSubmenus();
 		initStickyLogo();
 		initNavFit();
 		initBackToTop();
-		initNavToggle();
-		initMobileSubmenus();
 		initSearchOverlay();
 	} );
 
@@ -75,12 +76,15 @@
 		} );
 	}
 
-	var NAV_FIT_MAX = 4;
+	var NAV_FIT_MAX = 3;
+	var navMore = null;
+	var navObserver = null;
 
 	/**
-	 * Keep the desktop menu (plus the compact logo once scrolled) on one line
-	 * by stepping through the tighter data-na-fit levels in site-header.css
-	 * until everything fits.
+	 * Keep the desktop menu (plus the compact logo once scrolled) on one line:
+	 * step through the tighter data-na-fit levels in site-header.css, and if
+	 * even the tightest is too wide (long labels, e.g. after Google Translate)
+	 * move trailing items into a "थप" (More) dropdown.
 	 */
 	function fitNav() {
 		var nav = document.querySelector( '.na-nav' );
@@ -90,11 +94,26 @@
 			return;
 		}
 
-		if ( window.innerWidth <= 991 ) {
-			nav.removeAttribute( 'data-na-fit' );
-			return;
+		// Our own DOM moves must not re-trigger the translation observer.
+		if ( navObserver ) {
+			navObserver.disconnect();
 		}
 
+		var more = getNavMore( menu );
+		restoreNavMore( menu, more );
+
+		if ( window.innerWidth > 991 ) {
+			packNav( nav, menu, more );
+		} else {
+			nav.removeAttribute( 'data-na-fit' );
+		}
+
+		if ( navObserver ) {
+			navObserver.observe( menu, { childList: true, characterData: true, subtree: true } );
+		}
+	}
+
+	function packNav( nav, menu, more ) {
 		var container = menu.parentElement;
 		var style = window.getComputedStyle( container );
 		var available = container.clientWidth - parseFloat( style.paddingLeft ) - parseFloat( style.paddingRight );
@@ -107,6 +126,47 @@
 				return;
 			}
 		}
+
+		var list = more.querySelector( 'ul' );
+		var movable = Array.prototype.filter.call( menu.children, isMovableNavItem );
+
+		more.classList.add( 'is-active' );
+
+		while ( movable.length && navContentWidth( menu, logo ) > available ) {
+			list.insertBefore( movable.pop(), list.firstChild );
+		}
+	}
+
+	function isMovableNavItem( item ) {
+		return ! item.classList.contains( 'menu-item-home' ) &&
+			! item.classList.contains( 'menu-item-gtranslate' ) &&
+			! item.classList.contains( 'na-nav__more' );
+	}
+
+	function getNavMore( menu ) {
+		if ( ! navMore ) {
+			navMore = document.createElement( 'li' );
+			navMore.className = 'menu-item menu-item-has-children na-nav__more';
+			navMore.innerHTML = '<a href="#" aria-haspopup="true">थप <i class="fa fa-angle-down na-nav__caret" aria-hidden="true"></i></a><ul class="sub-menu"></ul>';
+			navMore.firstElementChild.addEventListener( 'click', function ( event ) {
+				event.preventDefault();
+			} );
+
+			// Keep the language switch last so it is never tucked away.
+			menu.insertBefore( navMore, menu.querySelector( ':scope > .menu-item-gtranslate' ) );
+		}
+
+		return navMore;
+	}
+
+	function restoreNavMore( menu, more ) {
+		var list = more.querySelector( 'ul' );
+
+		while ( list.firstElementChild ) {
+			menu.insertBefore( list.firstElementChild, more );
+		}
+
+		more.classList.remove( 'is-active' );
 	}
 
 	function navContentWidth( menu, logo ) {
@@ -125,6 +185,17 @@
 	}
 
 	function initNavFit() {
+		var timer = 0;
+
+		if ( window.MutationObserver ) {
+			// Google Translate swaps the menu labels in place (both ways), so
+			// re-pack once it has finished rewriting them.
+			navObserver = new MutationObserver( function () {
+				window.clearTimeout( timer );
+				timer = window.setTimeout( fitNav, 100 );
+			} );
+		}
+
 		fitNav();
 
 		window.addEventListener( 'resize', fitNav );

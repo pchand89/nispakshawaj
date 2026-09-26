@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.78' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.84' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -68,6 +68,28 @@ function maglist_child_sticky_logo( $modifier ) {
 
 	echo '</a>';
 }
+
+/**
+ * Append a dropdown caret to top-level primary-menu items that have children.
+ *
+ * @param string   $title     Menu item title (already escaped by core).
+ * @param WP_Post  $menu_item Menu item object.
+ * @param stdClass $args      wp_nav_menu() arguments.
+ * @param int      $depth     Depth of the menu item.
+ * @return string
+ */
+function maglist_child_nav_caret( $title, $menu_item, $args, $depth ) {
+	if (
+		0 === (int) $depth
+		&& isset( $args->theme_location ) && 'primary' === $args->theme_location
+		&& in_array( 'menu-item-has-children', (array) $menu_item->classes, true )
+	) {
+		$title .= '<i class="fa fa-angle-down na-nav__caret" aria-hidden="true"></i>';
+	}
+
+	return $title;
+}
+add_filter( 'nav_menu_item_title', 'maglist_child_nav_caret', 10, 4 );
 
 /**
  * Homepage helper functions (thumbnails, time-ago, category queries, widget areas).
