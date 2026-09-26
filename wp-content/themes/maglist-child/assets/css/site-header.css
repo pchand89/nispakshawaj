@@ -266,7 +266,9 @@
 	opacity: 0;
 	visibility: hidden;
 	line-height: 0;
-	transition: max-width 0.25s ease, opacity 0.2s ease, margin 0.25s ease, visibility 0.25s;
+	/* No margin transition: site-header.js reads the final margin right after
+	   the class flips to decide how tightly to pack the menu. */
+	transition: max-width 0.25s ease, opacity 0.2s ease, visibility 0.25s;
 }
 
 body.na-scrolled .na-sticky-logo {
@@ -330,8 +332,8 @@ body.na-scrolled .na-sticky-logo--nav {
 	display: flex;
 	align-items: center;
 	gap: 6px;
-	padding: 15px 14px;
-	font-size: 17px;
+	padding: 15px var(--na-nav-pad-x, 14px);
+	font-size: var(--na-nav-font, 17px);
 	font-weight: 600;
 	color: #ffffff !important;
 	white-space: nowrap;
@@ -344,8 +346,8 @@ body.na-scrolled .na-sticky-logo--nav {
 .na-nav__menu > li > a::after {
 	content: '';
 	position: absolute;
-	left: 14px;
-	right: 14px;
+	left: var(--na-nav-pad-x, 14px);
+	right: var(--na-nav-pad-x, 14px);
 	bottom: 0;
 	height: 3px;
 	background: #fff;
@@ -387,6 +389,35 @@ body.na-scrolled .na-sticky-logo--nav {
 @media (min-width: 992px) {
 	body.na-scrolled .na-nav__menu > li.menu-item-home {
 		display: none;
+	}
+
+	/* Progressively tighter menu, picked by site-header.js (fitNav) as the
+	   smallest step at which the bar's contents fit on one line. */
+	.na-nav[data-na-fit="1"] {
+		--na-nav-pad-x: 10px;
+	}
+
+	.na-nav[data-na-fit="2"] {
+		--na-nav-pad-x: 8px;
+		--na-nav-font: 15px;
+	}
+
+	.na-nav[data-na-fit="3"] {
+		--na-nav-pad-x: 6px;
+		--na-nav-font: 14px;
+	}
+
+	.na-nav[data-na-fit="4"] {
+		--na-nav-pad-x: 5px;
+		--na-nav-font: 13px;
+	}
+
+	.na-nav[data-na-fit="3"] .na-sticky-logo__img {
+		height: 30px !important;
+	}
+
+	.na-nav[data-na-fit="4"] .na-sticky-logo__img {
+		height: 26px !important;
 	}
 }
 

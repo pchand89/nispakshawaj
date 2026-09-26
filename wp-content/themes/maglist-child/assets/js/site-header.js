@@ -18,6 +18,7 @@
 	ready( function () {
 		initDarkMode();
 		initStickyLogo();
+		initNavFit();
 		initBackToTop();
 		initNavToggle();
 		initMobileSubmenus();
@@ -46,7 +47,12 @@
 
 		function update() {
 			ticking = false;
-			document.body.classList.toggle( 'na-scrolled', window.pageYOffset > threshold );
+			var scrolled = window.pageYOffset > threshold;
+
+			if ( scrolled !== document.body.classList.contains( 'na-scrolled' ) ) {
+				document.body.classList.toggle( 'na-scrolled', scrolled );
+				fitNav();
+			}
 		}
 
 		measure();
@@ -67,6 +73,67 @@
 			measure();
 			update();
 		} );
+	}
+
+	var NAV_FIT_MAX = 4;
+
+	/**
+	 * Keep the desktop menu (plus the compact logo once scrolled) on one line
+	 * by stepping through the tighter data-na-fit levels in site-header.css
+	 * until everything fits.
+	 */
+	function fitNav() {
+		var nav = document.querySelector( '.na-nav' );
+		var menu = nav && nav.querySelector( '.na-nav__menu' );
+
+		if ( ! menu ) {
+			return;
+		}
+
+		if ( window.innerWidth <= 991 ) {
+			nav.removeAttribute( 'data-na-fit' );
+			return;
+		}
+
+		var container = menu.parentElement;
+		var style = window.getComputedStyle( container );
+		var available = container.clientWidth - parseFloat( style.paddingLeft ) - parseFloat( style.paddingRight );
+		var logo = document.body.classList.contains( 'na-scrolled' ) ? container.querySelector( '.na-sticky-logo--nav' ) : null;
+
+		for ( var level = 0; level <= NAV_FIT_MAX; level++ ) {
+			nav.setAttribute( 'data-na-fit', level );
+
+			if ( navContentWidth( menu, logo ) <= available ) {
+				return;
+			}
+		}
+	}
+
+	function navContentWidth( menu, logo ) {
+		var width = 0;
+
+		Array.prototype.forEach.call( menu.children, function ( item ) {
+			width += item.getBoundingClientRect().width;
+		} );
+
+		if ( logo && logo.firstElementChild ) {
+			// The logo box may still be animating open, so size it by its content.
+			width += logo.firstElementChild.getBoundingClientRect().width + parseFloat( window.getComputedStyle( logo ).marginRight );
+		}
+
+		return width;
+	}
+
+	function initNavFit() {
+		fitNav();
+
+		window.addEventListener( 'resize', fitNav );
+		// Web fonts and the logo image change the widths once they arrive.
+		window.addEventListener( 'load', fitNav );
+
+		if ( document.fonts && document.fonts.ready ) {
+			document.fonts.ready.then( fitNav );
+		}
 	}
 
 	/**
