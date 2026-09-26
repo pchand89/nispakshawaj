@@ -225,7 +225,7 @@
 ----------------------------------------------------------------------- */
 .na-nav {
 	background: var(--na-color-accent-red, #bf1e2e);
-	border-top: none;
+	border-top: 3px solid var(--na-color-section-title, #003893);
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 	position: sticky;
 	top: 0;
@@ -348,11 +348,11 @@ body.na-scrolled .na-sticky-logo--nav {
 	left: var(--na-nav-pad-x, 8.5px);
 	right: var(--na-nav-pad-x, 8.5px);
 	bottom: 0;
-	height: 3px;
+	height: 2px;
 	background: #fff;
 	transform: scaleX(0);
-	transform-origin: center;
-	transition: transform 0.18s ease;
+	transform-origin: right bottom;
+	transition: transform 0.3s;
 	pointer-events: none;
 }
 
@@ -361,6 +361,7 @@ body.na-scrolled .na-sticky-logo--nav {
 .na-nav__menu > li.current-menu-item > a::after,
 .na-nav__menu > li.current-menu-ancestor > a::after {
 	transform: scaleX(1);
+	transform-origin: left bottom;
 }
 
 .na-nav__menu > li:hover > a,
@@ -384,8 +385,14 @@ body.na-scrolled .na-sticky-logo--nav {
 
 /* Dropdown indicator appended to parent items (maglist_child_nav_caret). */
 .na-nav__caret {
-	font-size: 0.8em;
-	opacity: 0.85;
+	font-size: 15px;
+	opacity: 0.6;
+	transition: opacity 0.3s;
+}
+
+.na-nav__menu > li:hover > a .na-nav__caret,
+.na-nav__menu > li:focus-within > a .na-nav__caret {
+	opacity: 1;
 }
 
 /* The compact logo already links home, so the home icon is redundant while
@@ -407,10 +414,13 @@ body.na-scrolled .na-sticky-logo--nav {
 		min-height: 55px;
 		padding-top: 0;
 		padding-bottom: 0;
+		gap: 8px;
 	}
 
-	/* Flush with the container edge, like the first label on ratopati.com. */
+	/* Flush with the container edge with a 25px icon, like the home link on
+	   ratopati.com. */
 	.na-nav__menu > li.menu-item-home > a {
+		font-size: 18.75px;
 		padding: 0 var(--na-nav-pad-x, 8.5px) 0 0;
 	}
 
@@ -512,16 +522,17 @@ body.na-scrolled .na-sticky-logo--nav {
 	top: 100%;
 	left: 0;
 	margin: 0 !important;
-	padding: 8px 0 !important;
+	padding: 15px 0 !important;
 	list-style: none;
-	min-width: 210px;
+	min-width: 200px;
 	background: var(--na-color-surface, #fff);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-	border-radius: 0 0 6px 6px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+	border-radius: 0 0 7px 7px;
 	opacity: 0;
 	visibility: hidden;
 	pointer-events: none;
-	transition: opacity 0.15s ease, visibility 0.15s;
+	transform: translateY(11px);
+	transition: opacity 0.25s linear, visibility 0.25s linear, transform 0.25s linear;
 	z-index: 1100;
 }
 
@@ -544,6 +555,7 @@ body.na-scrolled .na-sticky-logo--nav {
 	opacity: 1;
 	visibility: visible;
 	pointer-events: auto;
+	transform: none;
 }
 
 .na-nav__menu > li:hover.menu-item-has-children::before,
@@ -560,12 +572,13 @@ body.na-scrolled .na-sticky-logo--nav {
 
 .na-nav__menu ul li a {
 	display: block;
-	padding: 8px 20px !important;
-	font-size: 14.5px;
+	padding: 5px 21px !important;
+	font-size: 17px;
 	font-weight: 500;
 	color: var(--na-color-text, rgba(0, 0, 0, 0.72)) !important;
 	white-space: nowrap;
 	background: transparent !important;
+	transition: color 0.25s linear;
 }
 
 .na-nav__menu ul li a::after {
@@ -575,7 +588,7 @@ body.na-scrolled .na-sticky-logo--nav {
 .na-nav__menu ul li:hover > a,
 .na-nav__menu ul li.active > a {
 	color: var(--na-color-accent-red, #bf1e2e) !important;
-	background: rgba(191, 30, 46, 0.06) !important;
+	background: transparent !important;
 }
 
 /* -----------------------------------------------------------------------
@@ -686,6 +699,11 @@ body.na-scrolled .na-sticky-logo--nav {
 
 	.na-nav__menu li.na-nav__submenu-open > ul {
 		display: block;
+	}
+
+	.na-nav__menu ul li a {
+		padding: 8px 20px !important;
+		font-size: 14.5px;
 	}
 }
 
