@@ -409,6 +409,18 @@ body.na-scrolled .na-sticky-logo--nav {
 	background: transparent !important;
 }
 
+/* The language item is the last one in the bar, so a left-anchored 210px
+   dropdown hangs past the viewport (even while hidden) and makes the page
+   scroll sideways. Open it towards the left instead. */
+@media (min-width: 992px) {
+	.na-nav__menu > li.menu-item-gtranslate > ul.sub-menu,
+	.na-nav__menu > li.menu-item-gtranslate > ul.dropdown-menu {
+		left: auto;
+		right: 0;
+		min-width: 120px;
+	}
+}
+
 /* Dropdown submenus (subcategories) */
 .na-nav__menu > li > ul.sub-menu,
 .na-nav__menu > li > ul {
