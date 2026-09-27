@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.94' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.96' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -121,6 +121,11 @@ require MAGLIST_CHILD_DIR . '/inc/reactions.php';
  * DB-backed share counts + REST API.
  */
 require MAGLIST_CHILD_DIR . '/inc/shares.php';
+
+/**
+ * Article view counts for the लोकप्रिय tab.
+ */
+require MAGLIST_CHILD_DIR . '/inc/post-views.php';
 
 /**
  * Facebook Graph share_count sync into stored totals.

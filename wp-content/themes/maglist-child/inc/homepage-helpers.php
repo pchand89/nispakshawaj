@@ -200,11 +200,42 @@ function maglist_child_get_thumbnail( $post_id, $size = 'maglist-child-card', $f
 }
 
 /**
- * Query for the "लोकप्रिय" (trending/popular) tab of the floating fixed-tab
- * widget. There's no page-view tracking plugin guaranteed to be active on
- * this site, so comment count is used as a reasonable, dependency-free proxy
- * for "popular" - falls back to plain latest posts if nothing has comments
- * yet (e.g. on a fresh install), so the tab is never empty.
+ * How many views one comment is worth in the लोकप्रिय ranking.
+ */
+define( 'MAGLIST_CHILD_POPULAR_COMMENT_WEIGHT', 5 );
+
+/**
+ * Order the लोकप्रिय query by views plus weighted comments.
+ *
+ * @param string[] $clauses Query clauses.
+ * @param WP_Query $query   Query.
+ * @return string[]
+ */
+function maglist_child_popular_posts_clauses( $clauses, $query ) {
+	if ( ! $query->get( 'na_popular' ) ) {
+		return $clauses;
+	}
+
+	global $wpdb;
+
+	$weight = (int) MAGLIST_CHILD_POPULAR_COMMENT_WEIGHT;
+	$score  = '(CAST(IFNULL(na_views_meta.meta_value, "0") AS UNSIGNED) + (' . $wpdb->posts . '.comment_count * ' . $weight . '))';
+
+	$clauses['join']   .= " LEFT JOIN {$wpdb->postmeta} AS na_views_meta ON ({$wpdb->posts}.ID = na_views_meta.post_id AND na_views_meta.meta_key = 'na_views') ";
+	$clauses['where']  .= " AND {$score} > 0 ";
+	$clauses['groupby'] = "{$wpdb->posts}.ID";
+	$clauses['orderby'] = "{$score} DESC, {$wpdb->posts}.post_date DESC";
+
+	return $clauses;
+}
+add_filter( 'posts_clauses', 'maglist_child_popular_posts_clauses', 10, 2 );
+
+/**
+ * Query for the "लोकप्रिय" tab.
+ *
+ * Score is recorded views plus comments (one comment counts as
+ * MAGLIST_CHILD_POPULAR_COMMENT_WEIGHT views). Stories with neither
+ * are left out, so the list does not copy ताजा.
  *
  * @param int $count Number of posts to pull.
  * @return WP_Query
@@ -218,20 +249,11 @@ function maglist_child_get_popular_query( $count = 8 ) {
 			'posts_per_page'      => $count,
 			'ignore_sticky_posts' => 1,
 			'no_found_rows'       => true,
-			'orderby'             => 'comment_count',
-			'order'               => 'DESC',
+			'na_popular'          => 1,
 		)
 	);
 
-	$query = new WP_Query( $args );
-
-	if ( ! $query->have_posts() ) {
-		$args['orderby'] = 'date';
-		unset( $args['order'] );
-		$query = new WP_Query( $args );
-	}
-
-	return $query;
+	return new WP_Query( $args );
 }
 
 /**

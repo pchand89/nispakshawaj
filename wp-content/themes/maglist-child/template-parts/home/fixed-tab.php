@@ -86,7 +86,7 @@ $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 					wp_reset_postdata();
 					?>
 				<?php else : ?>
-					<li class="na-fixed-tab__empty"><?php esc_html_e( 'No posts yet.', 'maglist-child' ); ?></li>
+					<li class="na-fixed-tab__empty"><?php esc_html_e( 'अहिलेसम्म हेरिएका समाचार छैनन्।', 'maglist-child' ); ?></li>
 				<?php endif; ?>
 			</ul>
 		</div>

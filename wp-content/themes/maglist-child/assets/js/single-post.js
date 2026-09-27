@@ -283,10 +283,44 @@
 		});
 	}
 
+	function recordView() {
+		var cfg = getConfig();
+		var postId = cfg.postId;
+		if (!postId) {
+			return;
+		}
+		try {
+			var seenKey = 'na-viewed-' + postId;
+			if (window.sessionStorage && window.sessionStorage.getItem(seenKey)) {
+				return;
+			}
+			if (window.sessionStorage) {
+				window.sessionStorage.setItem(seenKey, '1');
+			}
+		} catch (e) {
+			// Private mode can block storage; the server still de-duplicates.
+		}
+
+		var url =
+			(cfg.restUrl || '').replace(/\/?$/, '/') +
+			'views/' +
+			encodeURIComponent(postId);
+
+		fetch(url, {
+			method: 'POST',
+			credentials: 'same-origin',
+			keepalive: true,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}).catch(function () {});
+	}
+
 	function init() {
 		initCopy();
 		initShares();
 		initReactions();
+		recordView();
 	}
 
 	if (document.readyState === 'loading') {
