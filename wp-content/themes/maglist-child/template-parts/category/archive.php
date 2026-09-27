@@ -48,10 +48,10 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 			<?php endif; ?>
 			<div class="na-cat__view-toggle" role="group" aria-label="<?php echo esc_attr__( 'दृश्य', 'maglist-child' ); ?>">
 				<button type="button" class="na-cat__view-btn is-active" data-na-cat-view="list" aria-pressed="true">
-					<?php esc_html_e( 'List View', 'maglist-child' ); ?>
+					<?php esc_html_e( 'सूची', 'maglist-child' ); ?>
 				</button>
 				<button type="button" class="na-cat__view-btn" data-na-cat-view="grid" aria-pressed="false">
-					<?php esc_html_e( 'Grid View', 'maglist-child' ); ?>
+					<?php esc_html_e( 'ग्रिड', 'maglist-child' ); ?>
 				</button>
 			</div>
 			<?php if ( $show_search ) : ?>

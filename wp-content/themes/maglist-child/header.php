@@ -40,7 +40,7 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header n
 
 <div class="na-topbar">
 	<div class="na-container na-topbar__inner">
-		<button type="button" class="na-topbar__hamburger" data-na-nav-toggle aria-label="<?php esc_attr_e( 'Menu', 'maglist-child' ); ?>" aria-expanded="false">
+		<button type="button" class="na-topbar__hamburger" data-na-nav-toggle aria-label="<?php esc_attr_e( 'मेनु', 'maglist-child' ); ?>" aria-expanded="false">
 			<span></span><span></span><span></span>
 		</button>
 
@@ -71,12 +71,12 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header n
 				class="na-topbar__theme-btn"
 				data-na-theme-toggle
 				aria-pressed="false"
-				aria-label="<?php esc_attr_e( 'Toggle dark mode', 'maglist-child' ); ?>"
+				aria-label="<?php esc_attr_e( 'गाढा रङ', 'maglist-child' ); ?>"
 			>
 				<i class="fa fa-moon-o" data-na-theme-icon aria-hidden="true"></i>
 				<span data-na-theme-label><?php esc_html_e( 'डार्क', 'maglist-child' ); ?></span>
 			</button>
-			<button type="button" class="na-topbar__search-btn" data-na-search-toggle aria-label="<?php esc_attr_e( 'Search', 'maglist-child' ); ?>">
+			<button type="button" class="na-topbar__search-btn" data-na-search-toggle aria-label="<?php esc_attr_e( 'खोज', 'maglist-child' ); ?>">
 				<i class="fa fa-search" aria-hidden="true"></i>
 			</button>
 		</div>
@@ -104,7 +104,7 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header n
 <div class="na-search-overlay" data-na-search-overlay>
 	<div class="na-container">
 		<?php echo get_search_form( array( 'echo' => false ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-		<button type="button" class="na-search-overlay__close" data-na-search-toggle aria-label="<?php esc_attr_e( 'Close search', 'maglist-child' ); ?>">&times;</button>
+		<button type="button" class="na-search-overlay__close" data-na-search-toggle aria-label="<?php esc_attr_e( 'खोज बन्द गर्नुहोस्', 'maglist-child' ); ?>">&times;</button>
 	</div>
 </div>
 

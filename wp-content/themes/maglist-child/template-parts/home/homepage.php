@@ -129,7 +129,7 @@ $maglist_child_band_layouts = array( 'dark-band', 'sports-band' );
 				<div class="na-home__main">
 					<?php echo $maglist_child_section_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template HTML ?>
 				</div>
-				<aside class="na-home__sidebar" aria-label="<?php echo esc_attr__( 'Advertisement', 'maglist-child' ); ?>">
+				<aside class="na-home__sidebar" aria-label="<?php echo esc_attr__( 'विज्ञापन', 'maglist-child' ); ?>">
 					<div class="na-ad-slot na-ad-sidebar" id="<?php echo esc_attr( $sidebar_id ); ?>">
 						<?php echo $sidebar_inner; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ad/widget HTML ?>
 					</div>

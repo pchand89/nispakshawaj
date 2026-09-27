@@ -39,7 +39,7 @@ $maglist_child_term = $maglist_child_slug ? maglist_child_resolve_category( $mag
 $maglist_child_link = $maglist_child_term ? get_category_link( $maglist_child_term ) : '';
 $maglist_child_label = isset( $args['label'] )
 	? $args['label']
-	: ( $maglist_child_term ? $maglist_child_term->name : esc_html__( 'Latest', 'maglist-child' ) );
+	: ( $maglist_child_term ? $maglist_child_term->name : esc_html__( 'ताजा', 'maglist-child' ) );
 
 $layout_args = array(
 	'posts'         => $maglist_child_query->posts,

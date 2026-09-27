@@ -177,7 +177,7 @@ $na_footer_social     = maglist_child_get_footer_social_links();
 
 </footer><!-- .na-footer -->
 
-<button type="button" class="na-to-top" data-na-to-top aria-label="<?php esc_attr_e( 'Back to top', 'maglist-child' ); ?>">
+<button type="button" class="na-to-top" data-na-to-top aria-label="<?php esc_attr_e( 'माथि जानुहोस्', 'maglist-child' ); ?>">
 	<i class="fa fa-angle-up" aria-hidden="true"></i>
 </button>
 

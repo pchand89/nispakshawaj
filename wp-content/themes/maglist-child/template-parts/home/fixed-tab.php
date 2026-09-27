@@ -41,7 +41,7 @@ $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 
 	<div class="na-fixed-tab__panel">
 
-		<button type="button" class="na-fixed-tab__close" aria-label="<?php esc_attr_e( 'Close', 'maglist-child' ); ?>">&times;</button>
+		<button type="button" class="na-fixed-tab__close" aria-label="<?php esc_attr_e( 'बन्द गर्नुहोस्', 'maglist-child' ); ?>">&times;</button>
 
 		<div class="na-fixed-tab__tabs">
 			<button type="button" class="na-fixed-tab__tab is-active" data-tab-target="taja"><?php esc_html_e( 'ताजा', 'maglist-child' ); ?></button>
@@ -63,7 +63,7 @@ $maglist_child_lokpriya_query = maglist_child_get_popular_query( 8 );
 					wp_reset_postdata();
 					?>
 				<?php else : ?>
-					<li class="na-fixed-tab__empty"><?php esc_html_e( 'No recent posts yet.', 'maglist-child' ); ?></li>
+					<li class="na-fixed-tab__empty"><?php esc_html_e( 'भर्खरका समाचार छैनन्।', 'maglist-child' ); ?></li>
 				<?php endif; ?>
 			</ul>
 		</div>

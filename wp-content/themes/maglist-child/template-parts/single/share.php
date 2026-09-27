@@ -58,9 +58,9 @@ $share_total_label = function_exists( 'maglist_child_to_nepali_digits' )
 		<i class="fa fa-linkedin" aria-hidden="true"></i>
 		<span class="screen-reader-text"><?php esc_html_e( 'LinkedIn', 'maglist-child' ); ?></span>
 	</a>
-	<a class="na-single-share__btn na-single-share__btn--mail" href="mailto:?subject=<?php echo rawurlencode( $title ); ?>&amp;body=<?php echo rawurlencode( $permalink ); ?>" title="<?php echo esc_attr__( 'Email', 'maglist-child' ); ?>" data-na-share="email">
+	<a class="na-single-share__btn na-single-share__btn--mail" href="mailto:?subject=<?php echo rawurlencode( $title ); ?>&amp;body=<?php echo rawurlencode( $permalink ); ?>" title="<?php echo esc_attr__( 'इमेल', 'maglist-child' ); ?>" data-na-share="email">
 		<i class="fa fa-envelope" aria-hidden="true"></i>
-		<span class="screen-reader-text"><?php esc_html_e( 'Email', 'maglist-child' ); ?></span>
+		<span class="screen-reader-text"><?php esc_html_e( 'इमेल', 'maglist-child' ); ?></span>
 	</a>
 	<button type="button" class="na-single-share__btn na-single-share__btn--copy" data-na-copy-link="<?php echo esc_attr( $permalink ); ?>" data-na-share="copy" title="<?php echo esc_attr__( 'लिंक कपी', 'maglist-child' ); ?>">
 		<i class="fa fa-link" aria-hidden="true"></i>
@@ -69,10 +69,10 @@ $share_total_label = function_exists( 'maglist_child_to_nepali_digits' )
 </div>
 
 <div class="maglist-sticky-share">
-	<h3><?php esc_html_e( 'Share Article:', 'maglist' ); ?></h3>
+	<h3><?php esc_html_e( 'सेयर', 'maglist-child' ); ?></h3>
 	<ul>
 		<li>
-			<a class="na-share-icon na-share-icon--mail" href="mailto:?subject=<?php echo rawurlencode( $title ); ?>&amp;body=<?php echo rawurlencode( $permalink ); ?>" aria-label="<?php echo esc_attr__( 'Email', 'maglist-child' ); ?>" title="<?php echo esc_attr__( 'Email', 'maglist-child' ); ?>" data-na-share="email">
+			<a class="na-share-icon na-share-icon--mail" href="mailto:?subject=<?php echo rawurlencode( $title ); ?>&amp;body=<?php echo rawurlencode( $permalink ); ?>" aria-label="<?php echo esc_attr__( 'इमेल', 'maglist-child' ); ?>" title="<?php echo esc_attr__( 'इमेल', 'maglist-child' ); ?>" data-na-share="email">
 				<i class="fa fa-envelope" aria-hidden="true"></i>
 			</a>
 		</li>
