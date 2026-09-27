@@ -27,6 +27,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @var int Safe max length for post_name (column is varchar(200)). */
 define( 'MAGLIST_CHILD_SLUG_MAX_LEN', 180 );
 
+/** @var int Max hyphen-separated words in a new Romanized post slug. */
+define( 'MAGLIST_CHILD_ROMAN_SLUG_MAX_WORDS', 14 );
+
+/** @var int Max characters in a new Romanized post slug. */
+define( 'MAGLIST_CHILD_ROMAN_SLUG_MAX_LEN', 120 );
+
 /**
  * Disable SO Pinyin Slugs' sanitize_title filter (breaks Devanagari/percent slugs).
  */
@@ -154,13 +160,13 @@ function maglist_child_romanize_to_slug( $title ) {
 	}
 
 	$parts = explode( '-', $slug );
-	if ( count( $parts ) > 8 ) {
-		$parts = array_slice( $parts, 0, 8 );
+	if ( count( $parts ) > MAGLIST_CHILD_ROMAN_SLUG_MAX_WORDS ) {
+		$parts = array_slice( $parts, 0, MAGLIST_CHILD_ROMAN_SLUG_MAX_WORDS );
 		$slug  = implode( '-', $parts );
 	}
 
-	if ( strlen( $slug ) > 70 ) {
-		$slug = substr( $slug, 0, 70 );
+	if ( strlen( $slug ) > MAGLIST_CHILD_ROMAN_SLUG_MAX_LEN ) {
+		$slug = substr( $slug, 0, MAGLIST_CHILD_ROMAN_SLUG_MAX_LEN );
 		$slug = preg_replace( '/-[^-]*$/', '', $slug );
 		$slug = trim( (string) $slug, '-' );
 	}
@@ -329,7 +335,7 @@ function maglist_child_romanize_new_post_slug( $data, $postarr ) {
 		return $data;
 	}
 
-	if ( in_array( $data['post_status'] ?? '', array( 'inherit', 'trash', 'auto-draft' ), true ) ) {
+	if ( in_array( $data['post_status'] ?? '', array( 'inherit', 'trash' ), true ) ) {
 		return $data;
 	}
 
@@ -366,6 +372,67 @@ function maglist_child_romanize_new_post_slug( $data, $postarr ) {
 	return $data;
 }
 add_filter( 'wp_insert_post_data', 'maglist_child_romanize_new_post_slug', 20, 2 );
+
+/**
+ * REST: romanize a title so the block editor can show the slug while typing.
+ *
+ * @param WP_REST_Request $request Request.
+ * @return WP_REST_Response
+ */
+function maglist_child_rest_romanize_slug( WP_REST_Request $request ) {
+	$title = trim( wp_strip_all_tags( (string) $request->get_param( 'title' ) ) );
+	return rest_ensure_response(
+		array(
+			'slug' => maglist_child_romanize_to_slug( $title ),
+		)
+	);
+}
+
+/**
+ * Register the romanize-slug REST route.
+ */
+function maglist_child_register_romanize_slug_route() {
+	register_rest_route(
+		'maglist-child/v1',
+		'/romanize-slug',
+		array(
+			'methods'             => 'GET',
+			'permission_callback' => function () {
+				return current_user_can( 'edit_posts' );
+			},
+			'args'                => array(
+				'title' => array(
+					'required'          => true,
+					'type'              => 'string',
+					'sanitize_callback' => static function ( $value ) {
+						return wp_strip_all_tags( wp_unslash( (string) $value ) );
+					},
+				),
+			),
+			'callback'            => 'maglist_child_rest_romanize_slug',
+		)
+	);
+}
+add_action( 'rest_api_init', 'maglist_child_register_romanize_slug_route' );
+
+/**
+ * Load the live slug preview in the post editor.
+ */
+function maglist_child_enqueue_editor_romanize_slug() {
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+	if ( ! $screen || 'post' !== $screen->post_type ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'maglist-child-editor-romanize-slug',
+		MAGLIST_CHILD_URI . '/assets/js/editor-romanize-slug.js',
+		array( 'wp-data', 'wp-api-fetch' ),
+		MAGLIST_CHILD_VERSION,
+		true
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'maglist_child_enqueue_editor_romanize_slug' );
 
 /**
  * Decode Softaculous-style percent-encoded path segments to Unicode.
