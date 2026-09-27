@@ -8,7 +8,8 @@
  * `post_name` column, truncates mid-sequence (e.g. "...%e0%a"), and Apache
  * returns 400 Bad Request.
  *
- * We store Unicode Devanagari slugs (spaces → hyphens, max 180 chars) instead.
+ * Published posts keep whatever slug they already have (usually Devanagari).
+ * New posts get a short Romanized slug from the title (news-site style).
  * Incoming Softaculous-style percent paths are matched via direct DB lookup
  * (and rewritten to term/post IDs) so category archives like /समाचार/ resolve
  * even while term.slug is still stored as "%e0%a4%b8...". A batched repair
@@ -68,6 +69,303 @@ function maglist_child_unicode_slug( $title ) {
 
 	return trim( $title, '-' );
 }
+
+/**
+ * Whether a string contains Devanagari (or other non-ASCII) characters.
+ *
+ * @param string $text Text to inspect.
+ * @return bool
+ */
+function maglist_child_slug_has_non_ascii( $text ) {
+	return is_string( $text ) && $text !== '' && (bool) preg_match( '/[^\x00-\x7F]/', $text );
+}
+
+/**
+ * A post that already had a public URL must keep that slug.
+ *
+ * @param WP_Post|null $post Post, or null for a brand-new insert.
+ * @return bool
+ */
+function maglist_child_post_has_locked_slug( $post ) {
+	if ( ! $post instanceof WP_Post || $post->post_name === '' ) {
+		return false;
+	}
+
+	if ( in_array( $post->post_status, array( 'publish', 'future', 'private' ), true ) ) {
+		return true;
+	}
+
+	// Never-published drafts keep post_date_gmt as zero until first publish.
+	return $post->post_date_gmt && '0000-00-00 00:00:00' !== $post->post_date_gmt;
+}
+
+/**
+ * Romanize a Nepali title into a short, shareable post slug.
+ *
+ * Uses a journalistic mapping (च→ch, श→sh, आ→a) rather than IAST, so
+ * महाकाली becomes mahakali instead of mahaakaalii. Falls back to ICU
+ * transliteration when the walker produces nothing.
+ *
+ * @param string $title Raw post title.
+ * @return string ASCII slug, or empty string.
+ */
+function maglist_child_romanize_to_slug( $title ) {
+	$title = trim( wp_strip_all_tags( (string) $title ) );
+	if ( $title === '' ) {
+		return '';
+	}
+
+	$digits = array(
+		'०' => '0',
+		'१' => '1',
+		'२' => '2',
+		'३' => '3',
+		'४' => '4',
+		'५' => '5',
+		'६' => '6',
+		'७' => '7',
+		'८' => '8',
+		'९' => '9',
+	);
+	$title  = strtr( $title, $digits );
+
+	$roman = maglist_child_romanize_devanagari( $title );
+	if ( $roman === '' && class_exists( 'Transliterator' ) ) {
+		$transliterator = Transliterator::create( 'Any-Latin; Latin-ASCII; Lower()' );
+		if ( $transliterator ) {
+			$roman = $transliterator->transliterate( $title );
+		}
+	}
+
+	if ( ! is_string( $roman ) || $roman === '' ) {
+		$roman = $title;
+	}
+
+	remove_filter( 'sanitize_title', 'maglist_child_preserve_unicode_slug', 20 );
+	$slug = sanitize_title( $roman );
+	add_filter( 'sanitize_title', 'maglist_child_preserve_unicode_slug', 20, 3 );
+
+	$slug = preg_replace( '/[^a-z0-9\-]+/', '', (string) $slug );
+	$slug = preg_replace( '/-+/', '-', (string) $slug );
+	$slug = trim( (string) $slug, '-' );
+
+	if ( $slug === '' ) {
+		return '';
+	}
+
+	$parts = explode( '-', $slug );
+	if ( count( $parts ) > 8 ) {
+		$parts = array_slice( $parts, 0, 8 );
+		$slug  = implode( '-', $parts );
+	}
+
+	if ( strlen( $slug ) > 70 ) {
+		$slug = substr( $slug, 0, 70 );
+		$slug = preg_replace( '/-[^-]*$/', '', $slug );
+		$slug = trim( (string) $slug, '-' );
+	}
+
+	return $slug;
+}
+
+/**
+ * Walk Devanagari and emit a readable Roman string.
+ *
+ * @param string $text Title text, digits already converted.
+ * @return string
+ */
+function maglist_child_romanize_devanagari( $text ) {
+	$special = array(
+		'क्ष' => 'ksh',
+		'त्र' => 'tr',
+		'ज्ञ' => 'gya',
+		'श्र' => 'shr',
+	);
+
+	$ind_vowels = array(
+		'अ' => 'a',
+		'आ' => 'a',
+		'इ' => 'i',
+		'ई' => 'i',
+		'उ' => 'u',
+		'ऊ' => 'u',
+		'ए' => 'e',
+		'ऐ' => 'ai',
+		'ओ' => 'o',
+		'औ' => 'au',
+		'ऋ' => 'ri',
+	);
+
+	$cons = array(
+		'क' => 'k',
+		'ख' => 'kh',
+		'ग' => 'g',
+		'घ' => 'gh',
+		'ङ' => 'ng',
+		'च' => 'ch',
+		'छ' => 'chh',
+		'ज' => 'j',
+		'झ' => 'jh',
+		'ञ' => 'n',
+		'ट' => 't',
+		'ठ' => 'th',
+		'ड' => 'd',
+		'ढ' => 'dh',
+		'ण' => 'n',
+		'त' => 't',
+		'थ' => 'th',
+		'द' => 'd',
+		'ध' => 'dh',
+		'न' => 'n',
+		'प' => 'p',
+		'फ' => 'ph',
+		'ब' => 'b',
+		'भ' => 'bh',
+		'म' => 'm',
+		'य' => 'y',
+		'र' => 'r',
+		'ल' => 'l',
+		'व' => 'b',
+		'श' => 'sh',
+		'ष' => 'sh',
+		'स' => 's',
+		'ह' => 'h',
+	);
+
+	$matras = array(
+		'ा' => 'a',
+		'ि' => 'i',
+		'ी' => 'i',
+		'ु' => 'u',
+		'ू' => 'u',
+		'े' => 'e',
+		'ै' => 'ai',
+		'ो' => 'o',
+		'ौ' => 'au',
+		'ृ' => 'ri',
+	);
+
+	$chars = preg_split( '//u', $text, -1, PREG_SPLIT_NO_EMPTY );
+	if ( ! is_array( $chars ) ) {
+		return '';
+	}
+
+	$out   = '';
+	$count = count( $chars );
+
+	for ( $i = 0; $i < $count; $i++ ) {
+		$ch   = $chars[ $i ];
+		$next = ( $i + 1 < $count ) ? $chars[ $i + 1 ] : '';
+
+		if ( isset( $chars[ $i + 1 ] ) && isset( $special[ $ch . $next ] ) ) {
+			$out .= $special[ $ch . $next ];
+			$i++;
+			continue;
+		}
+
+		if ( isset( $ind_vowels[ $ch ] ) ) {
+			$out .= $ind_vowels[ $ch ];
+			continue;
+		}
+
+		if ( isset( $cons[ $ch ] ) ) {
+			$base = $cons[ $ch ];
+			if ( 'व' === $ch ) {
+				if ( $i > 0 && '्' === $chars[ $i - 1 ] ) {
+					$base = 'w';
+				} elseif ( in_array( $next, array( 'ि', 'ी', 'े', 'ै' ), true ) ) {
+					$base = 'v';
+				}
+			}
+			$out .= $base;
+
+			if ( '्' === $next ) {
+				$i++;
+				continue;
+			}
+
+			if ( isset( $matras[ $next ] ) ) {
+				$out .= $matras[ $next ];
+				$i++;
+				continue;
+			}
+
+			if ( 'ं' === $next || 'ँ' === $next ) {
+				$out .= 'an';
+				$i++;
+				continue;
+			}
+
+			$after = $next;
+			$end   = ( $after === '' || preg_match( '/[\s\-\.,;:!\?\/\(\)\"\'।]/u', $after ) );
+			if ( ! $end ) {
+				$out .= 'a';
+			}
+			continue;
+		}
+
+		if ( isset( $matras[ $ch ] ) || '्' === $ch || 'ं' === $ch || 'ँ' === $ch || 'ः' === $ch || '़' === $ch ) {
+			continue;
+		}
+
+		$out .= $ch;
+	}
+
+	return $out;
+}
+
+/**
+ * Give never-published posts a Romanized slug. Leave published URLs alone.
+ *
+ * Gutenberg sends a Devanagari slug from sanitize_title(); we replace that
+ * on save. A reporter-typed ASCII slug is kept.
+ *
+ * @param array $data    Sanitized post data about to be written.
+ * @param array $postarr Raw post array, including ID.
+ * @return array
+ */
+function maglist_child_romanize_new_post_slug( $data, $postarr ) {
+	if ( ( $data['post_type'] ?? '' ) !== 'post' ) {
+		return $data;
+	}
+
+	if ( in_array( $data['post_status'] ?? '', array( 'inherit', 'trash', 'auto-draft' ), true ) ) {
+		return $data;
+	}
+
+	$post_id  = isset( $postarr['ID'] ) ? (int) $postarr['ID'] : 0;
+	$existing = $post_id ? get_post( $post_id ) : null;
+
+	if ( maglist_child_post_has_locked_slug( $existing ) ) {
+		return $data;
+	}
+
+	$title = isset( $data['post_title'] ) ? trim( wp_strip_all_tags( (string) $data['post_title'] ) ) : '';
+	if ( $title === '' || $title === __( 'Auto Draft' ) ) {
+		return $data;
+	}
+
+	$current = isset( $data['post_name'] ) ? (string) $data['post_name'] : '';
+	$replace = (
+		$current === ''
+		|| maglist_child_slug_has_non_ascii( $current )
+		|| false !== strpos( $current, '%' )
+		|| (bool) preg_match( '/^[0-9]+$/', $current )
+	);
+
+	if ( ! $replace ) {
+		return $data;
+	}
+
+	$slug = maglist_child_romanize_to_slug( $title );
+	if ( $slug === '' ) {
+		return $data;
+	}
+
+	$data['post_name'] = $slug;
+	return $data;
+}
+add_filter( 'wp_insert_post_data', 'maglist_child_romanize_new_post_slug', 20, 2 );
 
 /**
  * Decode Softaculous-style percent-encoded path segments to Unicode.
