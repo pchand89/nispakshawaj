@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <body <?php body_class( 'na-body' ); ?>>
 <?php wp_body_open(); ?>
+<a class="na-skip-link" href="#na-content"><?php esc_html_e( 'मुख्य सामग्रीमा जानुहोस्', 'maglist-child' ); ?></a>
 
 <?php
 // Sitewide leaderboard — always render the anchor so Ad Inserter can target it.
@@ -150,3 +151,5 @@ if ( ! is_wp_error( $maglist_child_trending_tags ) && ! empty( $maglist_child_tr
 	</div><!-- .na-trending-tags -->
 	<?php
 endif;
+?>
+<main id="na-content" class="na-content" tabindex="-1">

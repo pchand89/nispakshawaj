@@ -17,6 +17,47 @@
  */
 
 /* -----------------------------------------------------------------------
+   Skip link — hidden until keyboard focus, then sits above the menu.
+----------------------------------------------------------------------- */
+.na-skip-link {
+	position: fixed;
+	left: 12px;
+	top: 0;
+	z-index: 1200;
+	transform: translateY(-120%);
+	padding: 10px 16px;
+	background: var(--na-color-accent-red, #bf1e2e);
+	color: #fff;
+	font-family: var(--na-font-body, 'Mukta', sans-serif);
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.3;
+	text-decoration: none;
+	border-radius: 0 0 3px 3px;
+}
+
+.na-skip-link:focus {
+	transform: none;
+	color: #fff;
+	outline: 2px solid var(--na-color-section-title, #003893);
+	outline-offset: 2px;
+}
+
+body.admin-bar .na-skip-link:focus {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	body.admin-bar .na-skip-link:focus {
+		top: 46px;
+	}
+}
+
+.na-content:focus {
+	outline: none;
+}
+
+/* -----------------------------------------------------------------------
    0. Above-header leaderboard (sitewide)
 ----------------------------------------------------------------------- */
 .na-ad-above-header {

@@ -21,6 +21,8 @@ $na_footer_useful     = maglist_child_get_footer_useful_links();
 $na_footer_social     = maglist_child_get_footer_social_links();
 ?>
 
+</main><!-- #na-content -->
+
 <footer class="na-footer">
 
 	<div class="na-footer__top">
