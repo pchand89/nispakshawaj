@@ -18,14 +18,22 @@ $modifier    = isset( $args['modifier'] ) ? (string) $args['modifier'] : '';
 $avatar_px   = isset( $args['avatar'] ) ? absint( $args['avatar'] ) : 20;
 $avatar_px   = $avatar_px > 0 ? $avatar_px : 20;
 $show_time   = ! isset( $args['show_time'] ) || (bool) $args['show_time'];
-$author_id   = (int) get_the_author_meta( 'ID' );
-$author_name = get_the_author();
-$author_url  = get_author_posts_url( $author_id );
+$author_id    = (int) get_the_author_meta( 'ID' );
+$author_name  = maglist_child_post_byline_label( $author_id );
+$author_url   = get_author_posts_url( $author_id );
+$place_term   = maglist_child_post_place_term( get_the_ID() );
 $date_label  = maglist_child_single_date( get_the_ID() );
 $time_label  = $show_time ? maglist_child_single_time( get_the_ID() ) : '';
 $classes     = trim( 'na-post-meta ' . $modifier );
 ?>
 <div class="<?php echo esc_attr( $classes ); ?>">
+	<span class="na-post-meta__byline">
+		<?php if ( $place_term instanceof WP_Term ) : ?>
+			<a class="na-post-meta__place" href="<?php echo esc_url( get_category_link( $place_term ) ); ?>">
+				<?php echo esc_html( $place_term->name ); ?>
+			</a>
+			<span class="na-post-meta__sep" aria-hidden="true">/</span>
+		<?php endif; ?>
 	<a class="na-post-meta__author" href="<?php echo esc_url( $author_url ); ?>">
 		<span class="na-post-meta__avatar" aria-hidden="true">
 			<?php
@@ -42,6 +50,7 @@ $classes     = trim( 'na-post-meta ' . $modifier );
 		</span>
 		<span class="na-post-meta__name"><?php echo esc_html( $author_name ); ?></span>
 	</a>
+	</span>
 
 	<?php if ( $date_label || $time_label ) : ?>
 		<span class="na-post-meta__when">

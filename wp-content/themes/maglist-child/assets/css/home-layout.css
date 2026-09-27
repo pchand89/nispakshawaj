@@ -1322,7 +1322,10 @@
 	top: auto;
 	bottom: 100px;
 	right: 0;
-	z-index: 999;
+	/* Above the sticky menu (1000). The panel's own z-index cannot escape
+	   this stacking context, so the bar was painting through the list.
+	   Search overlay stays higher at 1100. */
+	z-index: 1050;
 	font-family: var(--na-font-body, 'Mukta', sans-serif);
 }
 

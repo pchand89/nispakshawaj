@@ -10,6 +10,100 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Place category for a post's byline: a district, else सुदूरपश्चिम / राष्ट्रिय / अन्तर्राष्ट्रिय.
+ *
+ * Uses the assigned category first, then the dateline at the start of the story.
+ *
+ * @param int $post_id Post ID.
+ * @return WP_Term|null
+ */
+function maglist_child_post_place_term( $post_id ) {
+	$post_id = absint( $post_id );
+	$post    = get_post( $post_id );
+	if ( ! $post instanceof WP_Post ) {
+		return null;
+	}
+
+	$terms = get_the_terms( $post_id, 'category' );
+	$terms = is_array( $terms ) ? $terms : array();
+
+	$sudur      = function_exists( 'maglist_child_resolve_category' ) ? maglist_child_resolve_category( 'सुदूरपश्चिम' ) : null;
+	$sudur_id   = $sudur instanceof WP_Term ? (int) $sudur->term_id : 0;
+	$districts  = array();
+	$broad_rank = array(
+		'सुदूरपश्चिम'  => 1,
+		'राष्ट्रिय'     => 2,
+		'अन्तर्राष्ट्रिय' => 3,
+	);
+	$broad      = array();
+
+	foreach ( $terms as $term ) {
+		if ( ! $term instanceof WP_Term ) {
+			continue;
+		}
+		if ( $sudur_id && (int) $term->parent === $sudur_id ) {
+			$districts[] = $term;
+		}
+		if ( isset( $broad_rank[ $term->name ] ) ) {
+			$broad[ $broad_rank[ $term->name ] ] = $term;
+		}
+	}
+
+	if ( count( $districts ) === 1 ) {
+		return $districts[0];
+	}
+
+	if ( count( $districts ) > 1 && function_exists( 'maglist_child_category_plan' ) ) {
+		$plan  = maglist_child_category_plan();
+		$slug  = maglist_child_dateline_place( $post->post_content, $plan['places'] );
+		$slug  = $slug ? $slug : maglist_child_title_place( $post->post_title, $plan['places'] );
+		$match = $slug && function_exists( 'maglist_child_resolve_category' ) ? maglist_child_resolve_category( $slug ) : null;
+		if ( $match instanceof WP_Term ) {
+			foreach ( $districts as $district ) {
+				if ( (int) $district->term_id === (int) $match->term_id ) {
+					return $district;
+				}
+			}
+		}
+		return $districts[0];
+	}
+
+	if ( $broad ) {
+		ksort( $broad );
+		return reset( $broad );
+	}
+
+	if ( ! function_exists( 'maglist_child_category_plan' ) || ! function_exists( 'maglist_child_resolve_category' ) ) {
+		return null;
+	}
+
+	$plan = maglist_child_category_plan();
+	$slug = maglist_child_dateline_place( $post->post_content, $plan['places'] );
+	$slug = $slug ? $slug : maglist_child_title_place( $post->post_title, $plan['places'] );
+	if ( ! $slug ) {
+		return null;
+	}
+
+	$term = maglist_child_resolve_category( $slug );
+	return $term instanceof WP_Term ? $term : null;
+}
+
+/**
+ * Byline name. The desk account reads as संवाददाता; a named author keeps their name.
+ *
+ * @param int $author_id User ID.
+ * @return string
+ */
+function maglist_child_post_byline_label( $author_id ) {
+	$name = (string) get_the_author_meta( 'display_name', $author_id );
+	$site = (string) get_bloginfo( 'name' );
+	if ( $name === '' || $name === $site || 'निश्पक्ष आवाज' === $name ) {
+		return 'संवाददाता';
+	}
+	return $name;
+}
+
+/**
  * Never show Maglist's inner banner (title-over-image) on single posts.
  *
  * @param bool $disable Whether the banner is already disabled.
