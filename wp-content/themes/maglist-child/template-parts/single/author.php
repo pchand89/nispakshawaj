@@ -10,8 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $author_id   = (int) get_the_author_meta( 'ID' );
+$author_user = get_userdata( $author_id );
 $author_name = get_the_author();
 $author_url  = get_author_posts_url( $author_id );
+$author_role = maglist_child_author_role_label( $author_user );
 $bio         = get_the_author_meta( 'description', $author_id );
 ?>
 <section class="na-single-author" aria-label="<?php echo esc_attr__( 'लेखकको बारेमा', 'maglist-child' ); ?>">
@@ -21,6 +23,9 @@ $bio         = get_the_author_meta( 'description', $author_id );
 			<?php echo get_avatar( $author_id, 48, '', $author_name ); ?>
 		</a>
 		<div class="na-single-author__body">
+			<?php if ( $author_role ) : ?>
+				<p class="na-single-author__role"><?php echo esc_html( $author_role ); ?></p>
+			<?php endif; ?>
 			<h3 class="na-single-author__name">
 				<a href="<?php echo esc_url( $author_url ); ?>"><?php echo esc_html( $author_name ); ?></a>
 			</h3>

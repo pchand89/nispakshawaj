@@ -89,6 +89,34 @@ function maglist_child_post_place_term( $post_id ) {
 }
 
 /**
+ * Role shown on the author page and the article author card.
+ *
+ * The publication account reads as संवाददाता. Editors and other
+ * administrators read as सम्पादक. Everyone else is a संवाददाता.
+ *
+ * @param WP_User $user User.
+ * @return string
+ */
+function maglist_child_author_role_label( $user ) {
+	if ( ! $user instanceof WP_User ) {
+		return '';
+	}
+
+	$name = (string) $user->display_name;
+	$site = (string) get_bloginfo( 'name' );
+	if ( $name === $site || 'निश्पक्ष आवाज' === $name ) {
+		return 'संवाददाता';
+	}
+
+	$roles = (array) $user->roles;
+	if ( in_array( 'editor', $roles, true ) || in_array( 'administrator', $roles, true ) ) {
+		return 'सम्पादक';
+	}
+
+	return 'संवाददाता';
+}
+
+/**
  * Byline name. The desk account reads as संवाददाता; a named author keeps their name.
  *
  * @param int $author_id User ID.

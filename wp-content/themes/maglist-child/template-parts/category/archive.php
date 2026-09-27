@@ -15,17 +15,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$title = isset( $args['title'] ) ? $args['title'] : '';
-$posts = isset( $args['posts'] ) && is_array( $args['posts'] ) ? $args['posts'] : array();
-$query = isset( $args['query'] ) ? $args['query'] : null;
+$title  = isset( $args['title'] ) ? $args['title'] : '';
+$posts  = isset( $args['posts'] ) && is_array( $args['posts'] ) ? $args['posts'] : array();
+$query  = isset( $args['query'] ) ? $args['query'] : null;
+$author = ( isset( $args['author'] ) && $args['author'] instanceof WP_User ) ? $args['author'] : null;
 
 $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 ?>
 <section class="na-cat">
 	<div class="na-container na-cat__inner">
-		<header class="na-cat__header">
+		<header class="na-cat__header<?php echo $author ? ' na-cat__header--author' : ''; ?>">
 			<?php maglist_child_the_breadcrumbs(); ?>
-			<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
+			<?php if ( $author ) : ?>
+				<?php
+				get_template_part(
+					'template-parts/author/profile',
+					null,
+					array( 'author' => $author )
+				);
+				?>
+			<?php else : ?>
+				<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
+			<?php endif; ?>
 			<div class="na-cat__view-toggle" role="group" aria-label="<?php echo esc_attr__( 'दृश्य', 'maglist-child' ); ?>">
 				<button type="button" class="na-cat__view-btn is-active" data-na-cat-view="list" aria-pressed="true">
 					<?php esc_html_e( 'List View', 'maglist-child' ); ?>

@@ -33,6 +33,13 @@ function maglist_child_breadcrumb_home_label( $links ) {
 	if ( isset( $links[0]['text'] ) ) {
 		$links[0]['text'] = 'गृहपृष्ठ';
 	}
+
+	foreach ( $links as $index => $link ) {
+		if ( isset( $link['text'] ) ) {
+			$links[ $index ]['text'] = preg_replace( '/^Archives for\s+/u', '', (string) $link['text'] );
+		}
+	}
+
 	return $links;
 }
 add_filter( 'wpseo_breadcrumb_links', 'maglist_child_breadcrumb_home_label' );

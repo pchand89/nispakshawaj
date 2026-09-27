@@ -15,9 +15,10 @@ get_template_part(
 	'template-parts/category/archive',
 	null,
 	array(
-		'title' => $title,
-		'posts' => $posts,
-		'query' => null,
+		'title'  => $title,
+		'posts'  => $posts,
+		'query'  => null,
+		'author' => ( $author instanceof WP_User ) ? $author : null,
 	)
 );
 

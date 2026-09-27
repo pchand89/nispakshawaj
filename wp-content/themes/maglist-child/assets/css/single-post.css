@@ -431,6 +431,14 @@ body.single .maglist-sticky-share ul li a:hover {
 	object-fit: cover;
 }
 
+.na-single-author__role {
+	margin: 0 0 2px;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--na-color-accent-red, #bf1e2e);
+}
+
 .na-single-author__name {
 	margin: 0 0 6px;
 	font-size: 18px;
