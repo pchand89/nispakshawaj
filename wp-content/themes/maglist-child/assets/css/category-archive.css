@@ -569,34 +569,40 @@ body.page .inner-banner-wrapper:has(+ .na-cat) {
 	}
 }
 
-/* Search header (reuses the category feed) */
+/* Search header: crumb, title, and view toggle share the category row.
+   The form and result count sit on the next row. */
 .na-cat__header--search {
 	flex-wrap: wrap;
-	align-items: flex-end;
+	align-items: center;
 }
 
-.na-cat__header--search .na-breadcrumbs,
-.na-cat__header--search .na-inline-search {
-	flex: 1 0 100%;
-}
-
-.na-cat__heading {
-	min-width: 0;
-	flex: 1 1 auto;
-}
-
-.na-cat__subtitle {
-	margin: 6px 0 0;
-	font-size: 15px;
-	line-height: 1.4;
-	color: var(--na-color-muted, #6b6b6b);
+.na-cat__header--search .na-breadcrumbs {
+	flex: 0 1 auto;
+	margin: 0;
 }
 
 .na-cat__header--search .na-cat__title {
+	flex: 0 1 auto;
+	min-width: 0;
+	max-width: calc(100% - 220px);
+	margin-left: 0;
 	overflow-wrap: anywhere;
+	text-align: center;
+}
+
+.na-cat__subtitle {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--na-color-muted, #6b6b6b);
+	white-space: nowrap;
 }
 
 .na-inline-search {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex: 1 0 100%;
 	margin-top: 16px;
 }
 
@@ -604,8 +610,20 @@ body.page .inner-banner-wrapper:has(+ .na-cat) {
 	display: flex;
 	align-items: stretch;
 	gap: 8px;
+	flex: 1 1 320px;
+	width: auto;
 	max-width: 520px;
 	margin: 0;
+}
+
+@media (max-width: 600px) {
+	.na-cat__header--search .na-cat__title {
+		max-width: none;
+	}
+
+	.na-inline-search {
+		flex-wrap: wrap;
+	}
 }
 
 .na-inline-search .search-form label {

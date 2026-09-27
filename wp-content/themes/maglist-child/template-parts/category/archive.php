@@ -38,11 +38,6 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 					array( 'author' => $author )
 				);
 				?>
-			<?php elseif ( '' !== $subtitle ) : ?>
-				<div class="na-cat__heading">
-					<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
-					<p class="na-cat__subtitle"><?php echo esc_html( $subtitle ); ?></p>
-				</div>
 			<?php else : ?>
 				<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
 			<?php endif; ?>
@@ -57,6 +52,9 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 			<?php if ( $show_search ) : ?>
 				<div class="na-inline-search">
 					<?php get_search_form(); ?>
+					<?php if ( '' !== $subtitle ) : ?>
+						<p class="na-cat__subtitle"><?php echo esc_html( $subtitle ); ?></p>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 		</header>
