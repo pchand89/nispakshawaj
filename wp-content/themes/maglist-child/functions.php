@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.109' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.110' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -151,6 +151,11 @@ require MAGLIST_CHILD_DIR . '/inc/editor-category-guide.php';
  * Breadcrumbs and one-time Yoast news defaults.
  */
 require MAGLIST_CHILD_DIR . '/inc/breadcrumbs.php';
+
+/**
+ * Google News sitemap (/news-sitemap.xml).
+ */
+require MAGLIST_CHILD_DIR . '/inc/news-sitemap.php';
 
 /**
  * One-time Ad Inserter selector retarget (old Maglist banner → child ad slots).

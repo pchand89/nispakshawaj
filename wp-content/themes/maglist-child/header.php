@@ -126,15 +126,7 @@ maglist_child_widget_area( 'home-above-header', 'na-ad-slot na-ad-above-header n
 </nav><!-- .na-nav -->
 
 <?php
-$maglist_child_trending_tags = get_terms(
-	array(
-		'taxonomy'   => 'post_tag',
-		'orderby'    => 'count',
-		'order'      => 'DESC',
-		'number'     => 14,
-		'hide_empty' => true,
-	)
-);
+$maglist_child_trending_tags = maglist_child_get_trending_tags( 14 );
 
 if ( ! is_wp_error( $maglist_child_trending_tags ) && ! empty( $maglist_child_trending_tags ) ) :
 	?>

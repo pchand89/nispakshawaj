@@ -600,6 +600,7 @@ function maglist_child_find_post_flexible( $slug, $post_type = 'post' ) {
 			$wpdb->prepare(
 				"SELECT ID FROM {$wpdb->posts}
 				WHERE post_name = %s AND post_type = %s AND post_status NOT IN ('trash','auto-draft')
+				ORDER BY CASE post_status WHEN 'publish' THEN 0 WHEN 'private' THEN 1 ELSE 2 END, ID DESC
 				LIMIT 1",
 				$candidate,
 				$post_type

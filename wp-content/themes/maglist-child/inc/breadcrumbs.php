@@ -55,6 +55,71 @@ function maglist_child_breadcrumb_home_label( $links ) {
 add_filter( 'wpseo_breadcrumb_links', 'maglist_child_breadcrumb_home_label' );
 
 /**
+ * Category, tag, and author tabs should not say "Archives" or "Author at".
+ *
+ * @param string $title Document title.
+ * @return string
+ */
+function maglist_child_archive_document_title( $title ) {
+	$paged    = max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
+	$page_bit = $paged > 1 ? ' ' . maglist_child_to_nepali_digits( (string) $paged ) : '';
+	$site     = get_bloginfo( 'name' );
+
+	if ( is_category() || is_tag() || is_tax() ) {
+		$name = single_term_title( '', false );
+		if ( is_string( $name ) && '' !== $name ) {
+			return $name . $page_bit . ' - ' . $site;
+		}
+	}
+
+	if ( is_author() ) {
+		$author = get_queried_object();
+		if ( $author instanceof WP_User && '' !== $author->display_name ) {
+			return $author->display_name . $page_bit . ' - ' . $site;
+		}
+	}
+
+	return $title;
+}
+add_filter( 'wpseo_title', 'maglist_child_archive_document_title', 20 );
+add_filter( 'wpseo_opengraph_title', 'maglist_child_archive_document_title', 20 );
+add_filter( 'wpseo_twitter_title', 'maglist_child_archive_document_title', 20 );
+
+/**
+ * Drop "Archives" and "Author at" from the stored Yoast title templates.
+ */
+function maglist_child_clean_yoast_archive_templates() {
+	$titles = get_option( 'wpseo_titles' );
+	if ( ! is_array( $titles ) ) {
+		return;
+	}
+
+	$changed = false;
+	foreach ( $titles as $key => $value ) {
+		if ( ! is_string( $key ) || ! is_string( $value ) ) {
+			continue;
+		}
+		$next = $value;
+		if ( false !== strpos( $value, 'Archives' ) ) {
+			$next = trim( preg_replace( '/\s*Archives\s*/', ' ', $value ) );
+		}
+		if ( false !== strpos( $next, 'Author at' ) ) {
+			$next = trim( preg_replace( '/,\s*Author at\s*/', ' %%sep%% ', $next ) );
+		}
+		$next = trim( preg_replace( '/\s+/', ' ', $next ) );
+		if ( $next !== $value ) {
+			$titles[ $key ] = $next;
+			$changed        = true;
+		}
+	}
+
+	if ( $changed ) {
+		update_option( 'wpseo_titles', $titles );
+	}
+}
+add_action( 'init', 'maglist_child_clean_yoast_archive_templates', 21 );
+
+/**
  * Nepali browser title for search results and missing pages.
  *
  * @param string $title Document title.

@@ -469,6 +469,96 @@ function maglist_child_filter_the_modified_date( $the_date, $format, $post ) {
 add_filter( 'get_the_modified_date', 'maglist_child_filter_the_modified_date', 20, 3 );
 
 /**
+ * Comment dates use the same Bikram Sambat line as stories.
+ *
+ * @param string     $date    Formatted date.
+ * @param string     $format  Requested format.
+ * @param WP_Comment $comment Comment object.
+ * @return string
+ */
+function maglist_child_filter_comment_date( $date, $format, $comment ) {
+	if ( maglist_child_is_machine_date_format( $format ) || ! $comment instanceof WP_Comment ) {
+		return $date;
+	}
+
+	if ( ! preg_match( '/^(\d{4})-(\d{2})-(\d{2})/', (string) $comment->comment_date, $match ) ) {
+		return $date;
+	}
+
+	$bs = maglist_child_format_ad_ymd_as_bs( (int) $match[1], (int) $match[2], (int) $match[3] );
+	return $bs ? $bs : $date;
+}
+add_filter( 'get_comment_date', 'maglist_child_filter_comment_date', 20, 3 );
+
+/**
+ * Comment clock time in Nepali digits, matching the story byline.
+ *
+ * @param string     $time      Formatted time.
+ * @param string     $format    Requested format.
+ * @param bool       $gmt       Unused. GMT flag from WordPress.
+ * @param bool       $translate Unused. Translation flag from WordPress.
+ * @param WP_Comment $comment   Comment object.
+ * @return string
+ */
+function maglist_child_filter_comment_time( $time, $format, $gmt, $translate, $comment ) {
+	unset( $gmt, $translate );
+
+	$format = is_string( $format ) && '' !== $format ? $format : (string) get_option( 'time_format' );
+	if ( in_array( $format, array( 'U', 'c', 'r', 'H:i:s', 'G:i:s' ), true ) || ! $comment instanceof WP_Comment ) {
+		return $time;
+	}
+
+	if ( ! preg_match( '/[ T](\d{2}):(\d{2})/', (string) $comment->comment_date, $match ) ) {
+		return $time;
+	}
+
+	return maglist_child_to_nepali_digits( sprintf( '%02d : %02d', (int) $match[1], (int) $match[2] ) );
+}
+add_filter( 'get_comment_time', 'maglist_child_filter_comment_time', 20, 5 );
+
+/**
+ * Trending bar: real labels, not compacted latin slugs such as nishpakshawaj.
+ *
+ * @param int $limit How many pills to return.
+ * @return WP_Term[]
+ */
+function maglist_child_get_trending_tags( $limit = 14 ) {
+	$terms = get_terms(
+		array(
+			'taxonomy'   => 'post_tag',
+			'orderby'    => 'count',
+			'order'      => 'DESC',
+			'number'     => 80,
+			'hide_empty' => true,
+		)
+	);
+
+	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return array();
+	}
+
+	$labels = array();
+	foreach ( $terms as $term ) {
+		if ( ! $term instanceof WP_Term ) {
+			continue;
+		}
+		$name = trim( $term->name );
+		if ( '' === $name ) {
+			continue;
+		}
+		if ( ! preg_match( '/\p{Devanagari}/u', $name ) && ! preg_match( '/\s/u', $name ) ) {
+			continue;
+		}
+		$labels[] = $term;
+		if ( count( $labels ) >= (int) $limit ) {
+			break;
+		}
+	}
+
+	return $labels;
+}
+
+/**
  * Small category "badge" for the hero + card thumbnails.
  *
  * @param int $post_id Post ID.
