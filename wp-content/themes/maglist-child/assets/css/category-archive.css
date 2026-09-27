@@ -568,3 +568,130 @@ body.page .inner-banner-wrapper:has(+ .na-cat) {
 		grid-template-columns: 1fr;
 	}
 }
+
+/* Search header (reuses the category feed) */
+.na-cat__header--search {
+	flex-wrap: wrap;
+	align-items: flex-end;
+}
+
+.na-cat__header--search .na-breadcrumbs,
+.na-cat__header--search .na-inline-search {
+	flex: 1 0 100%;
+}
+
+.na-cat__heading {
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.na-cat__subtitle {
+	margin: 6px 0 0;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--na-color-muted, #6b6b6b);
+}
+
+.na-cat__header--search .na-cat__title {
+	overflow-wrap: anywhere;
+}
+
+.na-inline-search {
+	margin-top: 16px;
+}
+
+.na-inline-search .search-form {
+	display: flex;
+	align-items: stretch;
+	gap: 8px;
+	max-width: 520px;
+	margin: 0;
+}
+
+.na-inline-search .search-form label {
+	flex: 1 1 auto;
+	margin: 0;
+}
+
+.na-inline-search input[type='search'] {
+	width: 100%;
+	margin: 0;
+	padding: 10px 12px;
+	border: 1px solid var(--na-color-border, #e0e0e0);
+	border-radius: 3px;
+	background: var(--na-color-surface, #fff);
+	color: var(--na-color-text, #222);
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+.na-inline-search .search-submit {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	margin: 0;
+	padding: 0 16px;
+	border: 0;
+	border-radius: 3px;
+	background: var(--na-color-accent-red, #bf1e2e);
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.na-inline-search .search-submit:hover {
+	background: #a01826;
+}
+
+/* 404 */
+.na-missing {
+	padding: 40px 0 64px;
+	background: var(--na-color-page, #fff);
+}
+
+.na-missing__inner {
+	max-width: 720px;
+}
+
+.na-missing__title {
+	margin: 8px 0 10px;
+	font-family: var(--na-font-heading, 'Mukta', sans-serif);
+	font-size: 32px;
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--na-color-section-title, #003893);
+}
+
+.na-missing__text {
+	margin: 0 0 4px;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--na-color-muted, #6b6b6b);
+}
+
+.na-missing__home-wrap {
+	margin: 16px 0 28px;
+}
+
+.na-missing__home {
+	display: inline-block;
+	padding: 8px 16px;
+	border-radius: 3px;
+	background: var(--na-color-accent-red, #bf1e2e);
+	color: #fff;
+	font-size: 15px;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.na-missing__home:hover {
+	background: #a01826;
+	color: #fff;
+}
+
+.na-missing .na-cat-recent {
+	position: static;
+	margin-top: 8px;
+}

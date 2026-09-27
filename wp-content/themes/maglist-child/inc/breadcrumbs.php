@@ -40,9 +40,40 @@ function maglist_child_breadcrumb_home_label( $links ) {
 		}
 	}
 
+	$last = count( $links ) - 1;
+	if ( $last >= 0 && isset( $links[ $last ]['text'] ) ) {
+		if ( is_search() ) {
+			$query = get_search_query();
+			$links[ $last ]['text'] = '' !== $query ? $query : 'खोज';
+		} elseif ( is_404() ) {
+			$links[ $last ]['text'] = 'पृष्ठ भेटिएन';
+		}
+	}
+
 	return $links;
 }
 add_filter( 'wpseo_breadcrumb_links', 'maglist_child_breadcrumb_home_label' );
+
+/**
+ * Nepali browser title for search results and missing pages.
+ *
+ * @param string $title Document title.
+ * @return string
+ */
+function maglist_child_search_404_title( $title ) {
+	if ( is_search() ) {
+		$query = get_search_query();
+		$label = '' !== $query ? $query : 'खोज';
+		return $label . ' - ' . get_bloginfo( 'name' );
+	}
+
+	if ( is_404() ) {
+		return 'पृष्ठ भेटिएन - ' . get_bloginfo( 'name' );
+	}
+
+	return $title;
+}
+add_filter( 'wpseo_title', 'maglist_child_search_404_title', 20 );
 
 /**
  * Apply news-portal Yoast defaults once.

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.100' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.102' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -353,6 +353,11 @@ add_action( 'wp_enqueue_scripts', 'maglist_child_enqueue_assets', 20 );
  */
 function maglist_child_category_posts_per_page( $query ) {
 	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+	if ( $query->is_search() ) {
+		$query->set( 'post_type', 'post' );
+		$query->set( 'posts_per_page', 20 );
 		return;
 	}
 	if ( ! $query->is_category() && ! $query->is_tag() && ! $query->is_author() ) {

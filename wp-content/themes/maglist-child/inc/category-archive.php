@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return bool
  */
 function maglist_child_is_category_layout() {
-	if ( is_category() || is_tag() || is_author() ) {
+	if ( is_category() || is_tag() || is_author() || is_search() ) {
 		return true;
 	}
 

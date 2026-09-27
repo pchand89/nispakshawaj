@@ -5,9 +5,11 @@
  * @package Maglist_Child
  *
  * @var array $args {
- *   @type string        $title Category display name.
- *   @type WP_Post[]     $posts Posts for this page (lead = first).
- *   @type WP_Query|null $query Optional custom query for hub-page pagination.
+ *   @type string        $title       Category display name.
+ *   @type WP_Post[]     $posts       Posts for this page (lead = first).
+ *   @type WP_Query|null $query       Optional custom query for hub-page pagination.
+ *   @type string        $subtitle    Optional line under the title (search count).
+ *   @type bool          $show_search Show the search form under the header.
  * }
  */
 
@@ -15,16 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$title  = isset( $args['title'] ) ? $args['title'] : '';
-$posts  = isset( $args['posts'] ) && is_array( $args['posts'] ) ? $args['posts'] : array();
-$query  = isset( $args['query'] ) ? $args['query'] : null;
-$author = ( isset( $args['author'] ) && $args['author'] instanceof WP_User ) ? $args['author'] : null;
+$title       = isset( $args['title'] ) ? $args['title'] : '';
+$posts       = isset( $args['posts'] ) && is_array( $args['posts'] ) ? $args['posts'] : array();
+$query       = isset( $args['query'] ) ? $args['query'] : null;
+$author      = ( isset( $args['author'] ) && $args['author'] instanceof WP_User ) ? $args['author'] : null;
+$subtitle    = isset( $args['subtitle'] ) ? (string) $args['subtitle'] : '';
+$show_search = ! empty( $args['show_search'] );
 
 $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 ?>
 <section class="na-cat">
 	<div class="na-container na-cat__inner">
-		<header class="na-cat__header<?php echo $author ? ' na-cat__header--author' : ''; ?>">
+		<header class="na-cat__header<?php echo $author ? ' na-cat__header--author' : ''; ?><?php echo $show_search ? ' na-cat__header--search' : ''; ?>">
 			<?php maglist_child_the_breadcrumbs(); ?>
 			<?php if ( $author ) : ?>
 				<?php
@@ -34,6 +38,11 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 					array( 'author' => $author )
 				);
 				?>
+			<?php elseif ( '' !== $subtitle ) : ?>
+				<div class="na-cat__heading">
+					<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
+					<p class="na-cat__subtitle"><?php echo esc_html( $subtitle ); ?></p>
+				</div>
 			<?php else : ?>
 				<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
 			<?php endif; ?>
@@ -45,6 +54,11 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 					<?php esc_html_e( 'Grid View', 'maglist-child' ); ?>
 				</button>
 			</div>
+			<?php if ( $show_search ) : ?>
+				<div class="na-inline-search">
+					<?php get_search_form(); ?>
+				</div>
+			<?php endif; ?>
 		</header>
 
 		<div class="na-cat__layout">
