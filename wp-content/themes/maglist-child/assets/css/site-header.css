@@ -833,14 +833,22 @@ body.na-search-open .na-search-overlay {
 	padding: 6px 0;
 }
 
-.na-trending-tags ul {
+.na-trending-tags .na-container {
 	display: flex;
 	align-items: center;
-	gap: 6px;
-	margin: 0;
+	justify-content: center;
+}
+
+.na-trending-tags ul {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	margin: 0 auto;
 	padding: 0;
 	list-style: none;
+	white-space: nowrap;
 	overflow-x: auto;
+	text-align: left;
 	scrollbar-width: none;
 }
 
@@ -849,36 +857,31 @@ body.na-search-open .na-search-overlay {
 }
 
 .na-trending-tags li {
-	flex: 0 0 auto;
-	display: flex;
-	align-items: center;
+	display: inline-block;
 }
 
 .na-trending-tags a {
 	box-sizing: border-box;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	height: 30px;
-	padding: 0 15px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 5px;
+	padding: 3px 15px;
 	background: #e8eef8;
 	background: color-mix(in srgb, var(--na-color-section-title, #003893) 12%, #fff);
 	border: 1px solid #c5d4ef;
 	border: 1px solid color-mix(in srgb, var(--na-color-section-title, #003893) 22%, #fff);
 	border-radius: 60px;
+	font-family: Mukta, serif;
 	font-size: 13px;
 	font-weight: 500;
-	line-height: 1;
+	line-height: normal;
 	color: var(--na-color-section-title, #003893);
 	white-space: nowrap;
 }
 
 .na-trending-tags a:hover {
-	background: #d7e3f5;
-	background: color-mix(in srgb, var(--na-color-section-title, #003893) 20%, #fff);
-	border-color: #a8c0e8;
-	border-color: color-mix(in srgb, var(--na-color-section-title, #003893) 35%, #fff);
-	color: var(--na-color-section-title, #003893);
+	color: var(--na-color-accent-red, #bf1e2e);
+	opacity: 1;
 }
 
 html.na-dark .na-trending-tags a {
@@ -890,8 +893,7 @@ html.na-dark .na-trending-tags a {
 }
 
 html.na-dark .na-trending-tags a:hover {
-	background: #223552;
-	background: color-mix(in srgb, var(--na-color-section-title, #7eb6ff) 32%, #1a1a1a);
+	color: #fff;
 }
 
 /* -----------------------------------------------------------------------
