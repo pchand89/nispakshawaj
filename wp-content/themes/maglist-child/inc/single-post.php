@@ -255,3 +255,64 @@ function maglist_child_get_related_posts( $post_id, $count = 8 ) {
 	$query = new WP_Query( $args );
 	return $query->posts;
 }
+
+/**
+ * Nepali labels for the written-comment form.
+ *
+ * The emoji strip keeps the word प्रतिक्रिया. This form is टिप्पणी.
+ *
+ * @param array $defaults comment_form() defaults.
+ * @return array
+ */
+function maglist_child_comment_form_defaults( $defaults ) {
+	$defaults['title_reply']          = 'टिप्पणी लेख्नुहोस्';
+	$defaults['title_reply_to']       = '%s लाई जवाफ दिनुहोस्';
+	$defaults['cancel_reply_link']    = 'रद्द गर्नुहोस्';
+	$defaults['label_submit']         = 'पठाउनुहोस्';
+	$defaults['comment_notes_before'] = '<p class="comment-notes">' . esc_html__( 'तपाईंको इमेल ठेगाना प्रकाशित गरिने छैन।', 'maglist-child' ) . '</p>';
+
+	$labels = array(
+		'>Comment <' => '>टिप्पणी <',
+		'>Name <'    => '>नाम <',
+		'>Email <'   => '>इमेल <',
+		'>Website <' => '>वेबसाइट <',
+		'Save my name, email, and website in this browser for the next time I comment.' => 'यो ब्राउजरमा मेरो नाम र इमेल सुरक्षित राख्नुहोस्।',
+	);
+
+	if ( isset( $defaults['comment_field'] ) ) {
+		$defaults['comment_field'] = strtr( (string) $defaults['comment_field'], $labels );
+	}
+
+	if ( isset( $defaults['fields'] ) && is_array( $defaults['fields'] ) ) {
+		foreach ( $defaults['fields'] as $key => $html ) {
+			$defaults['fields'][ $key ] = strtr( (string) $html, $labels );
+		}
+	}
+
+	if ( is_user_logged_in() ) {
+		$user = wp_get_current_user();
+		$defaults['logged_in_as'] = sprintf(
+			'<p class="logged-in-as">%1$s <a href="%2$s">%3$s</a> <a href="%4$s">%5$s</a></p>',
+			esc_html( $user->display_name . ' को रूपमा लगइन हुनुहुन्छ।' ),
+			esc_url( get_edit_user_link() ),
+			esc_html__( 'प्रोफाइल', 'maglist-child' ),
+			esc_url( wp_logout_url( get_permalink() ) ),
+			esc_html__( 'लगआउट', 'maglist-child' )
+		);
+	}
+
+	return $defaults;
+}
+add_filter( 'comment_form_defaults', 'maglist_child_comment_form_defaults' );
+
+/**
+ * Nepali text for the per-comment reply link.
+ *
+ * @param array $args Reply link arguments.
+ * @return array
+ */
+function maglist_child_comment_reply_link_args( $args ) {
+	$args['reply_text'] = 'जवाफ';
+	return $args;
+}
+add_filter( 'comment_reply_link_args', 'maglist_child_comment_reply_link_args' );

@@ -65,8 +65,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php get_template_part( 'template-parts/single/author' ); ?>
 
 	<?php if ( comments_open() || get_comments_number() ) : ?>
-		<section class="na-single-comments" aria-label="<?php echo esc_attr__( 'प्रतिक्रिया', 'maglist-child' ); ?>">
-			<h2 class="na-single-comments__title"><?php esc_html_e( 'प्रतिक्रिया', 'maglist-child' ); ?></h2>
+		<section class="na-single-comments" aria-label="<?php echo esc_attr__( 'टिप्पणी', 'maglist-child' ); ?>">
+			<h2 class="na-single-comments__title"><?php esc_html_e( 'टिप्पणी', 'maglist-child' ); ?></h2>
 			<?php comments_template(); ?>
 		</section>
 	<?php endif; ?>
