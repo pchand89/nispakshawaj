@@ -36,6 +36,7 @@ get_header();
 ?>
 <section class="na-page">
 	<div class="na-container na-page__inner">
+		<?php maglist_child_the_breadcrumbs(); ?>
 		<?php
 		while ( have_posts() ) :
 			the_post();

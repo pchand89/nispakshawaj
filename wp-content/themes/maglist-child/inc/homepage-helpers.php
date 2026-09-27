@@ -171,19 +171,25 @@ function maglist_child_get_placeholder_image( $title = '' ) {
  * @param int    $post_id  Post ID.
  * @param string $size     Registered image size.
  * @param bool   $fallback Whether to show a placeholder when no featured image.
+ * @param bool   $eager    Load immediately (the page's main image only).
  * @return string HTML <img> markup, or '' if no image and no fallback.
  */
-function maglist_child_get_thumbnail( $post_id, $size = 'maglist-child-card', $fallback = false ) {
+function maglist_child_get_thumbnail( $post_id, $size = 'maglist-child-card', $fallback = false, $eager = false ) {
 	if ( has_post_thumbnail( $post_id ) ) {
-		return get_the_post_thumbnail(
-			$post_id,
-			$size,
-			array(
-				'class'   => 'na-img',
-				'loading' => 'lazy',
-				'alt'     => get_the_title( $post_id ),
-			)
+		$attr = array(
+			'class' => 'na-img',
+			'alt'   => get_the_title( $post_id ),
 		);
+
+		if ( $eager ) {
+			$attr['loading']       = 'eager';
+			$attr['fetchpriority'] = 'high';
+			$attr['decoding']      = 'async';
+		} else {
+			$attr['loading'] = 'lazy';
+		}
+
+		return get_the_post_thumbnail( $post_id, $size, $attr );
 	}
 
 	if ( $fallback ) {

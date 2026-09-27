@@ -7,7 +7,7 @@ Description:  Child theme for Maglist that modernizes the homepage with a
 Author:       Nispaksha Awaj
 Author URI:   https://www.nispakshawaj.com/
 Template:     maglist
-Version:      1.9.93
+Version:      1.9.94
 Requires PHP: 7.0
 Text Domain:  maglist-child
 */
@@ -350,4 +350,24 @@ a:hover .na-img {
 	margin: 0 0 12px;
 	padding-bottom: 8px;
 	border-bottom: 2px solid var(--na-color-border);
+}
+
+.na-breadcrumbs {
+	margin: 0 0 12px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--na-color-muted, #6b6b6b);
+}
+
+.na-breadcrumbs a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.na-breadcrumbs a:hover {
+	color: var(--na-color-accent-red, #bf1e2e);
+}
+
+.na-breadcrumbs .breadcrumb_last {
+	color: var(--na-color-text, #222);
 }

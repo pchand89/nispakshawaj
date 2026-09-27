@@ -24,6 +24,7 @@ $lead = ! empty( $posts ) ? array_shift( $posts ) : null;
 <section class="na-cat">
 	<div class="na-container na-cat__inner">
 		<header class="na-cat__header">
+			<?php maglist_child_the_breadcrumbs(); ?>
 			<h1 class="na-cat__title"><?php echo esc_html( $title ); ?></h1>
 			<div class="na-cat__view-toggle" role="group" aria-label="<?php echo esc_attr__( 'दृश्य', 'maglist-child' ); ?>">
 				<button type="button" class="na-cat__view-btn is-active" data-na-cat-view="list" aria-pressed="true">

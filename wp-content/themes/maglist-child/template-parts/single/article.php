@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'na-single-article' ); ?>>
 	<header class="na-single-article__header">
+		<?php maglist_child_the_breadcrumbs(); ?>
 		<?php
 		$categories = get_the_category();
 		if ( ! empty( $categories ) ) :

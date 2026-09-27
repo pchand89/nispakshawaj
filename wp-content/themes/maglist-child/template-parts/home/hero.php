@@ -65,7 +65,7 @@ $maglist_child_breaking_index = 0;
 
 			<?php if ( has_post_thumbnail() ) : ?>
 				<a class="na-breaking__thumb" href="<?php the_permalink(); ?>">
-					<?php echo maglist_child_get_thumbnail( get_the_ID(), 'maglist-child-hero' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php echo maglist_child_get_thumbnail( get_the_ID(), 'maglist-child-hero', false, 1 === $maglist_child_breaking_index ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</a>
 			<?php endif; ?>
 

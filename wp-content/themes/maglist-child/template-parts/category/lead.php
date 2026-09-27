@@ -20,7 +20,7 @@ if ( ! $post instanceof WP_Post ) {
 ?>
 <article <?php post_class( 'na-cat-lead', $post ); ?>>
 	<a class="na-cat-lead__thumb" href="<?php echo esc_url( get_permalink( $post ) ); ?>">
-		<?php echo maglist_child_get_thumbnail( $post->ID, 'maglist-child-hero', true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo maglist_child_get_thumbnail( $post->ID, 'maglist-child-hero', true, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</a>
 
 	<div class="na-cat-lead__body">
