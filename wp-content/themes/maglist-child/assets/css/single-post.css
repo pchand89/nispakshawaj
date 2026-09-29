@@ -504,19 +504,19 @@ body.single .maglist-sticky-share ul li a:hover {
 /* -----------------------------------------------------------------------
    Single post ad slots (below title, in-content, after content, pre-related)
 ----------------------------------------------------------------------- */
-.na-ad-slot__label {
+.single-post .na-ad-slot__label {
 	display: block;
-	margin: 0 0 6px;
+	margin: 0;
 	font-family: var(--na-font-heading, 'Mukta', sans-serif);
-	font-size: 11px;
+	font-size: 8px;
 	font-weight: 600;
-	letter-spacing: 0.06em;
+	letter-spacing: 0.04em;
 	text-align: center;
 	text-transform: uppercase;
 	color: var(--na-color-muted, #999);
 }
 
-.na-ad-sidebar .na-ad-slot__label {
+.single-post .na-ad-sidebar .na-ad-slot__label {
 	text-align: left;
 }
 
