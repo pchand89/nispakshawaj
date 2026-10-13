@@ -1489,7 +1489,13 @@
 	}
 
 	.na-home__sidebar {
-		display: none;
+		display: block;
+		position: static;
+		top: auto;
+		width: 100%;
+		max-width: none;
+		justify-self: stretch;
+		margin-top: 16px;
 	}
 
 	/* Beat the desktop `.na-home__main …` compact rules so sections stack. */
