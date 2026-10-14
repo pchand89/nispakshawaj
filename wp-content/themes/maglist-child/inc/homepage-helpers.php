@@ -695,6 +695,8 @@ function maglist_child_sidebar_ad_inserter_map() {
 		'home-sidebar-ad-4' => $default_block,
 		'home-sidebar-ad-5' => $default_block,
 		'home-sidebar-ad-6' => $default_block,
+		'home-sidebar-ad-7' => $default_block,
+		'home-sidebar-ad-8' => $default_block,
 	);
 
 	/**

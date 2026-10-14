@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.116' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.117' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -490,6 +490,14 @@ function maglist_child_register_sidebars() {
 		'home-sidebar-ad-6'     => array(
 			'name'        => esc_html__( 'Home Sidebar Ad 6 (स्थानीय)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the स्थानीय तह/विकास section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-7'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 7 (सुदूरपश्चिम)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the सुदूरपश्चिम section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-8'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 8 (राष्ट्रिय)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the राष्ट्रिय section on the homepage.', 'maglist-child' ),
 		),
 		'sidebar-ad'            => array(
 			'name'        => esc_html__( 'Sidebar Ad', 'maglist-child' ),

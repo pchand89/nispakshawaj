@@ -35,9 +35,10 @@ $maglist_child_home_sections = apply_filters(
 			'sidebar_ad' => 'home-sidebar-ad-1',
 		),
 		array(
-			'slug'   => 'सुदूरपश्चिम', // Includes कञ्चनपुर and the other districts.
-			'count'  => 11,
-			'layout' => 'overlay-lists',
+			'slug'       => 'सुदूरपश्चिम', // Includes कञ्चनपुर and the other districts.
+			'count'      => 11,
+			'layout'     => 'overlay-lists',
+			'sidebar_ad' => 'home-sidebar-ad-7',
 		),
 		array(
 			'slug'       => 'राजनीति',
@@ -46,9 +47,10 @@ $maglist_child_home_sections = apply_filters(
 			'sidebar_ad' => 'home-sidebar-ad-2',
 		),
 		array(
-			'slug'   => 'राष्ट्रिय',
-			'count'  => 5,
-			'layout' => 'lead-grid',
+			'slug'       => 'राष्ट्रिय',
+			'count'      => 5,
+			'layout'     => 'lead-grid',
+			'sidebar_ad' => 'home-sidebar-ad-8',
 		),
 		array(
 			'slug'       => 'समाज',
