@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.118' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.119' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -461,36 +461,36 @@ function maglist_child_register_sidebars() {
 			'name'        => esc_html__( 'Home Sidebar Ad 1 (समाचार)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the समाचार section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-7'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 7 (सुदूरपश्चिम)', 'maglist-child' ),
+		'home-sidebar-ad-2'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 2 (सुदूरपश्चिम)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the सुदूरपश्चिम section on the homepage.', 'maglist-child' ),
 		),
 		'home-mid-grid-ad-2'    => array(
 			'name'        => esc_html__( 'Home Mid-Grid Ad Slot 2', 'maglist-child' ),
 			'description' => esc_html__( 'Ad slot placed further down the homepage, between category blocks.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-2'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 2 (राजनीति)', 'maglist-child' ),
+		'home-sidebar-ad-3'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 3 (राजनीति)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the राजनीति section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-8'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 8 (राष्ट्रिय)', 'maglist-child' ),
+		'home-sidebar-ad-4'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 4 (राष्ट्रिय)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the राष्ट्रिय section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-3'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 3 (समाज)', 'maglist-child' ),
+		'home-sidebar-ad-5'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 5 (समाज)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the समाज section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-4'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 4 (शिक्षा / साहित्य)', 'maglist-child' ),
+		'home-sidebar-ad-6'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 6 (शिक्षा / साहित्य)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the शिक्षा / साहित्य section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-5'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 5 (अर्थ/कृषि)', 'maglist-child' ),
+		'home-sidebar-ad-7'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 7 (अर्थ/कृषि)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the अर्थ/कृषि section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-6'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 6 (स्थानीय)', 'maglist-child' ),
+		'home-sidebar-ad-8'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 8 (स्थानीय)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the स्थानीय तह/विकास section on the homepage.', 'maglist-child' ),
 		),
 		'home-sidebar-row'      => array(
@@ -550,6 +550,88 @@ function maglist_child_register_sidebars() {
 	}
 }
 add_action( 'widgets_init', 'maglist_child_register_sidebars' );
+
+/**
+ * Move existing homepage sidebar widgets onto the renumbered slots.
+ *
+ * Numbers now follow the homepage: 1 समाचार, 2 सुदूरपश्चिम, 3 राजनीति,
+ * 4 राष्ट्रिय, 5 समाज, 6 शिक्षा / साहित्य, 7 अर्थ/कृषि, 8 स्थानीय.
+ * Widget instances stay with their section.
+ */
+function maglist_child_renumber_home_sidebar_ads() {
+	if ( '1.9.119' === get_option( 'maglist_child_sidebar_ads_numbered', '' ) ) {
+		return;
+	}
+
+	$map = array(
+		'home-sidebar-ad-1' => 'home-sidebar-ad-1',
+		'home-sidebar-ad-7' => 'home-sidebar-ad-2',
+		'home-sidebar-ad-2' => 'home-sidebar-ad-3',
+		'home-sidebar-ad-8' => 'home-sidebar-ad-4',
+		'home-sidebar-ad-3' => 'home-sidebar-ad-5',
+		'home-sidebar-ad-4' => 'home-sidebar-ad-6',
+		'home-sidebar-ad-5' => 'home-sidebar-ad-7',
+		'home-sidebar-ad-6' => 'home-sidebar-ad-8',
+	);
+
+	$sidebars = get_option( 'sidebars_widgets', array() );
+	if ( is_array( $sidebars ) ) {
+		$stash = array();
+		foreach ( $map as $old_id => $new_id ) {
+			if ( array_key_exists( $old_id, $sidebars ) ) {
+				$stash[ $old_id ] = $sidebars[ $old_id ];
+				unset( $sidebars[ $old_id ] );
+			}
+		}
+		foreach ( $map as $old_id => $new_id ) {
+			if ( array_key_exists( $old_id, $stash ) ) {
+				$sidebars[ $new_id ] = $stash[ $old_id ];
+			}
+		}
+		update_option( 'sidebars_widgets', $sidebars );
+	}
+
+	$inserter = get_option( 'ad_inserter', null );
+	if ( is_array( $inserter ) || is_string( $inserter ) ) {
+		$tokens = array();
+		$index  = 0;
+		foreach ( $map as $old_id => $new_id ) {
+			if ( $old_id === $new_id ) {
+				continue;
+			}
+			$tokens[ '##NA_SIDEBAR_' . $index . '##' ] = $new_id;
+			++$index;
+		}
+		$old_ids = array();
+		$index   = 0;
+		foreach ( $map as $old_id => $new_id ) {
+			if ( $old_id === $new_id ) {
+				continue;
+			}
+			$old_ids[] = $old_id;
+			++$index;
+		}
+		$token_keys = array_keys( $tokens );
+		$remap      = static function ( $value ) use ( &$remap, $old_ids, $token_keys, $tokens ) {
+			if ( is_string( $value ) ) {
+				return str_replace( $token_keys, array_values( $tokens ), str_replace( $old_ids, $token_keys, $value ) );
+			}
+			if ( ! is_array( $value ) ) {
+				return $value;
+			}
+			$updated = array();
+			foreach ( $value as $key => $item ) {
+				$new_key             = is_string( $key ) ? $remap( $key ) : $key;
+				$updated[ $new_key ] = $remap( $item );
+			}
+			return $updated;
+		};
+		update_option( 'ad_inserter', $remap( $inserter ) );
+	}
+
+	update_option( 'maglist_child_sidebar_ads_numbered', '1.9.119', false );
+}
+add_action( 'after_setup_theme', 'maglist_child_renumber_home_sidebar_ads', 20 );
 
 /**
  * Let the "Home Sidebar Row" area lay its widgets out in responsive columns

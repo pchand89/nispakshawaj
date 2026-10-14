@@ -38,25 +38,25 @@ $maglist_child_home_sections = apply_filters(
 			'slug'       => 'सुदूरपश्चिम', // Includes कञ्चनपुर and the other districts.
 			'count'      => 11,
 			'layout'     => 'overlay-lists',
-			'sidebar_ad' => 'home-sidebar-ad-7',
+			'sidebar_ad' => 'home-sidebar-ad-2',
 		),
 		array(
 			'slug'       => 'राजनीति',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
-			'sidebar_ad' => 'home-sidebar-ad-2',
+			'sidebar_ad' => 'home-sidebar-ad-3',
 		),
 		array(
 			'slug'       => 'राष्ट्रिय',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
-			'sidebar_ad' => 'home-sidebar-ad-8',
+			'sidebar_ad' => 'home-sidebar-ad-4',
 		),
 		array(
 			'slug'       => 'समाज',
 			'count'      => 11,
 			'layout'     => 'overlay-lists',
-			'sidebar_ad' => 'home-sidebar-ad-3',
+			'sidebar_ad' => 'home-sidebar-ad-5',
 		),
 		array(
 			'slug'   => 'मनोरञ्जन',
@@ -74,19 +74,19 @@ $maglist_child_home_sections = apply_filters(
 			'slug'       => 'शिक्षा-साहित्य',
 			'count'      => 11, // up to 6 grid + 1 side lead + 4 list.
 			'layout'     => 'edu-split',
-			'sidebar_ad' => 'home-sidebar-ad-4',
+			'sidebar_ad' => 'home-sidebar-ad-6',
 		),
 		array(
 			'slug'       => 'अर्थ-कृषि',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
-			'sidebar_ad' => 'home-sidebar-ad-5',
+			'sidebar_ad' => 'home-sidebar-ad-7',
 		),
 		array(
 			'slug'       => 'स्थानीय-तह-विकास',
 			'count'      => 5,
 			'layout'     => 'lead-grid',
-			'sidebar_ad' => 'home-sidebar-ad-6',
+			'sidebar_ad' => 'home-sidebar-ad-8',
 		),
 	)
 );
