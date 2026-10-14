@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.117' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.118' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -430,11 +430,9 @@ add_action( 'after_setup_theme', 'maglist_child_register_nav_menus' );
  * Custom HTML block, or third-party ad-code widget.
  */
 function maglist_child_register_sidebars() {
+	// Registration order is the Appearance → Widgets order. Keep it in the
+	// same top-to-bottom sequence as the homepage, then the single-post slots.
 	$areas = array(
-		'footer-about'          => array(
-			'name'        => esc_html__( 'Footer About / Contact (unused)', 'maglist-child' ),
-			'description' => esc_html__( 'Deprecated — about/contact copy is hardcoded in footer.php. Safe to leave empty.', 'maglist-child' ),
-		),
 		'home-above-header'     => array(
 			'name'        => esc_html__( 'Above Header Leaderboard Ad', 'maglist-child' ),
 			'description' => esc_html__( 'Sitewide leaderboard banner shown above the top bar on every page (728×90 / 970×90).', 'maglist-child' ),
@@ -459,21 +457,25 @@ function maglist_child_register_sidebars() {
 			'name'        => esc_html__( 'Home Mid-Grid Ad Slot 1', 'maglist-child' ),
 			'description' => esc_html__( 'Ad slot placed between the hero section and the category blocks.', 'maglist-child' ),
 		),
-		'home-mid-grid-ad-2'    => array(
-			'name'        => esc_html__( 'Home Mid-Grid Ad Slot 2', 'maglist-child' ),
-			'description' => esc_html__( 'Ad slot placed further down the homepage, between category blocks.', 'maglist-child' ),
-		),
-		'home-sidebar-row'      => array(
-			'name'        => esc_html__( 'Home Sidebar Row', 'maglist-child' ),
-			'description' => esc_html__( 'A row of drag-and-drop widgets (recent posts, custom HTML, ads, etc.) shown near the bottom of the homepage.', 'maglist-child' ),
-		),
 		'home-sidebar-ad-1'     => array(
 			'name'        => esc_html__( 'Home Sidebar Ad 1 (समाचार)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the समाचार section on the homepage.', 'maglist-child' ),
 		),
+		'home-sidebar-ad-7'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 7 (सुदूरपश्चिम)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the सुदूरपश्चिम section on the homepage.', 'maglist-child' ),
+		),
+		'home-mid-grid-ad-2'    => array(
+			'name'        => esc_html__( 'Home Mid-Grid Ad Slot 2', 'maglist-child' ),
+			'description' => esc_html__( 'Ad slot placed further down the homepage, between category blocks.', 'maglist-child' ),
+		),
 		'home-sidebar-ad-2'     => array(
 			'name'        => esc_html__( 'Home Sidebar Ad 2 (राजनीति)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the राजनीति section on the homepage.', 'maglist-child' ),
+		),
+		'home-sidebar-ad-8'     => array(
+			'name'        => esc_html__( 'Home Sidebar Ad 8 (राष्ट्रिय)', 'maglist-child' ),
+			'description' => esc_html__( 'Sticky sidebar beside the राष्ट्रिय section on the homepage.', 'maglist-child' ),
 		),
 		'home-sidebar-ad-3'     => array(
 			'name'        => esc_html__( 'Home Sidebar Ad 3 (समाज)', 'maglist-child' ),
@@ -491,21 +493,9 @@ function maglist_child_register_sidebars() {
 			'name'        => esc_html__( 'Home Sidebar Ad 6 (स्थानीय)', 'maglist-child' ),
 			'description' => esc_html__( 'Sticky sidebar beside the स्थानीय तह/विकास section on the homepage.', 'maglist-child' ),
 		),
-		'home-sidebar-ad-7'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 7 (सुदूरपश्चिम)', 'maglist-child' ),
-			'description' => esc_html__( 'Sticky sidebar beside the सुदूरपश्चिम section on the homepage.', 'maglist-child' ),
-		),
-		'home-sidebar-ad-8'     => array(
-			'name'        => esc_html__( 'Home Sidebar Ad 8 (राष्ट्रिय)', 'maglist-child' ),
-			'description' => esc_html__( 'Sticky sidebar beside the राष्ट्रिय section on the homepage.', 'maglist-child' ),
-		),
-		'sidebar-ad'            => array(
-			'name'        => esc_html__( 'Sidebar Ad', 'maglist-child' ),
-			'description' => esc_html__( 'Ad slot above the main Sidebar widgets on singles, category, tag, and author archives.', 'maglist-child' ),
-		),
-		'sidebar-ad-2'          => array(
-			'name'        => esc_html__( 'Single: Sidebar Ad 2', 'maglist-child' ),
-			'description' => esc_html__( 'Second side-rail ad on single posts, between the भर्खरै and ट्रेन्डिङ lists (300×250 / 300×600).', 'maglist-child' ),
+		'home-sidebar-row'      => array(
+			'name'        => esc_html__( 'Home Sidebar Row', 'maglist-child' ),
+			'description' => esc_html__( 'A row of drag-and-drop widgets (recent posts, custom HTML, ads, etc.) shown near the bottom of the homepage.', 'maglist-child' ),
 		),
 		'single-below-title'    => array(
 			'name'        => esc_html__( 'Single: Below Title Banner', 'maglist-child' ),
@@ -527,9 +517,21 @@ function maglist_child_register_sidebars() {
 			'name'        => esc_html__( 'Single: Below Article Ad', 'maglist-child' ),
 			'description' => esc_html__( 'Ad below the story body, above the tags and reaction bar.', 'maglist-child' ),
 		),
+		'sidebar-ad'            => array(
+			'name'        => esc_html__( 'Sidebar Ad', 'maglist-child' ),
+			'description' => esc_html__( 'Ad slot above the main Sidebar widgets on singles, category, tag, and author archives.', 'maglist-child' ),
+		),
+		'sidebar-ad-2'          => array(
+			'name'        => esc_html__( 'Single: Sidebar Ad 2', 'maglist-child' ),
+			'description' => esc_html__( 'Second side-rail ad on single posts, between the भर्खरै and ट्रेन्डिङ lists (300×250 / 300×600).', 'maglist-child' ),
+		),
 		'single-before-related' => array(
 			'name'        => esc_html__( 'Single: Before Related Ad', 'maglist-child' ),
 			'description' => esc_html__( 'Full-width ad above the छुटाउनुभयो कि ? related posts strip.', 'maglist-child' ),
+		),
+		'footer-about'          => array(
+			'name'        => esc_html__( 'Footer About / Contact (unused)', 'maglist-child' ),
+			'description' => esc_html__( 'Deprecated — about/contact copy is hardcoded in footer.php. Safe to leave empty.', 'maglist-child' ),
 		),
 	);
 
