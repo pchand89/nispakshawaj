@@ -927,3 +927,72 @@ function maglist_child_maybe_repair_term_slugs() {
 	}
 }
 add_action( 'init', 'maglist_child_maybe_repair_term_slugs', 31 );
+
+/**
+ * Stop WordPress redirecting a URL to itself.
+ *
+ * Nepali permalinks make redirect_canonical treat the encoded request and
+ * the encoded target as different, so /feed/ and out-of-range /page/N/
+ * answer with a 301 to the same address. Google records that as a redirect error.
+ *
+ * @param string|false $redirect_url  Proposed target.
+ * @param string       $requested_url URL WordPress thinks was requested.
+ * @return string|false
+ */
+function maglist_child_stop_self_redirect( $redirect_url, $requested_url ) {
+	// Ordinary pages never reach this comparison. HTTPS, www, and trailing-slash
+	// redirects stay in place.
+	if ( ! is_feed() && ! is_paged() ) {
+		return $redirect_url;
+	}
+
+	if ( ! is_string( $redirect_url ) || $redirect_url === '' || ! is_string( $requested_url ) ) {
+		return $redirect_url;
+	}
+
+	$normalize = static function ( $url ) {
+		$parts = wp_parse_url( $url );
+		if ( ! is_array( $parts ) ) {
+			return $url;
+		}
+		$scheme = isset( $parts['scheme'] ) ? strtolower( $parts['scheme'] ) : '';
+		$host   = isset( $parts['host'] ) ? strtolower( $parts['host'] ) : '';
+		$path   = isset( $parts['path'] ) ? rawurldecode( $parts['path'] ) : '';
+		$query  = isset( $parts['query'] ) ? $parts['query'] : '';
+
+		return $scheme . '://' . $host . $path . ( $query !== '' ? '?' . $query : '' );
+	};
+
+	if ( $normalize( $redirect_url ) === $normalize( $requested_url ) ) {
+		return false;
+	}
+
+	return $redirect_url;
+}
+add_filter( 'redirect_canonical', 'maglist_child_stop_self_redirect', 10, 2 );
+
+/**
+ * Keep post feeds out of Google, and 404 category pages past the last page.
+ */
+function maglist_child_fix_feed_and_paged_status() {
+	if ( is_feed() ) {
+		header( 'X-Robots-Tag: noindex, follow', true );
+		return;
+	}
+
+	if ( ! is_paged() ) {
+		return;
+	}
+
+	global $wp_query;
+	$max   = isset( $wp_query->max_num_pages ) ? (int) $wp_query->max_num_pages : 0;
+	$paged = (int) get_query_var( 'paged' );
+	if ( $max < 1 || $paged <= $max ) {
+		return;
+	}
+
+	$wp_query->set_404();
+	status_header( 404 );
+	nocache_headers();
+}
+add_action( 'template_redirect', 'maglist_child_fix_feed_and_paged_status', 11 );
