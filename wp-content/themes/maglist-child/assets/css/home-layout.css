@@ -336,6 +336,11 @@
 	color: var(--na-color-accent-red, #bf1e2e);
 }
 
+/* Roboto's symbols subset draws U+2197 as a long diagonal. Keep the short system arrow. */
+.na-section__more-arrow {
+	font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
 .na-section__grid {
 	display: grid;
 	gap: var(--na-gap, 24px);

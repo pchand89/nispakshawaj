@@ -34,7 +34,7 @@ $band_class = isset( $args['band'] ) ? sanitize_html_class( $args['band'] ) : 'p
 			</h2>
 			<?php if ( $maglist_child_category_link ) : ?>
 				<a class="na-section__more" href="<?php echo esc_url( $maglist_child_category_link ); ?>">
-					<?php esc_html_e( 'थप समाचार', 'maglist-child' ); ?> &#8599;
+					<?php esc_html_e( 'थप समाचार', 'maglist-child' ); ?> <span class="na-section__more-arrow" aria-hidden="true">&#8599;</span>
 				</a>
 			<?php endif; ?>
 		</div>
