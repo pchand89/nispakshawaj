@@ -1,0 +1,541 @@
+/* =============================================================================
+   Festival greeting splash (inc/festival-splash.php + assets/js/festival-splash.js)
+   Keeps its own warm festive palette in both light and dark mode.
+============================================================================= */
+
+html.na-splash-open,
+html.na-splash-open body {
+	overflow: hidden;
+}
+
+.na-splash {
+	--na-splash-red: #bf1e2e;
+	--na-splash-ink: #3b2412;
+	--na-splash-gold: #f59e0b;
+	--na-splash-timer: 9s;
+
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	font-family: var(--na-font-body);
+}
+
+.na-splash__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(17, 12, 6, 0.62);
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.na-splash__card {
+	position: relative;
+	width: 100%;
+	max-width: 500px;
+	max-height: calc(100vh - 32px);
+	max-height: calc(100dvh - 32px);
+	overflow: hidden auto;
+	border-radius: 18px;
+	background:
+		radial-gradient(circle at 50% 36%, rgba(253, 230, 138, 0.55) 0%, rgba(253, 230, 138, 0) 58%),
+		linear-gradient(180deg, #fff7e6 0%, #fffdf8 60%, #fff4e0 100%);
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(245, 158, 11, 0.35);
+	text-align: center;
+	color: var(--na-splash-ink);
+	opacity: 0;
+	transform: translateY(18px) scale(0.96);
+	transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.na-splash.is-open .na-splash__backdrop,
+.na-splash.is-open .na-splash__card {
+	opacity: 1;
+}
+
+.na-splash.is-open .na-splash__card {
+	transform: none;
+}
+
+.na-splash.is-leaving .na-splash__backdrop,
+.na-splash.is-leaving .na-splash__card {
+	opacity: 0;
+	transition-duration: 0.3s;
+}
+
+.na-splash.is-leaving .na-splash__card {
+	transform: translateY(10px) scale(0.98);
+}
+
+/* Faint mandala watermark behind the copy. */
+.na-splash__card::before {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 52%;
+	width: 420px;
+	height: 420px;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	background:
+		repeating-conic-gradient(rgba(194, 65, 12, 0.07) 0 6deg, transparent 6deg 15deg),
+		radial-gradient(circle, transparent 0 34%, rgba(194, 65, 12, 0.06) 34% 35%, transparent 35% 52%, rgba(194, 65, 12, 0.06) 52% 53%, transparent 53%);
+	-webkit-mask: radial-gradient(circle, #000 0 70%, transparent 71%);
+	mask: radial-gradient(circle, #000 0 70%, transparent 71%);
+	animation: na-splash-spin 60s linear infinite;
+	pointer-events: none;
+}
+
+/* Gold dhaka-style inner frame. */
+.na-splash__card::after {
+	content: "";
+	position: absolute;
+	inset: 8px;
+	border: 1.5px dashed rgba(180, 83, 9, 0.35);
+	border-radius: 12px;
+	pointer-events: none;
+}
+
+.na-splash__toran {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 82px;
+	pointer-events: none;
+}
+
+.na-fs-leaf {
+	transform-box: fill-box;
+	transform-origin: 50% 0;
+	animation: na-splash-sway 3s ease-in-out infinite;
+}
+
+.na-fs-bell {
+	animation: na-splash-swing 2.6s ease-in-out infinite;
+}
+
+/* Backdrop sky: kites, fireworks and falling marigold petals. */
+.na-splash__sky {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}
+
+.na-splash.is-open .na-splash__sky {
+	opacity: 1;
+}
+
+.na-splash.is-leaving .na-splash__sky {
+	opacity: 0;
+	transition-duration: 0.3s;
+}
+
+.na-splash__kite {
+	position: absolute;
+	width: 70px;
+	animation: na-splash-kite 4.5s ease-in-out infinite alternate;
+}
+
+.na-splash__kite svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+
+.na-splash__kite--1 { top: 7%;  left: 9%;  transform: rotate(-12deg); }
+.na-splash__kite--2 { top: 14%; right: 11%; width: 56px; animation-delay: -1.6s; }
+.na-splash__kite--3 { top: 46%; left: 3%;  width: 46px; animation-delay: -3s; }
+
+.na-splash__burst {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	opacity: 0;
+	animation: na-splash-burst 3.2s ease-out infinite;
+}
+
+.na-splash__burst svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.na-splash__burst--1 { top: 6%;     left: 26%;  animation-delay: 0.2s; }
+.na-splash__burst--2 { top: 10%;    right: 24%; width: 90px; height: 90px; animation-delay: 1.1s; }
+.na-splash__burst--3 { bottom: 12%; left: 14%;  width: 100px; height: 100px; animation-delay: 2s; }
+.na-splash__burst--4 { bottom: 8%;  right: 12%; animation-delay: 2.7s; }
+
+.na-splash__petal {
+	position: absolute;
+	top: -24px;
+	left: var(--x);
+	width: calc(9px * var(--s));
+	height: calc(14px * var(--s));
+	border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+	background: var(--c);
+	opacity: 0.9;
+	animation: na-splash-fall var(--t) linear var(--d) infinite;
+}
+
+/* Cultural strip: tika thali, jamara, kalash on rangoli, diyas, soop. */
+.na-splash__scene {
+	display: block;
+	width: 100%;
+	height: auto;
+	margin: 12px 0 2px;
+	overflow: visible;
+}
+
+.na-fs-flame {
+	transform-box: fill-box;
+	transform-origin: 50% 100%;
+	animation: na-splash-flicker 1.2s ease-in-out infinite alternate;
+}
+
+.na-fs-sway {
+	transform-box: fill-box;
+	transform-origin: 50% 100%;
+	animation: na-splash-sway 3.6s ease-in-out infinite;
+}
+
+.na-fs-spin {
+	animation: na-splash-rotate 40s linear infinite;
+}
+
+.na-splash__close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	z-index: 2;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.92);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+	color: var(--na-splash-ink);
+	font-size: 26px;
+	line-height: 36px;
+	cursor: pointer;
+}
+
+.na-splash__close:hover,
+.na-splash__close:focus-visible {
+	background: #fff;
+	color: var(--na-splash-red);
+}
+
+.na-splash__body {
+	position: relative;
+	padding: 90px 26px 28px;
+}
+
+.na-splash__logo {
+	margin: 0 auto 18px;
+	font-size: 28px;
+	font-weight: 800;
+	color: var(--na-splash-red);
+}
+
+.na-splash__logo img {
+	display: block;
+	width: 220px;
+	max-width: 70%;
+	height: auto;
+	margin: 0 auto;
+}
+
+.na-splash p,
+.na-splash h2 {
+	margin: 0;
+	text-wrap: balance;
+}
+
+.na-splash .na-splash__festival {
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.45;
+	color: #9a3412;
+}
+
+.na-splash .na-splash__audience {
+	margin-top: 6px;
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 1.55;
+	color: var(--na-splash-ink);
+}
+
+.na-splash .na-splash__title {
+	margin-top: 14px;
+	font-family: var(--na-font-heading);
+	font-size: 38px;
+	font-weight: 800;
+	line-height: 1.25;
+	color: var(--na-splash-red);
+	text-shadow: 0 2px 0 rgba(255, 255, 255, 0.8);
+	animation: na-splash-glow 2.4s ease-in-out infinite;
+}
+
+.na-splash .na-splash__kicker {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 14px auto 0;
+	max-width: 300px;
+	font-size: 15px;
+	font-weight: 600;
+	color: #9a3412;
+}
+
+.na-splash__kicker::before,
+.na-splash__kicker::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(90deg, transparent, rgba(154, 52, 18, 0.55), transparent);
+}
+
+.na-splash .na-splash__signature {
+	margin-top: 2px;
+	font-size: 22px;
+	font-weight: 800;
+	color: #003893;
+}
+
+.na-splash .na-splash__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 20px;
+	padding: 10px 26px;
+	border: 0;
+	border-radius: 999px;
+	background: linear-gradient(180deg, #d92b3c 0%, var(--na-splash-red) 100%);
+	box-shadow: 0 6px 16px rgba(191, 30, 46, 0.35);
+	color: #fff;
+	font-family: inherit;
+	font-size: 17px;
+	font-weight: 700;
+	line-height: 1.4;
+	cursor: pointer;
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.na-splash .na-splash__cta:hover,
+.na-splash .na-splash__cta:focus-visible {
+	transform: translateY(-1px);
+	box-shadow: 0 8px 20px rgba(191, 30, 46, 0.45);
+}
+
+.na-splash__cta:focus-visible,
+.na-splash__close:focus-visible {
+	outline: 3px solid var(--na-splash-gold);
+	outline-offset: 2px;
+}
+
+.na-splash__card:focus {
+	outline: none;
+}
+
+/* Auto-close countdown; pauses on hover or once the reader starts tabbing. */
+.na-splash__timer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 4px;
+	background: linear-gradient(90deg, var(--na-splash-gold), var(--na-splash-red));
+	transform-origin: 0 50%;
+}
+
+.na-splash.is-open .na-splash__timer {
+	animation: na-splash-timer var(--na-splash-timer) linear forwards;
+}
+
+.na-splash__card:hover .na-splash__timer,
+.na-splash.is-paused .na-splash__timer {
+	animation-play-state: paused;
+}
+
+.na-splash__spark {
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	background: var(--na-splash-gold);
+	clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+	animation: na-splash-twinkle 2.2s ease-in-out infinite;
+	pointer-events: none;
+}
+
+.na-splash__spark--1 { top: 96px;  left: 34px; }
+.na-splash__spark--2 { top: 150px; right: 38px; width: 10px; height: 10px; animation-delay: -0.7s; }
+.na-splash__spark--3 { bottom: 120px; left: 46px; width: 10px; height: 10px; animation-delay: -1.3s; }
+.na-splash__spark--4 { bottom: 84px; right: 52px; animation-delay: -1.8s; }
+
+@keyframes na-splash-spin {
+	to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes na-splash-sway {
+	0%, 100% { transform: rotate(-5deg); }
+	50% { transform: rotate(5deg); }
+}
+
+@keyframes na-splash-flicker {
+	0% { transform: scale(1, 1) rotate(-2deg); }
+	100% { transform: scale(0.92, 1.1) rotate(2deg); }
+}
+
+@keyframes na-splash-rotate {
+	to { transform: rotate(360deg); }
+}
+
+@keyframes na-splash-swing {
+	0%, 100% { transform: rotate(-6deg); }
+	50% { transform: rotate(6deg); }
+}
+
+@keyframes na-splash-kite {
+	0% { translate: 0 0; rotate: -6deg; }
+	100% { translate: 14px -12px; rotate: 6deg; }
+}
+
+@keyframes na-splash-burst {
+	0% { opacity: 0; transform: scale(0.2); }
+	15% { opacity: 1; }
+	45% { opacity: 0.9; transform: scale(1); }
+	70%, 100% { opacity: 0; transform: scale(1.12); }
+}
+
+@keyframes na-splash-fall {
+	0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+	50% { transform: translate3d(28px, 55vh, 0) rotate(200deg); }
+	100% { transform: translate3d(-12px, 110vh, 0) rotate(420deg); }
+}
+
+@keyframes na-splash-glow {
+	0%, 100% { text-shadow: 0 2px 0 rgba(255, 255, 255, 0.8), 0 0 0 rgba(245, 158, 11, 0); }
+	50% { text-shadow: 0 2px 0 rgba(255, 255, 255, 0.8), 0 0 18px rgba(245, 158, 11, 0.55); }
+}
+
+@keyframes na-splash-twinkle {
+	0%, 100% { opacity: 0.2; transform: scale(0.6) rotate(0deg); }
+	50% { opacity: 1; transform: scale(1) rotate(45deg); }
+}
+
+@keyframes na-splash-timer {
+	from { transform: scaleX(1); }
+	to { transform: scaleX(0); }
+}
+
+@media (max-width: 575px) {
+	.na-splash__body {
+		padding: 80px 16px 24px;
+	}
+
+	.na-splash__logo img {
+		width: 180px;
+	}
+
+	.na-splash .na-splash__festival {
+		font-size: 19px;
+	}
+
+	.na-splash .na-splash__audience {
+		font-size: 16.5px;
+	}
+
+	.na-splash .na-splash__title {
+		font-size: min(31px, 7.6vw);
+	}
+
+	.na-splash .na-splash__signature {
+		font-size: 20px;
+	}
+
+	.na-splash__card::before {
+		width: 340px;
+		height: 340px;
+	}
+
+	.na-splash__kite--1 { top: 2%; left: 4%; width: 54px; }
+	.na-splash__kite--2 { top: 3%; right: 6%; width: 44px; }
+	.na-splash__kite--3 { display: none; }
+
+	.na-splash__burst--1 { top: 1%; left: 30%; width: 80px; height: 80px; }
+	.na-splash__burst--2 { top: 4%; right: 26%; width: 64px; height: 64px; }
+	.na-splash__burst--3 { bottom: 2%; left: 6%; width: 80px; height: 80px; }
+	.na-splash__burst--4 { bottom: 1%; right: 8%; width: 90px; height: 90px; }
+}
+
+/* Short screens (small phones, landscape): tighten so the button stays visible. */
+@media (max-height: 700px) {
+	.na-splash__body {
+		padding-top: 72px;
+		padding-bottom: 18px;
+	}
+
+	.na-splash__logo {
+		margin-bottom: 10px;
+	}
+
+	.na-splash__logo img {
+		width: 150px;
+	}
+
+	.na-splash .na-splash__title {
+		margin-top: 8px;
+	}
+
+	.na-splash__scene {
+		margin: 4px auto 0;
+		max-width: 400px;
+	}
+
+	.na-splash .na-splash__kicker {
+		margin-top: 6px;
+	}
+
+	.na-splash .na-splash__cta {
+		margin-top: 12px;
+		padding: 8px 22px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.na-splash__card,
+	.na-splash__backdrop {
+		transition: opacity 0.2s ease;
+		transform: none;
+	}
+
+	.na-splash__card::before,
+	.na-fs-leaf,
+	.na-fs-bell,
+	.na-fs-flame,
+	.na-fs-sway,
+	.na-fs-spin,
+	.na-splash__kite,
+	.na-splash .na-splash__title,
+	.na-splash__spark {
+		animation: none;
+	}
+
+	.na-splash__burst,
+	.na-splash__petal {
+		display: none;
+	}
+}

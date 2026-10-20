@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Disallow direct access.
 }
 
-define( 'MAGLIST_CHILD_VERSION', '1.9.120' );
+define( 'MAGLIST_CHILD_VERSION', '1.9.121' );
 define( 'MAGLIST_CHILD_DIR', get_stylesheet_directory() );
 define( 'MAGLIST_CHILD_URI', get_stylesheet_directory_uri() );
 
@@ -171,6 +171,11 @@ require MAGLIST_CHILD_DIR . '/inc/footer.php';
  * Static page helpers (Ratopati-style about/contact/privacy layout).
  */
 require MAGLIST_CHILD_DIR . '/inc/static-page.php';
+
+/**
+ * Festival greeting splash (बडा दशैं, तिहार तथा छठ) shown to readers on open.
+ */
+require MAGLIST_CHILD_DIR . '/inc/festival-splash.php';
 
 /**
  * Load child theme text domain (parent theme already loads its own
